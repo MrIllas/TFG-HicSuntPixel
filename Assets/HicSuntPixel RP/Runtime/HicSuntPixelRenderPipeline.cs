@@ -12,9 +12,14 @@ public class HicSuntPixelRenderPipeline : RenderPipeline
 
     CameraRenderer renderer = new CameraRenderer();
 
-    public HicSuntPixelRenderPipeline()
+    bool useDynamicBatching;
+    bool useGPUInstancing;
+
+    public HicSuntPixelRenderPipeline(bool useDynamicBatching, bool useGPUInstancing, bool useSRPBatcher)
     {
-        GraphicsSettings.useScriptableRenderPipelineBatching = true;
+        this.useDynamicBatching = useDynamicBatching;
+        this.useGPUInstancing = useGPUInstancing;
+        GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
     }
 
     //Declared abstract, must exist but won't be used because the camera array requires allocating memory every frame.
@@ -28,7 +33,7 @@ public class HicSuntPixelRenderPipeline : RenderPipeline
     {
         for (int i = 0; i < cameras.Count; ++i)
         {
-            renderer.Render(context, cameras[i]);
+            renderer.Render(context, cameras[i], useDynamicBatching, useGPUInstancing);
         }
     }
 }
