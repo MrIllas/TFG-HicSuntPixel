@@ -14,6 +14,7 @@ public partial class CameraRenderer
 
 
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
+    static ShaderTagId litShaderTagId = new ShaderTagId("CustomLit");
 
     public void Render (ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
     {
@@ -63,6 +64,8 @@ public partial class CameraRenderer
             enableDynamicBatching = useDynamicBatching,
             enableInstancing = useGPUInstancing
         };
+        drawingSettings.SetShaderPassName(1, litShaderTagId);
+
         FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque); // Only tells the renderer to render opaques
 
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
