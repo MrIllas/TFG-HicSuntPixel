@@ -28,4 +28,5 @@ Shader"Hic Sunt Pixel/Unlit"
             ENDHLSL
         }
     }
+    CustomEditor "CustomShaderGUI"
 }

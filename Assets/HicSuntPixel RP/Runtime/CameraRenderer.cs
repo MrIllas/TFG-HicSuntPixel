@@ -12,9 +12,10 @@ public partial class CameraRenderer
     CullingResults cullingResults;
     Camera camera;
 
-
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
     static ShaderTagId litShaderTagId = new ShaderTagId("CustomLit");
+
+    Lighting lighting = new Lighting();
 
     public void Render (ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
     {
@@ -26,6 +27,7 @@ public partial class CameraRenderer
         if (!Cull()) return; //Return if geometry fails to cull
 
         Setup();
+        lighting.Setup(context, cullingResults);
         DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
         DrawUnsupportedShaders();
         DrawGizmos();
@@ -87,7 +89,11 @@ public partial class CameraRenderer
         commandBuffer.Clear();
     }
 
-    //Return if geometry fails to cull
+    /*
+        Return false if culling fails
+        Unity not only culls the geometry inside the fustrum, but also culls the light 
+        that affects that geometry.
+    */
     bool Cull ()
     {
         if (this.camera.TryGetCullingParameters(out ScriptableCullingParameters p)) 

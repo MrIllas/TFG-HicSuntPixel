@@ -20,6 +20,7 @@ public class HicSuntPixelRenderPipeline : RenderPipeline
         this.useDynamicBatching = useDynamicBatching;
         this.useGPUInstancing = useGPUInstancing;
         GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
+        GraphicsSettings.lightsUseLinearIntensity = true; //Converts light to linear space
     }
 
     //Declared abstract, must exist but won't be used because the camera array requires allocating memory every frame.
