@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 public class CustomShaderGUI : ShaderGUI
 {
 
+#region Properties
     bool Clipping 
     {
         set => SetProperty("_Clipping", "_CLIPPING", value);
@@ -29,7 +30,7 @@ public class CustomShaderGUI : ShaderGUI
     {
         set => SetProperty("_ZWrite", value ? 1f : 0f);
     }
-
+#endregion
     RenderQueue RenderQueue
     {
         set
@@ -133,7 +134,6 @@ public class CustomShaderGUI : ShaderGUI
 
     bool HasProperty (string name) => FindProperty(name, properties, false) != null;
   
-
     bool SetProperty (string name, float value)
     {
         MaterialProperty property = FindProperty(name, properties, false);
