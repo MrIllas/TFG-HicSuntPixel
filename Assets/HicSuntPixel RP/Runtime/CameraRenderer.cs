@@ -17,21 +17,25 @@ public partial class CameraRenderer
 
     Lighting lighting = new Lighting();
 
-    public void Render (ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
+    public void Render (ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing, ShadowSettings shadowSettings)
     {
         this.context = context;
         this.camera = camera;
 
         PrepareBuffer(); //Gives a name to the Buffer for debug purpose (Frame Debugger)
         PrepareForSceneWindow(); //Draw UI on scene window
-        if (!Cull()) return; //Return if geometry fails to cull
+        if (!Cull(shadowSettings.maxDistance)) return; //Return if geometry fails to cull
 
+        commandBuffer.BeginSample(SampleName);
+        ExecuteBuffer();
+        lighting.Setup(context, cullingResults, shadowSettings);
+        commandBuffer.EndSample(SampleName);
         Setup();
-        lighting.Setup(context, cullingResults);
         DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
         DrawUnsupportedShaders();
         DrawGizmos();
 
+        lighting.Cleanup();
         Submit();
     }
 
@@ -94,10 +98,11 @@ public partial class CameraRenderer
         Unity not only culls the geometry inside the fustrum, but also culls the light 
         that affects that geometry.
     */
-    bool Cull ()
+    bool Cull (float maxShadowDistance)
     {
         if (this.camera.TryGetCullingParameters(out ScriptableCullingParameters p)) 
         {
+            p.shadowDistance = Mathf.Min(maxShadowDistance, camera.farClipPlane);
             cullingResults = context.Cull(ref p);
             return true;
         }

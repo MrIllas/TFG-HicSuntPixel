@@ -12,7 +12,7 @@
 float3 IncomingLight (Surface surface, Light light)
 {
     //saturate clamps negative dot products to zero.
-    return saturate(dot(surface.normal, light.direction)) * light.color;
+    return saturate(dot(surface.normal, light.direction)) * light.attenuation * light.color;
 }
 
 
@@ -27,12 +27,12 @@ float3 GetLighting (Surface surface, BRDF brdf, Light light)
 /*
     Returns the final lighting "color" for a surface and a light.
 */
-float3 GetLighting (Surface surface, BRDF brdf)
+float3 GetLighting (Surface surfaceWS, BRDF brdf)
 {
     float3 toReturn = 0.0f;
     for (int i = 0; i < GetDirectionalLightCount(); ++i)
     {
-        toReturn += GetLighting(surface, brdf, GetDirectionalLight(i));
+        toReturn += GetLighting(surfaceWS, brdf, GetDirectionalLight(i, surfaceWS));
     }
     return toReturn;
 }
