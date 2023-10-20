@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Hic Sunt Pixel Render Pipeline Asset
   m_EditorClassIdentifier: 
   shadows:
-    maxDistance: 100
+    maxDistance: 20
+    distanceFade: 0.1
     directional:
       atlasSize: 1024
+      cascadeCount: 4
+      cascadeRatio1: 0.3
+      cascadeRatio2: 0.4
+      cascadeRatio3: 0.5
+      cascadeFade: 0.183
   useDynamicBatching: 1
   useGPUInstancing: 1
   useSRPBatcher: 1

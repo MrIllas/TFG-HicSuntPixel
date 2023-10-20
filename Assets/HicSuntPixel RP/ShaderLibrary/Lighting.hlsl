@@ -30,16 +30,13 @@ float3 GetLighting (Surface surface, BRDF brdf, Light light)
 float3 GetLighting (Surface surfaceWS, BRDF brdf)
 {
     float3 toReturn = 0.0f;
+    ShadowData shadowData = GetShadowData(surfaceWS);
+        
     for (int i = 0; i < GetDirectionalLightCount(); ++i)
     {
-        toReturn += GetLighting(surfaceWS, brdf, GetDirectionalLight(i, surfaceWS));
+        Light light = GetDirectionalLight(i, surfaceWS, shadowData);
+        toReturn += GetLighting(surfaceWS, brdf, light);
     }
     return toReturn;
 }
-
-
-
-
-
-
 #endif
