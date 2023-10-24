@@ -28,6 +28,8 @@ public class Shadows
     struct ShadowedDirectionalLight
     {
         public int visibleLightIndex;
+        public float slopeScaleBias;
+        public float nearPlaneOffset;
     }
     const int maxShadowDirectionalLightCount = 4, maxCascades = 4;
     int shadowedDirectionalLightCount; //Keeps track of how many directional shadows exist
@@ -36,15 +38,20 @@ public class Shadows
 
     ShadowedDirectionalLight[] ShadowedDirectionalLights = new ShadowedDirectionalLight[maxShadowDirectionalLightCount];
 
-    public Vector2 ReserveDirectionalShadows (Light light, int visibleLightIndex)
+    public Vector3 ReserveDirectionalShadows (Light light, int visibleLightIndex)
     {
         if (shadowedDirectionalLightCount < maxShadowDirectionalLightCount && light.shadows != LightShadows.None  && light.shadowStrength > 0.0f && cullingResults.GetShadowCasterBounds(visibleLightIndex, out Bounds b))
         {
-            ShadowedDirectionalLights[shadowedDirectionalLightCount] = new ShadowedDirectionalLight { visibleLightIndex = visibleLightIndex};
+            ShadowedDirectionalLights[shadowedDirectionalLightCount] = new ShadowedDirectionalLight
+            {
+                visibleLightIndex = visibleLightIndex,
+                slopeScaleBias = light.shadowBias,
+                nearPlaneOffset = light.shadowNearPlane
+            };
 
-            return new Vector2(light.shadowStrength, settings.directional.cascadeCount * shadowedDirectionalLightCount++);
+            return new Vector3(light.shadowStrength, settings.directional.cascadeCount * shadowedDirectionalLightCount++, light.shadowNormalBias);
         }
-        return Vector2.zero;
+        return Vector3.zero;
     }
 
     void RenderDirectionalShadows ()
@@ -92,7 +99,7 @@ public class Shadows
 
             cullingResults.ComputeDirectionalShadowMatricesAndCullingPrimitives
             (
-                light.visibleLightIndex, it, cascadeCount, ratios, tileSize, 0.0f,
+                light.visibleLightIndex, it, cascadeCount, ratios, tileSize, light.nearPlaneOffset,
                 out viewMatrix, out projectionMatrix, out splitData
             );
 
@@ -105,18 +112,20 @@ public class Shadows
             int tileIndex = tileOffset + it;
             dirShadowMatrices[tileIndex] = ConvertToAtlasMatrix(projectionMatrix * viewMatrix, SetTileViewport(tileIndex, split, tileSize), split);
             buffer.SetViewProjectionMatrices(viewMatrix, projectionMatrix);
-           // buffer.SetGlobalDepthBias(0.0f, 3.0f);
+            // buffer.SetGlobalDepthBias(0.0f, 3.0f);
+            buffer.SetGlobalDepthBias(0.0f, light.slopeScaleBias);
             ExecuteBuffer();
             context.DrawShadows(ref shadowSettings);
-           // buffer.SetGlobalDepthBias(0.0f, 0.0f);
+            buffer.SetGlobalDepthBias(0.0f, 0.0f);
         }
     }
 
     void SetCascadeData (int i, Vector4 cullingSphere, float tileSize)
     {
-        cascadeData[i].x = 1.0f / cullingSphere.w;
+        float texelSize = 2f * cullingSphere.w / tileSize;
         cullingSphere.w *= cullingSphere.w;
         cascadeCullingSpheres[i] = cullingSphere;
+        cascadeData[i] = new Vector4(1.0f / cullingSphere.w, texelSize * 1.4142136f);
     }
 
 #endregion Directional Shadows
