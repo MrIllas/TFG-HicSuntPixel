@@ -16,6 +16,12 @@ public class FlyCamera : MonoBehaviour
     [Header("Panning")]
     public float panSpeed = 120.0f;
 
+    //Zoom
+    [Header("Zoom")]
+    [Range(0.0f, 100.0f)] public float zoomSpeed = 0.01f;
+    [Range(0.0f, 1.0f)] public float minZoom = 0.1f;
+    [Range(0.0f, 1.0f)]public float maxZoom = 1.0f;
+
     //Orbit
     [Header("Orbit")]
     [SerializeField] private float mouseSensitivity = 2.0f;
@@ -47,6 +53,7 @@ public class FlyCamera : MonoBehaviour
         {
             Pan();
             Orbit();
+            Zoom();
             return;
         }
 
@@ -54,6 +61,7 @@ public class FlyCamera : MonoBehaviour
         {
             Orbit();
             FollowPoint();
+            Zoom();
             return;
         }
         
@@ -105,6 +113,18 @@ public class FlyCamera : MonoBehaviour
 
         currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(30, currentAngle, 0);
+    }
+
+    private void Zoom()
+    {
+        float scrollInput = Input.mouseScrollDelta.y;
+
+        if (scrollInput != 0.0f)
+        {
+            float newZoom = _viewport.GetViewportZoom();
+            newZoom += -scrollInput * zoomSpeed * Time.deltaTime;
+            _viewport.ZoomViewport(Mathf.Clamp(newZoom, minZoom, maxZoom));
+        }
     }
 
     private void FollowPoint()

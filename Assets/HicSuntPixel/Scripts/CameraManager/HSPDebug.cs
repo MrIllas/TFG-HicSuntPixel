@@ -47,6 +47,6 @@ public class HSPDebug : MonoBehaviour
         textTMP.text += "Camera Resolution = " + cameraResolution.x + "x" + cameraResolution.y + "\n";
         textTMP.text += "Render Offset In Pixels = " + renderOffsetInPixels + "\n";
         textTMP.text += "Orthographic Size = " + orthographicSize + "\n";
-        textTMP.text += "Pixel Size = " + pixelSize;
+        textTMP.text += "Pixel Ratio = " + pixelSize;
     }
 }
