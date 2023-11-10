@@ -717,12 +717,12 @@ PrefabInstance:
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: pixelScaleX
-      value: 0.99378884
+      value: 0.872
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: pixelScaleY
-      value: 0.99378884
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
@@ -737,7 +737,7 @@ PrefabInstance:
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: viewportZoom
-      value: 0.029
+      value: 0.007
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}

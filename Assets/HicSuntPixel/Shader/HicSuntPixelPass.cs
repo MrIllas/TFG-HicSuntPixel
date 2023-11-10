@@ -28,7 +28,6 @@ public class HicSuntPixelPass : ScriptableRenderPass
             }
             else if (renderingData.cameraData.camera.name == "Viewport Camera")
             {
-                Debug.Log("Scale-> " + _settings.scale + " | Margin-> " + _settings.margin);
                 cmd.Blit(pixelBuffer, colorBuffer, _settings.scale, _settings.margin);
             }
         }

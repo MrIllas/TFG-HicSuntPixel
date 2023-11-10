@@ -12,7 +12,7 @@ public class ViewportBlitter : MonoBehaviour
     [SerializeField]
     public Vector2Int referenceResolution = new Vector2Int(640, 360);
     public int pixelMargin = 4;
-    [HideInInspector] int pixelMarginY = 1;
+    public int pixelMarginY = 1;
 
     private Vector2Int screenSize;
 
@@ -20,6 +20,7 @@ public class ViewportBlitter : MonoBehaviour
     [HideInInspector] public Vector2Int cameraResolution;
     [SerializeField] private Vector2 pixelValue;
     [HideInInspector] public Vector2 renderOffsetInPixels;
+    [HideInInspector] private float pixelRatio;
 
     [Range(0.0f, 1.0f)][SerializeField] private float viewportZoom = 1.0f; 
 
@@ -27,6 +28,7 @@ public class ViewportBlitter : MonoBehaviour
 
     //GETTERS
     public float GetViewportZoom() { return viewportZoom; }
+    public float GetPixelRatio() { return pixelRatio; }
 
     #region Debug Only
     [Header("Debug Only")]
@@ -79,13 +81,15 @@ public class ViewportBlitter : MonoBehaviour
     #region Feature
     private void SetFeature()
     {
+        CalculatePixelMarginY();
+        
         cameraResolution = new Vector2Int(referenceResolution.x + pixelMargin, referenceResolution.y + pixelMarginY);
 
         _hspFeature._settings.cameraResolution = cameraResolution;
         //_hspFeature._settings.screenResolution = new Vector2Int(Screen.width + 12, Screen.height + 12);
         _hspFeature._settings.screenResolution = new Vector2Int(screenSize.x, screenSize.y);
 
-        CalculatePixelMarginY();
+        
         CalculatePixelValue();
         CameraScale();
         CameraCenter();
@@ -161,15 +165,18 @@ public class ViewportBlitter : MonoBehaviour
     {
         orthographicSize = _renderCamera.orthographicSize;
 
-        pixelValue = new Vector2((float)orthographicSize * 2.0f / cameraResolution.x * 0.10f, (float)orthographicSize * 2.0f / cameraResolution.y * 0.10f);
+        pixelValue = new Vector2(orthographicSize * 0.2f / cameraResolution.x, 
+            orthographicSize * 0.2f / cameraResolution.y);
     }
 
     private void CameraScale()
     {
         //Scale
-        //pixelScaleX = (1 - (pixelValue.x * pixelMargin));
-        pixelScaleX = 1.0f;
+        pixelScaleX = (1 - (pixelValue.x * pixelMargin));
+        //pixelScaleX = 1.0f;
         pixelScaleY = (1 - (pixelValue.y * pixelMarginY));
+
+        pixelRatio = (pixelValue.x * pixelMargin) / (pixelValue.y * pixelMarginY);
     }
 
     private void CameraCenter()
@@ -182,16 +189,16 @@ public class ViewportBlitter : MonoBehaviour
     private void CalculatePixelMarginY()
     {
         pixelMarginY = Mathf.FloorToInt(pixelMargin * (1.0f / _renderCamera.aspect));
+        //pixelMarginY = pixelMargin;
     }
 
     private void DetectScreenResize()
     {
         if (Screen.width != screenSize.x || Screen.height != screenSize.y)
         {
-            //Debug.Log("The Screen has been resized from ("+screenSize.x+", "+screenSize.y+") to ("+Screen.width+", "+Screen.height+").");
+            
             screenSize.x = Screen.width;
             screenSize.y = Screen.height;
-
             OnValidate();
         }
     }
