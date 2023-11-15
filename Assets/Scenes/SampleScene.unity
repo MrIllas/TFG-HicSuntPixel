@@ -697,17 +697,22 @@ PrefabInstance:
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: marginX
-      value: 0.0031055901
+      value: 0.0028776978
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: marginY
-      value: 0.0031055901
+      value: 0.002762431
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: zoomTest
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
+        type: 3}
+      propertyPath: aspectScale
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
@@ -717,17 +722,22 @@ PrefabInstance:
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: pixelScaleX
-      value: 0.872
+      value: 0.9942446
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: pixelScaleY
-      value: 1
+      value: 0.9944751
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
+        type: 3}
+      propertyPath: pixelMarginY
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: pixelValue.x
-      value: 0.0015527951
+      value: 0.0017452007
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
@@ -737,7 +747,7 @@ PrefabInstance:
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: viewportZoom
-      value: 0.007
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
@@ -757,22 +767,22 @@ PrefabInstance:
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: cameraResolution.x
-      value: 644
+      value: 695
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: cameraResolution.y
-      value: 322
+      value: 362
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: referenceResolution.x
-      value: 640
+      value: 691
       objectReference: {fileID: 0}
     - target: {fileID: 3549879602579385010, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: referenceResolution.y
-      value: 320
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 4184710980439401039, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}

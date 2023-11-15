@@ -9,8 +9,8 @@ public class ViewportBlitter : MonoBehaviour
     [HideInInspector] public Camera _ViewportCamera;
 
 
-    [SerializeField]
-    public Vector2Int referenceResolution = new Vector2Int(640, 360);
+    [HideInInspector] public Vector2Int referenceResolution = new Vector2Int(640, 360);
+    [SerializeField] private int aspectScale = 360;
     public int pixelMargin = 4;
     public int pixelMarginY = 1;
 
@@ -18,7 +18,7 @@ public class ViewportBlitter : MonoBehaviour
 
     [HideInInspector] public float orthographicSize;
     [HideInInspector] public Vector2Int cameraResolution;
-    [SerializeField] private Vector2 pixelValue;
+    private Vector2 pixelValue;
     [HideInInspector] public Vector2 renderOffsetInPixels;
     [HideInInspector] private float pixelRatio;
 
@@ -53,7 +53,6 @@ public class ViewportBlitter : MonoBehaviour
         screenSize = new Vector2Int(Screen.width, Screen.height);
 
         _ViewportCamera = GetComponent<Camera>();
-
     }
 
     void Start()
@@ -69,6 +68,7 @@ public class ViewportBlitter : MonoBehaviour
         DetectScreenResize();
 
         ReCenter();
+
     }
 
     private void OnValidate()
@@ -82,6 +82,9 @@ public class ViewportBlitter : MonoBehaviour
     private void SetFeature()
     {
         CalculatePixelMarginY();
+
+        //Calculate aspect
+        referenceResolution = new Vector2Int(Mathf.RoundToInt(_renderCamera.aspect * aspectScale), Mathf.RoundToInt(aspectScale));
         
         cameraResolution = new Vector2Int(referenceResolution.x + pixelMargin, referenceResolution.y + pixelMarginY);
 
@@ -195,10 +198,10 @@ public class ViewportBlitter : MonoBehaviour
     private void DetectScreenResize()
     {
         if (Screen.width != screenSize.x || Screen.height != screenSize.y)
-        {
-            
+        {  
             screenSize.x = Screen.width;
             screenSize.y = Screen.height;
+
             OnValidate();
         }
     }
