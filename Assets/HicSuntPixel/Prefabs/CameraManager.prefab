@@ -143,15 +143,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: c40be3174f62c4acf8c1216858c64956, type: 2}
   _renderCamera: {fileID: 7729406234566934348}
-  referenceResolution: {x: 480, y: 270}
+  _ViewportCamera: {fileID: 6357999658622392562}
+  referenceResolution: {x: 640, y: 360}
+  aspectScale: 360
   pixelMargin: 4
+  pixelMarginY: 2
   orthographicSize: 5
-  cameraResolution: {x: 484, y: 274}
+  cameraResolution: {x: 644, y: 362}
   renderOffsetInPixels: {x: 0, y: 0}
-  marginX: 0.0041322317
-  marginY: 0.00729927
-  pixelScaleX: 0.9917355
-  pixelScaleY: 0.98540145
+  viewportZoom: 1
+  marginX: 0.0031055901
+  marginY: 0.002762431
+  pixelScaleX: 0.99378884
+  pixelScaleY: 0.9944751
 --- !u!1 &4405979625529684491
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +349,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b558e05e4d6740c41a0acb15d8a6b40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setting: 0
   panSpeed: 120
+  zoomSpeed: 0.01
+  minZoom: 0.1
+  maxZoom: 1
+  mouseSensitivity: 2
+  rotationSpeed: 5
+  _followPoint: {fileID: 0}
+  followDistance: 0
 --- !u!1 &6804238547205801558
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +431,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 23
+    m_Bits: 1047
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

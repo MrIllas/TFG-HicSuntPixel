@@ -58,6 +58,39 @@ float3 CalculateCelShading(Light light, SurfaceVariables surface)
 }
 #endif
 
+void LightingCelShadedOutlines_float(float Smoothness, float RimThreshold, float3 Position, float3 Normal, float3 View,
+                             float EdgeSpecular, float EdgeRim,
+                            out float3 Color)
+{
+#if defined (SHADERGRAPH_PREVIEW)
+    Color = float3(0.5f, 0.5f, 0.5f);
+#else
+    //Initialize and populate Surface
+    SurfaceVariables surface;
+    surface.smoothness = Smoothness;
+    surface.shininess = exp2(10 * Smoothness + 1);
+    surface.rimThreshold = RimThreshold;
+    surface.normal = normalize(Normal);
+    surface.view = SafeNormalize(View); //normalize(View);
+    
+    surface.ec.edgeSpecular = EdgeSpecular;
+    surface.ec.edgeRim = EdgeRim;
+
+    // Calculate Shadow Coord
+#if SHADOWS_SCREEN
+    float4 clipPos = TransformWorldToHClip(Position);
+    float4 shadowCoord = ComputeScreenPos(clipPos);
+#else
+    float4 shadowCoord = TransformWorldToShadowCoord(Position);
+#endif
+    
+    Light mainLight = GetMainLight(shadowCoord);
+    Color = CalculateCelShading(mainLight, surface);
+#endif
+    
+    Color = clamp(Color, 0.20f, 1.0f); // Clamp color for lighter shadows
+}
+
 void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Position, float3 Normal, float3 View,
                              float EdgeSpecular, float EdgeRim,
                             out float3 Color)
