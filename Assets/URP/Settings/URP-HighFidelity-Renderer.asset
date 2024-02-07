@@ -15,46 +15,10 @@ MonoBehaviour:
   m_Active: 1
   _settings:
     renderPassEvent: 550
-    cameraResolution: {x: 731, y: 361}
-    screenResolution: {x: 1236, y: 612}
-    margin: {x: 0.0027359782, y: 0.0013850416}
-    scale: {x: 0.99452806, y: 0.99722993}
---- !u!114 &-2819743215740780289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e27e5331667f5e84eab976df0cb930f4, type: 3}
-  m_Name: ScreenSpaceOutlines
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  renderPassEvent: 300
-  outlinesLayerMask:
-    serializedVersion: 2
-    m_Bits: 55
-  outlinesOccluderLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  outlineSettings:
-    outlineColor: {r: 0, g: 0, b: 0, a: 1}
-    outlineScale: 2
-    depthThreshold: 6.7
-    robertsCrossMultiplier: 0
-    normalThreshold: 0.41
-    steepAngleThreshold: 0
-    steepAngleMultiplier: 11
-  viewSpaceNormalsTextureSettings:
-    colorFormat: 0
-    depthBufferBits: 16
-    filterMode: 0
-    backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-    perObjectData: 0
-    enableDynamicBatching: 0
-    enableInstancing: 0
+    cameraResolution: {x: 484, y: 363}
+    screenResolution: {x: 0, y: 0}
+    margin: {x: 0.0041322317, y: 0.0041322317}
+    scale: {x: 0.9917355, y: 0.9917355}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,10 +36,9 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: 4124709256779298763}
-  - {fileID: -2819743215740780289}
+  - {fileID: 8110711325532126819}
   - {fileID: -5476315428840647822}
-  m_RendererFeatureMap: cb77182437e93d39ff00f4237c42ded87253f6d9213800b4
+  m_RendererFeatureMap: 637e146afa088f707253f6d9213800b4
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -158,7 +121,7 @@ MonoBehaviour:
     perObjectData: 0
     enableDynamicBatching: 0
     enableInstancing: 0
---- !u!114 &4124709256779298763
+--- !u!114 &8110711325532126819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,29 +130,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
-  m_Name: ScreenSpaceAmbientOcclusion
+  m_Script: {fileID: 11500000, guid: 842ac20e102697846b88287b056f80c1, type: 3}
+  m_Name: DepthNormalsFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  m_Settings:
-    AOMethod: 0
-    Downsample: 0
-    AfterOpaque: 0
-    Source: 1
-    NormalSamples: 1
-    Intensity: 1
-    DirectLightingStrength: 0.25
-    Radius: 0.1
-    Samples: 1
-    BlurQuality: 0
-    Falloff: 0.1
-    SampleCount: -1
-  m_BlueNoise256Textures:
-  - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}
-  - {fileID: 2800000, guid: 4b7b083e6b6734e8bb2838b0b50a0bc8, type: 3}
-  - {fileID: 2800000, guid: c06cc21c692f94f5fb5206247191eeee, type: 3}
-  - {fileID: 2800000, guid: cb76dd40fa7654f9587f6a344f125c9a, type: 3}
-  - {fileID: 2800000, guid: e32226222ff144b24bf3a5a451de54bc, type: 3}
-  - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
-  - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
-  m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
