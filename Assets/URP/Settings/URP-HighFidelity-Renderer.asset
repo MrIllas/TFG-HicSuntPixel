@@ -15,10 +15,10 @@ MonoBehaviour:
   m_Active: 1
   _settings:
     renderPassEvent: 550
-    cameraResolution: {x: 484, y: 363}
-    screenResolution: {x: 0, y: 0}
-    margin: {x: 0.0041322317, y: 0.0041322317}
-    scale: {x: 0.9917355, y: 0.9917355}
+    cameraResolution: {x: 644, y: 362}
+    screenResolution: {x: 1280, y: 720}
+    margin: {x: 0.0031055901, y: 0.002762431}
+    scale: {x: 0.99378884, y: 0.9944751}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

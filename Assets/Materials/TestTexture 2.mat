@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TestTexture
+  m_Name: TestTexture 2
   m_Shader: {fileID: -6465566751694194690, guid: 23e9f36e2b99e0240bc6e187ab1d4266,
     type: 3}
   m_Parent: {fileID: 0}
@@ -79,7 +79,7 @@ Material:
     - _NormalEdgeStrength: 1
     - _NormalStrength: 1
     - _Normal_Throughout_Texture: 0
-    - _NormalsThreshold: 0.095
+    - _NormalsThreshold: 0.5
     - _OutlineThickness: 3
     - _Outlines: 1
     - _QueueControl: 0

@@ -5,8 +5,8 @@ using UnityEditor;
 
 public class CelShaderCustomGUI : ShaderGUI
 {
-    GUIContent Label = new GUIContent();
-    GUILayoutOption[] options;
+    bool outlineSettings, outlineDebug;
+
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
         GUILayout.Space(20);
@@ -23,12 +23,18 @@ public class CelShaderCustomGUI : ShaderGUI
         GUILayout.Space(10);
 
         //Normal
-        MaterialProperty normalMap = FindProperty("_NormalMap", properties);
-        materialEditor.TexturePropertySingleLine(new GUIContent("Normal"), normalMap);
-        if(normalMap.textureValue != null)
+        MaterialProperty normalsToggle = FindProperty("_Normal_Throughout_Texture", properties);
+        materialEditor.ShaderProperty(normalsToggle, "Use normal map");
+
+        if (normalsToggle.floatValue > 0.0f)
         {
-            MaterialProperty normalStrength = FindProperty("_NormalStrength", properties);
-            materialEditor.ShaderProperty(normalStrength, "Normal Strength");
+            MaterialProperty normalMap = FindProperty("_NormalMap", properties);
+            materialEditor.TexturePropertySingleLine(new GUIContent("Normal"), normalMap);
+            if (normalMap.textureValue != null)
+            {
+                MaterialProperty normalStrength = FindProperty("_NormalStrength", properties);
+                materialEditor.ShaderProperty(normalStrength, "Normal Strength");
+            }
         }
 
         GUILayout.Space(10);
@@ -65,6 +71,46 @@ public class CelShaderCustomGUI : ShaderGUI
         GUI.enabled = true;
         GUILayout.Space(20);
 
+        //Outlines
+        EditorGUILayout.LabelField("Outline", EditorStyles.boldLabel);
+
+        MaterialProperty outlinesToggle = FindProperty("_Outlines", properties);
+        materialEditor.ShaderProperty(outlinesToggle, "Outlines");
+
+        if (outlinesToggle.floatValue > 0) 
+        {
+            MaterialProperty outlineThickness = FindProperty("_OutlineThickness", properties);
+            materialEditor.ShaderProperty(outlineThickness, "Thickness");
+
+            outlineSettings = EditorGUILayout.BeginFoldoutHeaderGroup(outlineSettings, "Outline Fine-Tunning Settings");
+            if (outlineSettings)
+            {
+                MaterialProperty depthThreshold = FindProperty("_DepthThreshold", properties);
+                materialEditor.ShaderProperty(depthThreshold, "Depth Threshold");
+                MaterialProperty normalsThreshold = FindProperty("_NormalsThreshold", properties);
+                materialEditor.ShaderProperty(normalsThreshold, "Normals Threshold");
+
+            }
+
+            EditorGUILayout.EndFoldoutHeaderGroup();
+
+            //outlineDebug = EditorGUILayout.BeginFoldoutHeaderGroup(outlineDebug, "Debug");
+            //if (outlineDebug)
+            //{
+            //    MaterialProperty depthEdgeStrength = FindProperty("_DepthEdgeStrength", properties);
+            //    materialEditor.ShaderProperty(depthEdgeStrength, "Depth Edge Strength");
+
+            //    MaterialProperty normalEdgeStrength = FindProperty("_NormalEdgeStrength", properties);
+            //    materialEditor.ShaderProperty(normalEdgeStrength, "Normal Edge Strength");
+
+            //    MaterialProperty normalEdgeBias = FindProperty("_NormalEdgeBias", properties);
+            //    materialEditor.ShaderProperty(normalEdgeBias, "Normal Edge Bias");
+            //}
+
+            //EditorGUILayout.EndFoldoutHeaderGroup();
+        }
+
+        GUILayout.Space(20);
         //Modifiers
         EditorGUILayout.LabelField("Modifiers", EditorStyles.boldLabel);
 

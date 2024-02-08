@@ -101,8 +101,8 @@ void Outlines_float(float2 UV, float Thickness, float DepthThreshold, float Norm
     float normalEdge = OutlinesNormals(uvs, normal, NormalEdgeBias, NormalsThreshold);
     
     // Refuse normal outline if the depthEdge is negative, make it a depth edge if it is above the threshold
-    OutDepth = 1 - step(DepthEdgeStrength * depthEdge, 0);
-    OutNormals = 1 - step(NormalEdgeStrength * normalEdge, 0);
+    OutDepth = DepthEdgeStrength * depthEdge; //1 - step(DepthEdgeStrength * depthEdge, 0);
+    OutNormals = NormalEdgeStrength * normalEdge; //1 - step(NormalEdgeStrength * normalEdge, 0);
     Out = depthDifference < 0 ? 0 : (depthEdge > 0.0f ? (OutDepth) : (OutNormals)); //DepthEdgeStrength * depthEdge; 
 }
 #endif
