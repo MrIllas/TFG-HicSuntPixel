@@ -33,7 +33,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: _EdgeRim
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -71,26 +71,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DepthEdgeStrength: 1
-    - _DepthThreshold: 0.01
-    - _EdgeRim: 0.512
-    - _EdgeSpecular: 0.01
+    - _DepthEdgeStrength: 0.6
+    - _DepthThreshold: 0.001
+    - _EdgeRim: 1
+    - _EdgeSpecular: 1
     - _Emission: 0
-    - _NormalEdgeStrength: 1
+    - _NormalEdgeStrength: 0.4
     - _NormalStrength: 1
     - _Normal_Throughout_Texture: 0
-    - _NormalsThreshold: 0.5
-    - _OutlineThickness: 3
+    - _NormalsThreshold: 0.052
+    - _OutlineThickness: 2
     - _Outlines: 1
-    - _QueueControl: 0
+    - _QueueControl: -1
     - _QueueOffset: 0
-    - _RimThreshold: 0.939
+    - _RimThreshold: 0.5
     - _Smoothness: 1
-    - _Thickness: 3
     m_Colors:
-    - _EmissionColor: {r: 0.5566038, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 0.5754717, g: 0.3303634, b: 0, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
+    - _MainColor: {r: 0.4811321, g: 0.4784087, b: 0.4784087, a: 0}
     - _NormalEdgeBias: {r: 1, g: 1, b: 1, a: 0}
-    - _NormalEdgeBiasTop: {r: -1, g: 1, b: -1, a: 0}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
