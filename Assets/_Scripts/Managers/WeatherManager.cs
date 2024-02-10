@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class WeatherManager : MonoBehaviour
 {
 
     [Header("Clouds")]
+    [SerializeField]
+    private bool _cloudsOnEditor = false;
+
     [SerializeField]
     private CustomRenderTexture _cloudsRenderTexture;
     private Material _cloudsMaterial;
@@ -44,6 +48,14 @@ public class WeatherManager : MonoBehaviour
     #region Clouds
     private void ValidateClouds()
     {
+#if UNITY_EDITOR
+        if (!EditorApplication.isPlaying && !_cloudsOnEditor)
+        {
+            _cloudsMaterial.SetFloat("_Density", 0);
+            return;
+        }       
+#endif
+
         _cloudsMaterial.SetFloat("_ShadowSize1", cloudsShadowSize[0]);
         _cloudsMaterial.SetFloat("_ShadowSize2", cloudsShadowSize[1]);
         _cloudsMaterial.SetFloat("_Speed", cloudSpeed);
