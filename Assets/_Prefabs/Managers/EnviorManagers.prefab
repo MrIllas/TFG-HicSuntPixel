@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 55055378290332559}
   - component: {fileID: 4809695908289942719}
   - component: {fileID: 567049226644737819}
+  - component: {fileID: 7953288019852534581}
   - component: {fileID: 6165518650620495082}
   m_Layer: 0
   m_Name: SunLight
@@ -60,7 +61,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963008963978571613}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18301274, y: -0.6830127, z: 0.18301274, w: 0.6830127}
+  m_LocalRotation: {x: 0.5129171, y: -0.4867402, z: 0.5129171, w: 0.4867402}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -78,7 +79,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.7542409, b: 0.333313, a: 1}
+  m_Color: {r: 1, g: 0.9877231, b: 0.96669567, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -110,7 +111,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 8600000, guid: cedb7f9eaad8e6f4faacd8ed7ff6ef0b, type: 2}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -149,9 +150,26 @@ MonoBehaviour:
   m_CustomShadowLayers: 0
   m_ShadowLayerMask: 1
   m_ShadowRenderingLayers: 1
-  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieSize: {x: 50, y: 50}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!114 &7953288019852534581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963008963978571613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81fb00998c4bff4eb78605eaf54463d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cloudsRenderTexture: {fileID: 0}
+  cloudsShadowSize: {x: 5, y: 7}
+  cloudSpeed: 0.01
+  cloudDirection: {x: 1, y: 1}
+  cloudDensity: 1
 --- !u!114 &6165518650620495082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4769f24aa92d9c4f925f7ea26fd4f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeOfTheDay: 8
+  timeOfTheDay: 12.2
   dayLengthInMinutes: 8
   sunRotationSpeed: 0.05
   skyColor:

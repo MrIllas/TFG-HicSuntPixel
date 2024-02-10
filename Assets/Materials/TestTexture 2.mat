@@ -81,7 +81,7 @@ Material:
     - _Normal_Throughout_Texture: 0
     - _NormalsThreshold: 0.052
     - _OutlineThickness: 2
-    - _Outlines: 1
+    - _Outlines: 0
     - _QueueControl: -1
     - _QueueOffset: 0
     - _RimThreshold: 0.5
