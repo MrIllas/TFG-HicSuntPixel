@@ -46,18 +46,27 @@ Light GetMainLight(float4 shadowCoord)
 {
     Light light = GetMainLight();
     light.shadowAttenuation = MainLightRealtimeShadow(shadowCoord);
+    
     return light;
 }
 
 Light GetMainLight(float4 shadowCoord, float3 positionWS, float4 shadowMask)
 {
+    Light light = GetMainLight(shadowCoord);
     
+    
+#if defined(_LIGHT_COOKIES)
+    real3 cookieColor = SampleMainLightCookie(positionWS);
+    light.color *= cookieColor;
+#endif
+    
+    return light;
 }
 
-Light GetMainLight(InputData inputData, float4 shadowMask, AmbientOcclusionFactor aoFactor)
-{
+//Light GetMainLight(InputData inputData, float4 shadowMask, AmbientOcclusionFactor aoFactor)
+//{
     
-}
+//}
 
 // Additional Lights
 Light GetAdditionalPerObjectLight(int perObjectLightIndex, float3 positionWS)
@@ -86,17 +95,17 @@ Light GetAdditionalLight(uint i, float3 positionWS, half4 shadowMask)
 {
     Light light = GetAdditionalPerObjectLight(lightIndex, positionWS);
     //...
-    light.shadowAttenuation = AdditionalLightShadow(lightIndex, positionWS, light.direction, shadowMask, occlusionProbeChannels);
+    light.shadowAttenuation = AdditionalLightShadow(lightIndex, positionWS, light.direction, shadowMask);//, occlusionProbeChannels);
     //...
     return light;
 }
 
-Light GetAdditionalLight(uint i, float positionWS, half4 shadowMask, AmbientOcclusionFactor aoFactor)
-{
+//Light GetAdditionalLight(uint i, float positionWS, half4 shadowMask, AmbientOcclusionFactor aoFactor)
+//{
     
-}
+//}
 
-half AdditionalLightShadow(int lightIndex, float3 positionWS, half3 lightDirection, half4 shadowMask, half4 occlusionProbeChannels)
+half AdditionalLightShadow(int lightIndex, float3 positionWS, half3 lightDirection, half4 shadowMask)//, half4 occlusionProbeChannels)
 {
     half realtimeShadow = AdditionalLightRealtimeShadow(lightIndex, positionWS, lightDirection);
     

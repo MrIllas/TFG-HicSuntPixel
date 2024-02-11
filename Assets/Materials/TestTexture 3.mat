@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TestTexture 2
+  m_Name: TestTexture 3
   m_Shader: {fileID: -6465566751694194690, guid: 23e9f36e2b99e0240bc6e187ab1d4266,
     type: 3}
   m_Parent: {fileID: 0}
@@ -88,6 +88,6 @@ Material:
     - _Smoothness: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
-    - _MainColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _MainColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 0}
     - _NormalEdgeBias: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

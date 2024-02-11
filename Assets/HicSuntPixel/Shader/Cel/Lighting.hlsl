@@ -8,6 +8,7 @@
 #pragma multi_compile _SHADOWS_SOFT
 #pragma multi_compile _ADDITIONAL_LIGHTS
 #pragma multi_compile _ADDITIONAL_LIGHT_SHADOWS
+#pragma multi_compile _LIGHT_COOKIES
 
 
 #ifndef SHADERGRAPH_PREVIEW
@@ -84,7 +85,7 @@ void LightingCelShadedOutlines_float(float Smoothness, float RimThreshold, float
     float4 shadowCoord = TransformWorldToShadowCoord(Position);
 #endif
     
-    Light mainLight = GetMainLight(shadowCoord);
+    Light mainLight = GetMainLight(shadowCoord, Position, shadowCoord); //shadowCoord since I need to give a float4 but I don't use it
     Color = CalculateCelShading(mainLight, surface);
 #endif
     
@@ -117,7 +118,7 @@ void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Positi
     float4 shadowCoord = TransformWorldToShadowCoord(Position);
 #endif
     
-    Light mainLight = GetMainLight(shadowCoord);
+    Light mainLight = GetMainLight(shadowCoord, Position, shadowCoord); //shadowCoord since I need to give a float4 but I don't use it
     Color = CalculateCelShading(mainLight, surface);
     
     int pixelLightCount = GetAdditionalLightsCount();

@@ -4,54 +4,40 @@ using UnityEngine;
 
 public class WaterReflectionCamera : MonoBehaviour
 {
-    [SerializeField] private Transform waterPlane;
-    [SerializeField] private Material material;
-    [SerializeField] private RenderTexture renderTexture;
+    private Camera _probe;
 
-    private Camera _probCam;
 
     private void Awake()
     {
-        _probCam = GetComponent<Camera>();
-        _probCam.cameraType = CameraType.Reflection;
+        _probe = GetComponent<Camera>();
     }
 
-    void Update()
+    private void LateUpdate()
     {
-        if (waterPlane == null || material == null || renderTexture == null) return;
-
-
-        SetTransform(Camera.main, GetNormal());
-
-
-
-        _probCam.projectionMatrix = ObliqueProjection(_probCam, waterPlane.position, GetNormal());
+        Vector3 normal = transform.forward;
+        UpdateProbeTransform(Camera.main, normal);
+        CalculateObliqueProjection(normal);
     }
 
-
-    private void SetTransform(Camera cam, Vector3 normal)
+    private void UpdateProbeTransform(Camera cam, Vector3 normal)
     {
-        Vector3 proj = normal * Vector3.Dot(normal, cam.transform.position - waterPlane.transform.position);
-        transform.position = cam.transform.position - 2 * proj;
+        Vector3 proj = normal * Vector3.Dot(normal, cam.transform.position - transform.position);
+        _probe.transform.position = cam.transform.position - 2 * proj;
 
-        //Rotation
-        Vector3 probeForward = Vector3.Reflect(Camera.main.transform.forward, GetNormal());
-        Vector3 probeUp = Vector3.Reflect(Camera.main.transform.up, GetNormal());
+        //transform.position = new Vector3(cam.transform.position.x, -cam.transform.position.y + transform.parent.transform.position.y, cam.transform.position.z);
 
-        transform.LookAt(transform.position + probeForward, probeUp);
+
+        Vector3 probeForward = Vector3.Reflect(cam.transform.forward, normal);
+        Vector3 probeUp = Vector3.Reflect(cam.transform.up, normal);
+        _probe.transform.LookAt(_probe.transform.position + probeForward, probeUp);
     }
-    Matrix4x4 ObliqueProjection(Camera probeCamera, Vector3 planePosition, Vector3 planeNormal)
+
+    private void CalculateObliqueProjection(Vector3 normal)
     {
-        Matrix4x4 viewMatrix = probeCamera.worldToCameraMatrix;
-        Vector3 viewPosition = viewMatrix.MultiplyPoint(planePosition);
-        Vector3 viewNormal = viewMatrix.MultiplyVector(planeNormal);
+        Matrix4x4 viewMatrix = _probe.worldToCameraMatrix;
+        Vector3 viewPosition = viewMatrix.MultiplyPoint(transform.position);
+        Vector3 viewNormal = viewMatrix.MultiplyVector(normal);
         Vector4 plane = new Vector4(viewNormal.x, viewNormal.y, viewNormal.z, -Vector3.Dot(viewPosition, viewNormal));
-
-        return probeCamera.CalculateObliqueMatrix(plane);
-    }
-
-    Vector3 GetNormal()
-    {
-        return waterPlane.transform.forward;
+        _probe.projectionMatrix = _probe.CalculateObliqueMatrix(plane);
     }
 }
