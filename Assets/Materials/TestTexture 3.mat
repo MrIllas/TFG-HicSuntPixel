@@ -88,6 +88,6 @@ Material:
     - _Smoothness: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
-    - _MainColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 0}
+    - _MainColor: {r: 0.43810073, g: 0.5032429, b: 0.5188679, a: 0}
     - _NormalEdgeBias: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

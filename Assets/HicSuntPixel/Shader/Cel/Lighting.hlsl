@@ -132,4 +132,10 @@ void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Positi
     Color = clamp(Color, 0.20f, 1.0f); // Clamp color for lighter shadows
 }
 
+void SimpleLightingCelShaded_float(float Smoothness, float3 Position, float3 Normal, float3 View, 
+                                    out float3 Color)
+{ 
+    LightingCelShaded_float(Smoothness, 0.0f, Position, Normal, View, 0.0f, 0.0f, Color);
+}
+
 #endif

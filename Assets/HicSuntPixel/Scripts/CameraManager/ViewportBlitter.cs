@@ -132,7 +132,7 @@ public class ViewportBlitter : MonoBehaviour
 
             renderOffsetInPixels.y += value;
 
-            _renderCamera.transform.Translate(0, pixelValue.y * 10.0f * -value, 0);
+            _renderCamera.transform.Translate(0, pixelValue.y * 10.0f * -value, pixelValue.y * 10.0f * -value);
         }
     }
 
