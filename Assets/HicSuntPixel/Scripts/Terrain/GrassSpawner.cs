@@ -16,7 +16,6 @@ public class GrassSpawner : MonoBehaviour
     struct InstanceData
     {
         public Matrix4x4 objectToWorld;
-        public Vector2 terrainWorldPosition;
         public uint renderingLayerMask;
     }
 
@@ -30,9 +29,6 @@ public class GrassSpawner : MonoBehaviour
     private InstanceData[] _instanceData;
 
     private RenderParams rp;
-
-    [SerializeField] RenderTexture terrainColor;
-
 
     private void Start()
     {
@@ -50,12 +46,13 @@ public class GrassSpawner : MonoBehaviour
 
     private void Initialize()
     {
-        InitializeGrass();
+        TerrainData terrainData = GetComponentInParent<Terrain>().terrainData;
+        InitializeGrass(terrainData);
         InitializeRenderTexture();
     }
 
 
-    private void InitializeGrass()
+    private void InitializeGrass(TerrainData terrainData)
     {
         rp = new RenderParams(material);
 
@@ -66,6 +63,7 @@ public class GrassSpawner : MonoBehaviour
         //rp.matProps.SetMatrix("_ObjectToWorld", Matrix4x4.Translate(new Vector3(-4.5f, 0, 0)));
 
         rp.matProps.SetVector("_TerrainWorldPosition", terrainWorldPos);
+        rp.matProps.SetVector("_TerrainSize", new Vector2(terrainData.size.x, terrainData.size.z));
 
         for (int i = 0; i < _parameters.desiredInstances; i++)
         {
@@ -81,7 +79,6 @@ public class GrassSpawner : MonoBehaviour
                 targetPos.y += 0.5f;
 
                 _instanceData[i].objectToWorld = GenerateMatrix(targetPos);
-                _instanceData[i].terrainWorldPosition = terrainWorldPos;
                 _instanceData[i].renderingLayerMask = (i & 1) == 0 ? 1u : 2u;
                 realInstances++;
             }
@@ -90,9 +87,7 @@ public class GrassSpawner : MonoBehaviour
 
     private void InitializeRenderTexture()
     {
-        //Texture2D textureArray = GetSplatMap(GetComponentInParent<Terrain>().terrainData);
 
-        //Graphics.Blit(textureArray, terrainColor);
     }
 
     private void OnDrawGizmos()
@@ -112,23 +107,6 @@ public class GrassSpawner : MonoBehaviour
         float randomScale = UnityEngine.Random.Range(_parameters.scaleVariance.x, _parameters.scaleVariance.y);
         Matrix4x4 matrix = Matrix4x4.TRS(position, Quaternion.identity, new Vector3(randomScale, randomScale, randomScale));
         return matrix;
-    }
-
-    private Texture2D GetSplatMap(TerrainData terrainData)
-    {
-        //https://forum.unity.com/threads/get-color-pixel-from-terrain-with-a-wheelcollider.106829/
-        Texture2D terrainSplatMap;
-
-        TerrainLayer[] terrainLayers = terrainData.terrainLayers;
-
-        terrainSplatMap = new Texture2D(terrainColor.width, terrainColor.height);
-
-        Color[] terrainColors = new Color[terrainColor.width * terrainColor.height];
-
-
-        terrainSplatMap = terrainData.alphamapTextures[0];
-
-        return terrainSplatMap;
     }
 
 }
