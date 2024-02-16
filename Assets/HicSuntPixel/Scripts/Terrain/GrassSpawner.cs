@@ -21,6 +21,8 @@ public class GrassSpawner : MonoBehaviour
 
     [SerializeField] private InstanceParameters _parameters;
 
+    [SerializeField] private Camera colorTerrainCamera;
+
     public int realInstances;
 
     public Material material;
@@ -40,7 +42,7 @@ public class GrassSpawner : MonoBehaviour
 
     private void Update()
     {
-
+        rp.matProps.SetVector("_CameraPosition", new Vector2(colorTerrainCamera.transform.localPosition.x, colorTerrainCamera.transform.localPosition.z));
         Graphics.RenderMeshInstanced(rp, mesh, 0, _instanceData);
     }
 
@@ -63,7 +65,10 @@ public class GrassSpawner : MonoBehaviour
         //rp.matProps.SetMatrix("_ObjectToWorld", Matrix4x4.Translate(new Vector3(-4.5f, 0, 0)));
 
         rp.matProps.SetVector("_TerrainWorldPosition", terrainWorldPos);
-        rp.matProps.SetVector("_TerrainSize", new Vector2(terrainData.size.x, terrainData.size.z));
+        rp.matProps.SetFloat("_CameraSize", colorTerrainCamera.orthographicSize);
+        rp.matProps.SetVector("_CameraPosition", new Vector2(colorTerrainCamera.transform.localPosition.x, colorTerrainCamera.transform.localPosition.z));
+
+        Debug.Log(colorTerrainCamera.transform.position.x+"|"+colorTerrainCamera.transform.position.z);
 
         for (int i = 0; i < _parameters.desiredInstances; i++)
         {

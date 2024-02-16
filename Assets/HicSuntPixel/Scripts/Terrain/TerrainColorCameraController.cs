@@ -6,22 +6,15 @@ public class TerrainColorCameraController : MonoBehaviour
 {
     void Start()
     {
-        TerrainData terrainData = GetComponentInParent<Terrain>().terrainData;
-        Transform terrainTransform = GetComponentInParent<Transform>();
-
-        CenterOnTerrain(terrainData, terrainTransform);
     }
 
     void Update()
     {
-        
+        CenterOnMainCamera();
     }
 
-    private void CenterOnTerrain(TerrainData terrainData, Transform terrainTransform)
+    private void CenterOnMainCamera()
     {
-        Camera cam = GetComponent<Camera>();
-        transform.localPosition = new Vector3(terrainData.size.x / 2, 100, terrainData.size.z / 2);
-       
-        cam.orthographicSize = (terrainData.size.x > terrainData.size.z ? terrainData.size.x : terrainData.size.z) / 2;
+        transform.position = new Vector3(Camera.main.transform.position.x, 20, Camera.main.transform.position.z);
     }
 }

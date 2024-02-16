@@ -48,8 +48,8 @@ Material:
     - _Size: 1.12
     - _Smoothness: 0.38
     m_Colors:
-    - _Color: {r: 0.38166606, g: 0.6698113, b: 0.4233713, a: 1}
-    - _ColorFresnel: {r: 0.251602, g: 0.5188679, b: 0.29133072, a: 0}
+    - _Color: {r: 0.28627452, g: 0.40000004, b: 0.16470589, a: 1}
+    - _ColorFresnel: {r: 0.4062233, g: 0.5754717, b: 0.22530259, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1926997710685669507
 MonoBehaviour:
