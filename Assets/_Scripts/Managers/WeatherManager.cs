@@ -26,6 +26,10 @@ public class WeatherManager : MonoBehaviour
     [SerializeField, Range(0.0f, 1.0f)]
     private float cloudDensity = 1.0f;
 
+    [Header("Wind")]
+    [SerializeField]
+    private float windSpeed = 1.0f;
+
     private void OnValidate()
     {
         if (_cloudsRenderTexture == null) return;

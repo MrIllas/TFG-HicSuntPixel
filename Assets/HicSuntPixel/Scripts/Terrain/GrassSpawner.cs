@@ -42,6 +42,11 @@ public class GrassSpawner : MonoBehaviour
 
     private void Update()
     {
+        material.SetVector("_CameraPosition", new Vector2(colorTerrainCamera.transform.localPosition.x, colorTerrainCamera.transform.localPosition.z));
+        material.SetFloat("_CameraSize", colorTerrainCamera.orthographicSize);
+
+        Debug.Log(colorTerrainCamera.transform.localPosition.x + "|" + colorTerrainCamera.transform.localPosition.z);
+
         rp.matProps.SetVector("_CameraPosition", new Vector2(colorTerrainCamera.transform.localPosition.x, colorTerrainCamera.transform.localPosition.z));
         Graphics.RenderMeshInstanced(rp, mesh, 0, _instanceData);
     }
@@ -63,6 +68,10 @@ public class GrassSpawner : MonoBehaviour
         //rp.worldBounds = new Bounds(Vector3.zero, 10000 * Vector3.one);
         rp.matProps = new MaterialPropertyBlock();
         //rp.matProps.SetMatrix("_ObjectToWorld", Matrix4x4.Translate(new Vector3(-4.5f, 0, 0)));
+
+        material.SetVector("_TerrainWorldPosition", terrainWorldPos);
+        material.SetFloat("_CameraSize", colorTerrainCamera.orthographicSize);
+        material.SetVector("_CameraPosition", new Vector2(colorTerrainCamera.transform.localPosition.x, colorTerrainCamera.transform.localPosition.z));
 
         rp.matProps.SetVector("_TerrainWorldPosition", terrainWorldPos);
         rp.matProps.SetFloat("_CameraSize", colorTerrainCamera.orthographicSize);
