@@ -498,7 +498,7 @@ PrefabInstance:
     - target: {fileID: 5730560034711486754, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.49
+      value: 11.04
       objectReference: {fileID: 0}
     - target: {fileID: 5730560034711486754, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
@@ -508,7 +508,7 @@ PrefabInstance:
     - target: {fileID: 5730560034711486754, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.5
+      value: 14.98
       objectReference: {fileID: 0}
     - target: {fileID: 5730560034711486754, guid: 86c4dd9555ac7e944bd6b575cc6ad6b5,
         type: 3}
@@ -1519,7 +1519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &968809564
 Transform:
   m_ObjectHideFlags: 0
@@ -1614,7 +1614,7 @@ Camera:
   far clip plane: 30
   field of view: 60
   orthographic: 1
-  orthographic size: 24
+  orthographic size: 18
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -3216,6 +3216,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
+      propertyPath: _windOnEditor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
       propertyPath: CloudsMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 659f9ee5094b32943b5554ab55235c8c, type: 2}
@@ -3229,6 +3234,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _cloudsOnEditor
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
+      propertyPath: windDirection.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
+      propertyPath: windDirection.y
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
@@ -3252,9 +3267,34 @@ PrefabInstance:
       objectReference: {fileID: 8600000, guid: cedb7f9eaad8e6f4faacd8ed7ff6ef0b, type: 2}
     - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
+      propertyPath: _windableMaterial.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
       propertyPath: cloudDirection.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
+      propertyPath: _windableMaterial.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7488071c6ef670846a0c8e5b12d7aaac, type: 2}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
+      propertyPath: _windableMaterial.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: bb1ac1449a1e0a5489ead2dc95f129e7, type: 2}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
+      propertyPath: _windableMaterial.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: d20b43923f13c874c85c8a9fb579166e, type: 2}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
+      propertyPath: _windableMaterial.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: b17b177d120894d429849000b6e2026f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

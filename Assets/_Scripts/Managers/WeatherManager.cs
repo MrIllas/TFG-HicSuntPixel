@@ -26,9 +26,23 @@ public class WeatherManager : MonoBehaviour
     [SerializeField, Range(0.0f, 1.0f)]
     private float cloudDensity = 1.0f;
 
+
     [Header("Wind")]
+
     [SerializeField]
-    private float windSpeed = 1.0f;
+    private bool _windOnEditor = false;
+
+    [SerializeField]
+    private Material[] _windableMaterial;
+
+    [SerializeField, Range(0.0f, 1.0f)]
+    private float windStrength = 1.0f;
+
+    [SerializeField]
+    private Vector2 windDirection = new Vector2(1.0f, 1.0f);
+
+    [SerializeField, Range(0.0f, 1.0f)]
+    private float windDensity = 1.0f;
 
     private void OnValidate()
     {
@@ -42,6 +56,7 @@ public class WeatherManager : MonoBehaviour
         }
 
         ValidateClouds();
+        ValidateWind();
     }
 
     private void Awake()
@@ -71,7 +86,23 @@ public class WeatherManager : MonoBehaviour
     #region Wind
     private void ValidateWind()
     {
+#if UNITY_EDITOR
+        if (!EditorApplication.isPlaying && !_windOnEditor)
+        {
+            for (int j = 0; j < _windableMaterial.Length; ++j)
+            {
+                _windableMaterial[j].SetFloat("_WindDensity", 0);
+            }
+            return;
+        }
+#endif
 
+        for (int i = 0; i < _windableMaterial.Length; ++i)
+        {
+            _windableMaterial[i].SetFloat("_WindDensity", windDensity);
+            _windableMaterial[i].SetFloat("_WindStrength", windStrength);
+            _windableMaterial[i].SetVector("_WindDirection", windDirection);
+        }
     }
     #endregion Wind
 }

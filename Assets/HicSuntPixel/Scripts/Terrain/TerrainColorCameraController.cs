@@ -16,9 +16,14 @@ public class TerrainColorCameraController : MonoBehaviour
 
     void Update()
     {
+        //transform.position = Camera.main.transform.position;
+    }
+
+
+    private void LateUpdate()
+    {
         material.SetVector("_TerrainColorCameraPosition", new Vector2(transform.localPosition.x, transform.localPosition.z));
         material.SetFloat("_CameraSize", _camera.orthographicSize);
     }
-
 
 }

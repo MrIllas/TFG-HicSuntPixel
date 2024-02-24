@@ -171,7 +171,11 @@ MonoBehaviour:
   cloudSpeed: 0.01
   cloudDirection: {x: 1, y: 1}
   cloudDensity: 1
-  windSpeed: 1
+  _windOnEditor: 0
+  _windableMaterial: []
+  windStrength: 1
+  windDirection: {x: 1, y: 1}
+  windDensity: 1
 --- !u!114 &6165518650620495082
 MonoBehaviour:
   m_ObjectHideFlags: 0
