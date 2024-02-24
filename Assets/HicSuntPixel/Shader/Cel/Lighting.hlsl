@@ -15,8 +15,13 @@
 
 struct EdgeConstants
 {
-    float edgeSpecular;
-    float edgeRim;
+    float Diffuse;
+    float Specular;
+    float SpecularOffset;
+    float DistanceAttenuation;
+    float ShadowAttenuation;
+    float Rim;
+    float RimOffset;
 };
 
 struct SurfaceVariables
@@ -32,8 +37,8 @@ struct SurfaceVariables
 float3 CalculateCelShading(Light light, SurfaceVariables surface)
 {
     //Attenuation
-    float shadowAttenuationSmoothstepped = smoothstep(0.0f, 0.001f, light.shadowAttenuation);
-    float distanceAttenuationSmoothstepped = smoothstep(0.0f, 0.001f, light.distanceAttenuation);
+    float shadowAttenuationSmoothstepped = smoothstep(0.0f, surface.ec.ShadowAttenuation, light.shadowAttenuation);
+    float distanceAttenuationSmoothstepped = smoothstep(0.0f, surface.ec.DistanceAttenuation, light.distanceAttenuation);
     
     float attenuation = shadowAttenuationSmoothstepped * distanceAttenuationSmoothstepped;
     
@@ -52,48 +57,14 @@ float3 CalculateCelShading(Light light, SurfaceVariables surface)
     rim *= pow(diffuse, surface.rimThreshold);
     
     
-    diffuse = smoothstep(0.0f, 0.001f, diffuse);
-    specular = surface.smoothness * smoothstep((1 - surface.smoothness) * surface.ec.edgeSpecular + surface.ec.edgeSpecular, surface.ec.edgeSpecular, specular);
-    rim = surface.smoothness * smoothstep(surface.ec.edgeRim, surface.ec.edgeRim, rim);
+    diffuse = smoothstep(0.0f, surface.ec.Diffuse, diffuse);
+    specular = surface.smoothness * smoothstep((1 - surface.smoothness) * surface.ec.Specular + surface.ec.Specular, surface.ec.Specular + surface.ec.SpecularOffset, specular);
+    rim = surface.smoothness * smoothstep(surface.ec.Rim - 0.5f * surface.ec.RimOffset, surface.ec.Rim + 0.5f * surface.ec.RimOffset, rim);
     return light.color * (diffuse + max(specular, rim));
-}
-#endif
-
-void LightingCelShadedOutlines_float(float Smoothness, float RimThreshold, float3 Position, float3 Normal, float3 View,
-                             float EdgeSpecular, float EdgeRim,
-                            out float3 Color)
-{
-#if defined (SHADERGRAPH_PREVIEW)
-    Color = float3(0.5f, 0.5f, 0.5f);
-#else
-    //Initialize and populate Surface
-    SurfaceVariables surface;
-    surface.smoothness = Smoothness;
-    surface.shininess = exp2(10 * Smoothness + 1);
-    surface.rimThreshold = RimThreshold;
-    surface.normal = normalize(Normal);
-    surface.view = SafeNormalize(View); //normalize(View);
-    
-    surface.ec.edgeSpecular = EdgeSpecular;
-    surface.ec.edgeRim = EdgeRim;
-
-    // Calculate Shadow Coord
-#if SHADOWS_SCREEN
-    float4 clipPos = TransformWorldToHClip(Position);
-    float4 shadowCoord = ComputeScreenPos(clipPos);
-#else
-    float4 shadowCoord = TransformWorldToShadowCoord(Position);
-#endif
-    
-    Light mainLight = GetMainLight(shadowCoord, Position, shadowCoord); //shadowCoord since I need to give a float4 but I don't use it
-    Color = CalculateCelShading(mainLight, surface);
-#endif
-    
-    Color = clamp(Color, 0.20f, 1.0f); // Clamp color for lighter shadows
 }
 
 void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Position, float3 Normal, float3 View,
-                             float EdgeSpecular, float EdgeRim,
+                             float EdgeDiffuse, float EdgeSpecular, float EdgeSpecularOffset, float EdgeDistanceAttenuation, float EdgeShadowAttenuation, float EdgeRim, float EdgeRimOffset,
                             out float3 Color)
 {
 #if defined (SHADERGRAPH_PREVIEW)
@@ -107,8 +78,13 @@ void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Positi
     surface.normal = normalize(Normal);
     surface.view = SafeNormalize(View); //normalize(View);
     
-    surface.ec.edgeSpecular = EdgeSpecular;
-    surface.ec.edgeRim = EdgeRim;
+    surface.ec.Diffuse = EdgeDiffuse;
+    surface.ec.Specular = EdgeSpecular;
+    surface.ec.SpecularOffset = EdgeSpecularOffset;
+    surface.ec.DistanceAttenuation = EdgeDistanceAttenuation;
+    surface.ec.ShadowAttenuation = EdgeShadowAttenuation;
+    surface.ec.Rim = EdgeRim;
+    surface.ec.RimOffset = EdgeRimOffset;
 
     // Calculate Shadow Coord
 #if SHADOWS_SCREEN
@@ -129,13 +105,13 @@ void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Positi
     }
 #endif
     
-    Color = clamp(Color, 0.20f, 1.0f); // Clamp color for lighter shadows
+    Color = clamp(Color, 0.15f, 1.0f); // Clamp color for lighter shadows
 }
 
 void SimpleLightingCelShaded_float(float Smoothness, float3 Position, float3 Normal, float3 View, 
                                     out float3 Color)
 { 
-    LightingCelShaded_float(Smoothness, 0.0f, Position, Normal, View, 0.0f, 0.0f, Color);
+    LightingCelShaded_float(Smoothness, 0.0f, Position, Normal, View, 0.001f, 0.0f, 0.0f, 0.75f, 1.0f, 0.0f, 0.0f, Color);
 }
-
+#endif
 #endif
