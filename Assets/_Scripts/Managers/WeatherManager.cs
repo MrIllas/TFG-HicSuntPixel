@@ -17,8 +17,8 @@ public class WeatherManager : MonoBehaviour
     [SerializeField]
     private Vector2 cloudsShadowSize = new Vector2(5, 7);
 
-    [SerializeField, Range(0.01f, 1.0f)]
-    private float cloudSpeed = 0.01f;
+    [SerializeField, Range(0.001f, 0.05f)]
+    private float cloudSpeed = 0.001f;
 
     [SerializeField]
     private Vector2 cloudDirection = new Vector2(1.0f, 1.0f);

@@ -10,6 +10,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 8b8d7aded648bf049b1b99f0e2d59789,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8b8d7aded648bf049b1b99f0e2d59789,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8b8d7aded648bf049b1b99f0e2d59789,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -72,11 +82,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7488071c6ef670846a0c8e5b12d7aaac, type: 2}
+      objectReference: {fileID: 2100000, guid: ff835dcfb191f854f889150819341031, type: 2}
     - target: {fileID: 919132149155446097, guid: 8b8d7aded648bf049b1b99f0e2d59789,
         type: 3}
       propertyPath: m_Name
-      value: Grass_01
+      value: Grass_03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

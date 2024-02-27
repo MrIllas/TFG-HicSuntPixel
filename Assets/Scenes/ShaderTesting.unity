@@ -20,8 +20,8 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
-  m_AmbientEquatorColor: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.6149143, g: 0.85241264, b: 0.91155255, a: 1}
+  m_AmbientEquatorColor: {r: 0.6149143, g: 0.85241264, b: 0.91155255, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.000018625964, g: 0.000000034686096, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.17567602, g: 0.21982643, b: 0.30215263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3315,22 +3315,22 @@ PrefabInstance:
     - target: {fileID: 55055378290332559, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.66958076
+      value: 0.58793783
       objectReference: {fileID: 0}
     - target: {fileID: 55055378290332559, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.22729202
+      value: 0.3928475
       objectReference: {fileID: 0}
     - target: {fileID: 55055378290332559, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.66958076
+      value: -0.58793783
       objectReference: {fileID: 0}
     - target: {fileID: 55055378290332559, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.22729202
+      value: 0.3928475
       objectReference: {fileID: 0}
     - target: {fileID: 130133135824860716, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
@@ -3411,22 +3411,22 @@ PrefabInstance:
     - target: {fileID: 4809695908289942719, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.7499733
       objectReference: {fileID: 0}
     - target: {fileID: 4809695908289942719, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.36829504
+      value: 0.90783334
       objectReference: {fileID: 0}
     - target: {fileID: 4809695908289942719, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.58332443
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6165518650620495082, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: timeOfTheDay
-      value: 3.5
+      value: 10.5
       objectReference: {fileID: 0}
     - target: {fileID: 6165518650620495082, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
@@ -3438,6 +3438,11 @@ PrefabInstance:
       propertyPath: dayLengthInMinutes
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 7184002139012499227, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: speed
@@ -3446,7 +3451,7 @@ PrefabInstance:
     - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: cloudSpeed
-      value: 0.01
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
@@ -3507,7 +3512,7 @@ PrefabInstance:
     - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
       propertyPath: _windableMaterial.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
         type: 3}
@@ -3534,6 +3539,11 @@ PrefabInstance:
       propertyPath: _windableMaterial.Array.data[3]
       value: 
       objectReference: {fileID: 2100000, guid: b17b177d120894d429849000b6e2026f, type: 2}
+    - target: {fileID: 7953288019852534581, guid: c33670bdf88653b4cae2e207c1e7cbbb,
+        type: 3}
+      propertyPath: _windableMaterial.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: ff835dcfb191f854f889150819341031, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
