@@ -47,7 +47,7 @@ Material:
     - _QueueOffset: 0
     - _Size: 1
     - _Smoothness: 0
-    - _WindDensity: 0
+    - _WindDensity: 1
     - _WindStrength: 1
     m_Colors:
     - _Color: {r: 0.2901961, g: 0.5882353, b: 0.17254902, a: 1}

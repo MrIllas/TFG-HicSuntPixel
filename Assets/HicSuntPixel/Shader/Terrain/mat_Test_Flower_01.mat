@@ -155,7 +155,7 @@ Material:
     - _OutlineThickness: 3
     - _Outlines: 0
     - _Parallax: 0.005
-    - _Priority: 1
+    - _Priority: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
