@@ -37,17 +37,18 @@ namespace Character.Player
             //Falling
         }
 
-        private void GetVerticalAndHorizontaInputs()
+        private void GetMovementValues()
         {
             verticalMovement = PlayerInputManager.instance.verticalInput;
             horizontalMovement = PlayerInputManager.instance.horizontalInput;
+            moveAmount = PlayerInputManager.instance.moveAmount;
 
             // CLAMP THE MOVEMENTS FOR ANIMATIONS
         }
 
         private void HandleGroundedMovement()
         {
-            GetVerticalAndHorizontaInputs();
+            GetMovementValues();
 
             // MOVEMENT BASED ON CAMERA 
             moveDirection = CameraManager.instance.transform.forward * verticalMovement;
@@ -56,11 +57,11 @@ namespace Character.Player
             moveDirection.Normalize();
 
             //RUNNING
-            if (PlayerInputManager.instance.moveAmount > 0.5f)
+            if (moveAmount > 0.5f)
             {
                 _player._characterController.Move(moveDirection * Time.deltaTime * runningSpeed);
             }
-            else if (PlayerInputManager.instance.moveAmount <= 0.5f)
+            else if (moveAmount <= 0.5f)
             { //WALKING
                 _player._characterController.Move(moveDirection * Time.deltaTime * walkingSpeed);
             }

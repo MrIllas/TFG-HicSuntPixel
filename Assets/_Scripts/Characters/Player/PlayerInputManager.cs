@@ -8,6 +8,8 @@ namespace Character.Player
     {
         public static PlayerInputManager instance;
 
+        public PlayerManager _player;
+
         PlayerControls _controls;
 
         [SerializeField] Vector2 movementInput;
@@ -89,6 +91,13 @@ namespace Character.Player
             {
                 moveAmount = 1.0f;
             }
+
+            if (_player == null) return;
+
+            // WHY 0 ON HORIZONTAL? CUZ WE ONLY WANT NON-STRAFING MOVEMENT WHEN NOT LOCKED
+            _player._playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+
+            // IF WE ARE LOCKED, PASS HORIZONTAL MOVEMENT AS WELL
         }
     }
 }
