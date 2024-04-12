@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Character.Player
 {
-
-    PlayerLocomotion _playerLocomotion;
     public class PlayerManager : CharacterManager
     {
+        PlayerLocomotion _playerLocomotion;
+
         protected override void Awake()
         {
             base.Awake();

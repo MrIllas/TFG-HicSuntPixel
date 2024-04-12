@@ -10,7 +10,10 @@ namespace Character.Player
 
         PlayerControls _controls;
 
-        [SerializeField] Vector2 movement;
+        [SerializeField] Vector2 movementInput;
+        [SerializeField] public float verticalInput;
+        [SerializeField] public float horizontalInput;
+        [SerializeField] public float moveAmount;
 
         private void Awake()
         {
@@ -59,12 +62,34 @@ namespace Character.Player
             {
                 _controls = new PlayerControls();
 
-                _controls.Player.Move.performed += i => movement = i.ReadValue<Vector2>();
+                _controls.Player.Move.performed += i => movementInput = i.ReadValue<Vector2>();
             }
             _controls.Enable();
         }
 
-        
+        private void Update()
+        {
+            HandleMovementInput();
+        }
+
+        private void HandleMovementInput()
+        {
+            verticalInput = movementInput.y;
+            horizontalInput = movementInput.x;
+
+            // GET ABSOLUTE NUMBER
+            moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
+
+            // Clamp for walk and running
+            if (moveAmount <= 0.5 && moveAmount > 0)
+            {
+                moveAmount = 0.5f;
+            }
+            else if (moveAmount > 0.5 && moveAmount <= 1)
+            {
+                moveAmount = 1.0f;
+            }
+        }
     }
 }
 
