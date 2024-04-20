@@ -5,10 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/MainMenu.unity
     guid: 51381e6882e6c014484676a3e55af29d
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/GameplayTesting.unity
     guid: f569ccb1e08771d4a966bf39d51f4551
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/_Scenes/ShaderTesting.unity
+    guid: 307434b93970e9249b9263647a716598
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 59f74f2e9a64bab4881a4d4ce15e3609,
+      type: 2}

@@ -7,8 +7,6 @@ public class HicSuntPixelPass : ScriptableRenderPass
     private HicSuntPixelFeature.HicSuntPixelPassSettings _settings;
 
     private RenderTargetIdentifier colorBuffer;
-    private RenderTargetIdentifier pixelBuffer;
-    private int pixelBufferID = Shader.PropertyToID("_PixelBuffer");
 
     public HicSuntPixelPass(HicSuntPixelFeature.HicSuntPixelPassSettings settings)
     {
@@ -22,13 +20,9 @@ public class HicSuntPixelPass : ScriptableRenderPass
 
         using(new ProfilingScope(cmd, new ProfilingSampler("Hic Sunt Pixel Pass")))
         {
-            if (renderingData.cameraData.camera.name == "Main Camera")
+            if (renderingData.cameraData.camera.name == _settings.viewportCameraName)
             {
-                cmd.Blit(colorBuffer, pixelBuffer);
-            }
-            else if (renderingData.cameraData.camera.name == "Viewport Camera")
-            {
-                cmd.Blit(pixelBuffer, colorBuffer, _settings.scale, _settings.margin);
+                cmd.Blit(_settings.GetRenderTexture(), colorBuffer, _settings.scale, _settings.margin);
             }
         }
 
@@ -38,21 +32,18 @@ public class HicSuntPixelPass : ScriptableRenderPass
 
     public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
     {
-        colorBuffer = renderingData.cameraData.renderer.cameraColorTargetHandle;
-        RenderTextureDescriptor descriptor = renderingData.cameraData.cameraTargetDescriptor;
-
-        descriptor.width = _settings.cameraResolution.x;
-        descriptor.height = _settings.cameraResolution.y;
-
-        cmd.GetTemporaryRT(pixelBufferID, descriptor, FilterMode.Point);
-
-        pixelBuffer = new RenderTargetIdentifier(pixelBufferID);
+        if (renderingData.cameraData.camera.name == _settings.mainCameraName)
+        {
+            renderingData.cameraData.camera.targetTexture = _settings.GetRenderTexture();
+        }
+        else if (renderingData.cameraData.camera.name == _settings.viewportCameraName)
+        {
+            colorBuffer = renderingData.cameraData.renderer.cameraColorTargetHandle;
+        }
     }
 
     public override void OnCameraCleanup(CommandBuffer cmd)
     {
-        if (cmd == null) throw new System.ArgumentNullException("cmd");
-
-        cmd.ReleaseTemporaryRT(pixelBufferID);
+        
     }
 }
