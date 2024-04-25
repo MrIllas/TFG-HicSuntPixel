@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class DayNightCycle : MonoBehaviour
 {
@@ -17,9 +18,15 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField]
     private Gradient skyColor, equatorColor, sunColor;
 
+    [HideInInspector] public Color currentLightColor;
+
+    private Vector2 cookieSize = new Vector2(200, 200);
+    private UniversalAdditionalLightData lightData;
+
     private void Awake()
     {
         sun = GetComponent<Light>();
+        lightData = GetComponent<UniversalAdditionalLightData>();
         sunRotationSpeed = 24 / ((float) dayLengthInMinutes * 60);
     }
 
@@ -27,6 +34,7 @@ public class DayNightCycle : MonoBehaviour
     private void OnValidate()
     {
         sun = GetComponent<Light>();
+        lightData = GetComponent<UniversalAdditionalLightData>();
         sunRotationSpeed = 24 / ((float)dayLengthInMinutes * 60);
 
         UpdateSunRotation();
@@ -52,6 +60,10 @@ public class DayNightCycle : MonoBehaviour
     {
         float sunRotation = Mathf.Lerp(-90, 270, timeOfTheDay / 24);
         sun.transform.rotation = Quaternion.Euler(sunRotation, -90, 0);
+
+        //lightData.lightCookieSize = new Vector2(cookieSize.x, cookieSize.y - ((90 - transform.localEulerAngles.x) * 0.3141516f));
+        //lightData.lightCookieOffset = new Vector2(0, ((transform.localEulerAngles.x - 90) * 0.33f));
+        //Debug.Log(lightData.);
     }
 
     private void UpdateLightning()
@@ -59,6 +71,7 @@ public class DayNightCycle : MonoBehaviour
         float timeFraction = timeOfTheDay / 24;
         RenderSettings.ambientEquatorColor = equatorColor.Evaluate(timeFraction);
         RenderSettings.ambientSkyColor = skyColor.Evaluate(timeFraction);
-        sun.color = sunColor.Evaluate(timeFraction);
+        currentLightColor = sunColor.Evaluate(timeFraction);
+        sun.color = currentLightColor;
     }
 }

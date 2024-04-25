@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Snapper : MonoBehaviour
 {
+    [SerializeField] private bool fullAssembly = false;
+    
     public List<string> componentsToAdd;
 
     HSPCameraManager _cameraManager;
@@ -12,15 +14,15 @@ public class Snapper : MonoBehaviour
 
     private void Awake()
     {
-        if (!_cameraManager)
-        {
-            _cameraManager = FindObjectOfType<HSPCameraManager>();
-        }
+        CreateSnapPoint();
     }
 
     private void Start()
     {
-        CreateSnapPoint();
+        if (!_cameraManager)
+        {
+            _cameraManager = FindObjectOfType<HSPCameraManager>();
+        }
     }
 
     private void LateUpdate()
@@ -63,12 +65,18 @@ public class Snapper : MonoBehaviour
             {
                 if (componentsToAdd[i] != null)
                 {
-                    Type scriptType = Type.GetType(componentsToAdd[i]);
+                    Type scriptType = null;
+                    if (fullAssembly)
+                        scriptType = Type.GetType(componentsToAdd[i] + ", FullAssemblyName");
+                    else
+                        scriptType = Type.GetType(componentsToAdd[i]);
+
                     if (scriptType != null)
                     {
                         Component myComponent = gameObject.GetComponent(scriptType);
-
                         Component comp = go.AddComponent(scriptType);
+                        
+                        //Debug.Log(comp);
                         CopyValues(myComponent, comp);
 
                         Destroy(myComponent);

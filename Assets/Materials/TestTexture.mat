@@ -93,6 +93,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_2cfbfc63107f42068037885668ec74ea_Out_0_Texture2D:
+        m_Texture: {fileID: 8600000, guid: cedb7f9eaad8e6f4faacd8ed7ff6ef0b, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -159,8 +163,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.1441285, g: 0.038204376, b: 0.16513224, a: 1}
-    - _MainColor: {r: 0.41568628, g: 0.21568628, b: 0.44313726, a: 0}
+    - _EmissionColor: {r: 0.4341537, g: 0.07618539, b: 0.027320892, a: 1}
+    - _MainColor: {r: 0.6886792, g: 0.30462432, b: 0.1786668, a: 0}
     - _NormalEdgeBias: {r: 1, g: 1, b: 1, a: 0}
     - _NormalEdgeBiasTop: {r: -1, g: 1, b: -1, a: 0}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 0}

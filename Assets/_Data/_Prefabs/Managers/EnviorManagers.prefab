@@ -150,8 +150,8 @@ MonoBehaviour:
   m_CustomShadowLayers: 0
   m_ShadowLayerMask: 1
   m_ShadowRenderingLayers: 1
-  m_LightCookieSize: {x: 50, y: 50}
-  m_LightCookieOffset: {x: 0, y: 0}
+  m_LightCookieSize: {x: 200, y: 199.0576}
+  m_LightCookieOffset: {x: 0, y: -0.98994464}
   m_SoftShadowQuality: 1
 --- !u!114 &7953288019852534581
 MonoBehaviour:
@@ -165,13 +165,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a81fb00998c4bff4eb78605eaf54463d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nextWeather: 0
+  _dynamicWeather: 1
   _cloudsOnEditor: 0
+  _windOnEditor: 0
   _cloudsRenderTexture: {fileID: 0}
   cloudsShadowSize: {x: 5, y: 7}
   cloudSpeed: 0.01
   cloudDirection: {x: 1, y: 1}
   cloudDensity: 1
-  _windOnEditor: 0
   _windableMaterial: []
   windStrength: 1
   windDirection: {x: 1, y: 1}
@@ -281,6 +283,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
+  currentLightColor: {r: 1, g: 0.9877231, b: 0.96669567, a: 1}
 --- !u!1 &7184002139012499227
 GameObject:
   m_ObjectHideFlags: 0

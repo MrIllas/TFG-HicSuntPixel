@@ -13,6 +13,10 @@
 
 #ifndef SHADERGRAPH_PREVIEW
 
+
+#define SHADOW_CLAMP_VALUE 0.15f
+#define LIGHT_CLAMP_VALUE 1.00f
+
 struct EdgeConstants
 {
     float Diffuse;
@@ -65,7 +69,8 @@ float3 CalculateCelShading(Light light, SurfaceVariables surface)
 
 void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Position, float3 Normal, float3 View,
                              float EdgeDiffuse, float EdgeSpecular, float EdgeSpecularOffset, float EdgeDistanceAttenuation, float EdgeShadowAttenuation, float EdgeRim, float EdgeRimOffset,
-                            out float3 Color)
+                             float3 CloudsCookies,
+                             out float3 Color)
 {
 #if defined (SHADERGRAPH_PREVIEW)
     Color = float3(0.5f, 0.5f, 0.5f);
@@ -94,8 +99,10 @@ void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Positi
     float4 shadowCoord = TransformWorldToShadowCoord(Position);
 #endif
     
+    Color = CloudsCookies;
+    
     Light mainLight = GetMainLight(shadowCoord, Position, shadowCoord); //shadowCoord since I need to give a float4 but I don't use it
-    Color = CalculateCelShading(mainLight, surface);
+    Color *= CalculateCelShading(mainLight, surface);
     
     int pixelLightCount = GetAdditionalLightsCount();
     for (int i = 0; i < pixelLightCount; ++i)
@@ -105,13 +112,14 @@ void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Positi
     }
 #endif
     
-    Color = clamp(Color, 0.15f, 1.0f); // Clamp color for lighter shadows
+    Color = clamp(Color, 0.15, 1.0); // Clamp color for lighter shadows
 }
 
 void SimpleLightingCelShaded_float(float Smoothness, float3 Position, float3 Normal, float3 View, 
+                                    float3 CloudsCookies,
                                     out float3 Color)
 { 
-    LightingCelShaded_float(Smoothness, 0.0f, Position, Normal, View, 0.001f, 0.0f, 0.0f, 0.75f, 1.0f, 0.0f, 0.0f, Color);
+    LightingCelShaded_float(Smoothness, 0.0f, Position, Normal, View, 0.001f, 0.0f, 0.0f, 0.75f, 1.0f, 0.0f, 0.0f, CloudsCookies, Color);
 }
 #endif
 #endif

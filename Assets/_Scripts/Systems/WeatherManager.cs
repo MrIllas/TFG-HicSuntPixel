@@ -1,48 +1,66 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static WeatherManager;
 
 public class WeatherManager : MonoBehaviour
 {
+    public struct Wind
+    {
+        public string name;
+        public float windStrength;
+        public float windDensity;
+        public float cloudsSpeed;
+    }
 
+    public struct Weather
+    {
+        public string name;
+        public float cloudDensity;
+        public Wind wind;
+        public bool changeWindDirection; // We will always change randomly the win direction, so the change of weather doesn't always look the same.
+        public bool sameWindDirectionSkyGround;
+        public bool rain;
+    }
+
+    public bool _nextWeather = false;
+
+    //Flags
+    [Header("Flags")]
+    [SerializeField] private bool _dynamicWeather = true;
+    [SerializeField] private bool _cloudsOnEditor = false;
+    [SerializeField] private bool _windOnEditor = false;
+
+    // Static Configuration
     [Header("Clouds")]
-    [SerializeField]
-    private bool _cloudsOnEditor = false;
-
-    [SerializeField]
-    private CustomRenderTexture _cloudsRenderTexture;
+    [SerializeField] private CustomRenderTexture _cloudsRenderTexture;
+    [SerializeField] private Vector2 cloudsShadowSize = new Vector2(5, 7);
+    [SerializeField, Range(0.001f, 0.05f)] private float cloudSpeed = 0.001f;
+    [SerializeField] public Vector2 cloudDirection = new Vector2(1.0f, 1.0f);
+    [SerializeField, Range(0.0f, 1.0f)] private float cloudDensity = 1.0f;
     private Material _cloudsMaterial;
 
-    [SerializeField]
-    private Vector2 cloudsShadowSize = new Vector2(5, 7);
-
-    [SerializeField, Range(0.001f, 0.05f)]
-    private float cloudSpeed = 0.001f;
-
-    [SerializeField]
-    private Vector2 cloudDirection = new Vector2(1.0f, 1.0f);
-
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float cloudDensity = 1.0f;
-
-
     [Header("Wind")]
+    [SerializeField] private Material[] _windableMaterial;
+    [SerializeField, Range(0.0f, 1.0f)] private float windStrength = 1.0f;
+    [SerializeField] public Vector2 windDirection = new Vector2(1.0f, 1.0f);
+    [SerializeField, Range(0.0f, 1.0f)] private float windDensity = 1.0f;
 
-    [SerializeField]
-    private bool _windOnEditor = false;
 
-    [SerializeField]
-    private Material[] _windableMaterial;
+    // Dyanmic Weather
+    Queue<Weather> weatherQueue = new Queue<Weather>();
+    int weatherQueueSize = 4;
+    [HideInInspector] public Weather currentWeather;
+    bool transitioningWeather = false;
 
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float windStrength = 1.0f;
+    Wind[] windConfiguration;
+    Weather[] weatherConfiguration;
 
-    [SerializeField]
-    private Vector2 windDirection = new Vector2(1.0f, 1.0f);
-
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float windDensity = 1.0f;
+    private void Awake()
+    {
+        InitializeConfigurations();
+        OnValidate();
+    }
 
     private void OnValidate()
     {
@@ -55,14 +73,78 @@ public class WeatherManager : MonoBehaviour
             }
         }
 
-        ValidateClouds();
-        ValidateWind();
+        if (!_dynamicWeather)
+        {
+            ValidateClouds();
+            ValidateWind();
+        }
     }
 
-    private void Awake()
+    private void Start()
     {
-        OnValidate();
+        // Set Initial Weather
+        Weather w = weatherConfiguration[Random.Range(0, weatherConfiguration.Length)];
+        w.wind = windConfiguration[Random.Range(0, windConfiguration.Length)];
+        currentWeather = w;
+        ForceNextWeather();
+
+        // Fill weather list
+        FillWeatherQueue();
     }
+
+    private void Update()
+    {
+        DyanmicWeather();
+    }
+
+    #region Dynamic Weather
+    private void DyanmicWeather()
+    {
+        if (_nextWeather)
+        {
+            currentWeather = weatherQueue.Dequeue();
+
+            FillWeatherQueue();
+            transitioningWeather = true;
+            _nextWeather = false;
+        }
+
+        WeatherTransition();
+    }
+
+    private void WeatherTransition()
+    {
+        if (transitioningWeather)
+        {
+            ForceNextWeather();
+
+            transitioningWeather = false;
+        }
+    }
+
+    // Unlike weather transition, this is done in just one frame.
+    private void ForceNextWeather()
+    {
+        SetDensity(currentWeather.cloudDensity);
+        SetWind(currentWeather.wind, currentWeather.sameWindDirectionSkyGround);
+    }
+
+    private void FillWeatherQueue()
+    {
+        if (weatherQueue.Count < weatherQueueSize)
+        {
+            for (int i = 0;  i < (weatherQueueSize - weatherQueue.Count); i++)
+            {
+                int rand = Random.Range(0, weatherConfiguration.Length);
+
+                Weather w = weatherConfiguration[rand];
+                w.wind = windConfiguration[Random.Range(0, windConfiguration.Length)];
+                weatherQueue.Enqueue(w);
+            }
+        }
+    }
+
+    #endregion
 
     #region Clouds
     private void ValidateClouds()
@@ -74,7 +156,6 @@ public class WeatherManager : MonoBehaviour
             return;
         }       
 #endif
-
         _cloudsMaterial.SetFloat("_ShadowSize1", cloudsShadowSize[0]);
         _cloudsMaterial.SetFloat("_ShadowSize2", cloudsShadowSize[1]);
         _cloudsMaterial.SetFloat("_Speed", cloudSpeed);
@@ -105,4 +186,73 @@ public class WeatherManager : MonoBehaviour
         }
     }
     #endregion Wind
+
+    #region Help Methods
+
+    private void InitializeConfigurations()
+    {
+        windConfiguration = new Wind[]
+        {
+            new Wind { name = "Calm", windStrength = 0.1f, windDensity = 0.2f, cloudsSpeed = 0.001f},
+            new Wind { name = "Breeze", windStrength = 0.5f, windDensity = 0.5f, cloudsSpeed = 0.0015f },
+            new Wind { name = "Windy", windStrength = 1.0f, windDensity = 1.0f, cloudsSpeed = 0.002f }
+        };
+
+        weatherConfiguration = new Weather[]
+        {
+                new Weather { name = "Clear", cloudDensity = 0.0f, changeWindDirection = false, sameWindDirectionSkyGround = false, rain = false },// wind = windConfiguration[0] },
+                new Weather { name = "Ptly. Cloudy", cloudDensity = 0.2f, changeWindDirection = true, sameWindDirectionSkyGround = false, rain = false }, //, wind = windConfiguration[1] },
+                new Weather { name = "Cloudy", cloudDensity = 0.4f, changeWindDirection = true, sameWindDirectionSkyGround = false, rain = false }, //, wind = windConfiguration[1] },
+                new Weather { name = "Overcast", cloudDensity = 1.0f, changeWindDirection = true, sameWindDirectionSkyGround = true, rain = false } //, wind = windConfiguration[2] },
+        };
+    }
+
+    private void SetDensity(float density)
+    {
+        if (density == 1)
+        {
+            _cloudsMaterial.SetFloat("_ShadowSize1", cloudsShadowSize[0]);
+            _cloudsMaterial.SetFloat("_ShadowSize2", cloudsShadowSize[1]+1);
+        }
+        else
+        {
+            _cloudsMaterial.SetFloat("_ShadowSize1", cloudsShadowSize[0]);
+            _cloudsMaterial.SetFloat("_ShadowSize2", cloudsShadowSize[1]);
+        }
+
+        _cloudsMaterial.SetFloat("_Density", density);
+    }
+
+    private void SetWind(Wind wind, bool sameDirectionSkyGround = false)
+    {
+        Vector2 dir = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
+        cloudDirection = dir;
+        windDirection = dir;
+
+        // Set Clouds Wind
+        _cloudsMaterial.SetFloat("_Speed", wind.cloudsSpeed);      
+        _cloudsMaterial.SetVector("_Direction", dir);
+
+        // Set Wind Wind
+        if (sameDirectionSkyGround)
+        {
+            dir = new Vector2(dir.y, dir.x); // Values need to be swapped if we want same direction
+        }
+        else
+        {
+            dir = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
+            windDirection = dir;
+        }
+            
+        for (int i = 0; i < _windableMaterial.Length; ++i)
+        {
+
+            _windableMaterial[i].SetVector("_WindDirection", dir);
+
+            _windableMaterial[i].SetFloat("_WindDensity", wind.windDensity);
+            _windableMaterial[i].SetFloat("_WindStrength", wind.windStrength);
+
+        }
+    }
+    #endregion
 }

@@ -249,9 +249,9 @@ MonoBehaviour:
   _snap: 1
   _subPixelSnap: 1
   _rotating: 0
-  aspectScale: 10
+  aspectScale: 270
   viewportZoom: 1
-  realResolution: {x: 20, y: 11}
+  realResolution: {x: 482, y: 271}
   viewportResolution: {x: 645, y: 363}
 --- !u!114 &8611720099198582478
 MonoBehaviour:
@@ -305,7 +305,7 @@ Transform:
   m_GameObject: {fileID: 6804238547205801558}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000059604638, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.30319357, y: 0.33925533, z: -19.54488}
+  m_LocalPosition: {x: 0, y: 0.0000019073486, z: -20.014761}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
