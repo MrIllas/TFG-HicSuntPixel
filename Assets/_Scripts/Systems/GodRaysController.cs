@@ -55,7 +55,7 @@ public class GodRaysController : MonoBehaviour
     private void Update()
     {
         transform.localRotation = Quaternion.Euler(dayNightCycle.transform.localEulerAngles + (Vector3.right * _directionOffset));
-        color = dayNightCycle.currentLightColor;
+        //color = dayNightCycle.currentLightColor;
         mat.SetColor("_Color", color);
     }
 

@@ -56,7 +56,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.21960784, g: 0.7176471, b: 0.39215687, a: 1}
     - _ColorFresnel: {r: 0, g: 0, b: 0, a: 0}
-    - _WindDirection: {r: -1, g: 0, b: 0, a: 0}
+    - _WindDirection: {r: 0, g: -1, b: 0, a: 0}
     - _WindMovement: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1926997710685669507
