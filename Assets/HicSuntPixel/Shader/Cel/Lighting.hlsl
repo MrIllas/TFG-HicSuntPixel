@@ -8,7 +8,7 @@
 #pragma multi_compile _SHADOWS_SOFT
 #pragma multi_compile _ADDITIONAL_LIGHTS
 #pragma multi_compile _ADDITIONAL_LIGHT_SHADOWS
-#pragma multi_compile _LIGHT_COOKIES
+//#pragma multi_compile _LIGHT_COOKIES
 
 
 #ifndef SHADERGRAPH_PREVIEW

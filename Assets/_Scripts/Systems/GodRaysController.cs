@@ -1,9 +1,12 @@
 using UnityEditor;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class GodRaysController : MonoBehaviour
 {
+    public WeatherManager weatherManager;
+    public Transform follow;
     [SerializeField] private Mesh layerMesh;
     [SerializeField] private Shader layerShader;
     public DayNightCycle dayNightCycle;
@@ -11,6 +14,7 @@ public class GodRaysController : MonoBehaviour
     [SerializeField] private int shellCount = 8;
     [SerializeField] private Vector3 startingPosition = Vector3.zero;
     [SerializeField] private Vector3 gap = Vector3.zero;
+    [SerializeField] private Vector3 offset = Vector3.zero;
 
     [Range(-1.0f, 1.0f)]public float _directionOffset = 0.0f;
 
@@ -19,18 +23,42 @@ public class GodRaysController : MonoBehaviour
     [SerializeField] private Color color = new Color(1.0f, 0.75f, 0.33f);
     [SerializeField] private float cameraDistanceFade = 9;
     [SerializeField] private float edgeFall = 2;
+    [SerializeField] [Range(-0.5f, 0.5f)] private float sunAngle = 0.0f;
 
     private GameObject[] shellArray;
     private Material mat;
 
+    private PlayerControls _controls;
+    private float orbitInput;
+    private float targetAngle;
+    [SerializeField][Range(0f, 100.0f)] float rotationSpeed = 0.5f;
+
+    private void OnEnable()
+    {
+        SetInputs();
+    }
+
     void Start()
     {
         Initiate();
+
+        targetAngle = transform.localEulerAngles.y;
     }
 
     private void OnValidate()
     {
         Initiate();
+    }
+
+    private void SetInputs()
+    {
+        if (_controls == null)
+        {
+            _controls = new PlayerControls();
+
+            _controls.Camera.Orbit.performed += i => orbitInput = i.ReadValue<float>();
+        }
+        _controls.Enable();
     }
 
     private void Initiate()
@@ -54,9 +82,27 @@ public class GodRaysController : MonoBehaviour
 
     private void Update()
     {
-        transform.localRotation = Quaternion.Euler(dayNightCycle.transform.localEulerAngles + (Vector3.right * _directionOffset));
-        //color = dayNightCycle.currentLightColor;
+        transform.position = follow.position;
+        
+        ControlRotation();
+        color = dayNightCycle.currentLightColor;
         mat.SetColor("_Color", color);
+        opacity = weatherManager.cloudDensity;
+        mat.SetFloat("_Opacity", opacity);
+    }
+
+    private void ControlRotation()
+    {
+        if (_controls.Camera.Orbit.WasPressedThisFrame())
+        {
+            //transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y + (orbitInput * 45.0f), transform.localEulerAngles.z);
+            targetAngle += (orbitInput * 45.0f);
+        }
+
+        
+        
+        Quaternion t = Quaternion.Euler(transform.localEulerAngles.x, targetAngle, transform.localEulerAngles.z);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, t, rotationSpeed * Time.deltaTime);
     }
 
     private void ClearShell()
@@ -75,6 +121,8 @@ public class GodRaysController : MonoBehaviour
         shellArray = new GameObject[shellCount];
 
         Vector3 position = startingPosition;
+        Vector3 size = new Vector3(5, 1, 5);
+        Vector3 rotation = new Vector3(0, -90, 0);
 
         for (int i = 0; i < shellCount; i++)
         {
@@ -93,9 +141,9 @@ public class GodRaysController : MonoBehaviour
             layer.transform.localPosition = position;
             position += gap;
 
-            layer.transform.localScale = new Vector3(5, 1, 5);
-            layer.transform.localPosition += Vector3.down * 2.5f;
-            layer.transform.localRotation = Quaternion.identity;
+            layer.transform.localScale = size;
+            layer.transform.localPosition += Vector3.right * offset.x + Vector3.up * offset.y + Vector3.forward * offset.z;
+            layer.transform.localRotation = Quaternion.Euler(rotation);
         }
     }
 
@@ -106,6 +154,7 @@ public class GodRaysController : MonoBehaviour
         mat.SetColor("_Color", color);
         mat.SetFloat("_Camera_Distance_Fade", cameraDistanceFade);
         mat.SetFloat("_EdgeFallOff", edgeFall);
+        mat.SetFloat("_SunAngle", sunAngle);
     }
 
     #region Generation Help Methods

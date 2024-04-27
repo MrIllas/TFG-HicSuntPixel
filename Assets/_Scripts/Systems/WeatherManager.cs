@@ -35,9 +35,9 @@ public class WeatherManager : MonoBehaviour
     [Header("Clouds")]
     [SerializeField] private CustomRenderTexture _cloudsRenderTexture;
     [SerializeField] private Vector2 cloudsShadowSize = new Vector2(5, 7);
-    [SerializeField, Range(0.001f, 0.05f)] private float cloudSpeed = 0.001f;
+    [SerializeField, Range(0.0f, 100.0f)] private float cloudSpeed = 0.001f;
     [SerializeField] public Vector2 cloudDirection = new Vector2(1.0f, 1.0f);
-    [SerializeField, Range(0.0f, 1.0f)] private float cloudDensity = 1.0f;
+    [SerializeField, Range(0.0f, 1.0f)] public float cloudDensity = 1.0f;
     private Material _cloudsMaterial;
 
     [Header("Wind")]
@@ -193,9 +193,9 @@ public class WeatherManager : MonoBehaviour
     {
         windConfiguration = new Wind[]
         {
-            new Wind { name = "Calm", windStrength = 0.1f, windDensity = 0.2f, cloudsSpeed = 0.001f},
-            new Wind { name = "Breeze", windStrength = 0.5f, windDensity = 0.5f, cloudsSpeed = 0.0015f },
-            new Wind { name = "Windy", windStrength = 1.0f, windDensity = 1.0f, cloudsSpeed = 0.002f }
+            new Wind { name = "Calm", windStrength = 0.1f, windDensity = 0.2f, cloudsSpeed = 2.0f},
+            new Wind { name = "Breeze", windStrength = 0.5f, windDensity = 0.5f, cloudsSpeed = 3.0f },
+            new Wind { name = "Windy", windStrength = 1.0f, windDensity = 1.0f, cloudsSpeed = 4.0f }
         };
 
         weatherConfiguration = new Weather[]
@@ -220,6 +220,7 @@ public class WeatherManager : MonoBehaviour
             _cloudsMaterial.SetFloat("_ShadowSize2", cloudsShadowSize[1]);
         }
 
+        cloudDensity = density;
         _cloudsMaterial.SetFloat("_Density", density);
     }
 

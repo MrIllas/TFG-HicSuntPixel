@@ -7,14 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_GodRays
-  m_Shader: {fileID: -6465566751694194690, guid: ef3bcaf11f99ed64c8e9de9bdd2ab7a2,
+  m_Name: mat_test 1
+  m_Shader: {fileID: -6465566751694194690, guid: 2dd51bd2b0e35ff40a45190970679409,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _LIGHT_COOKIES
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -50,6 +49,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -96,49 +99,48 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
-    - _Camera_Distance_Fade: 9.92
+    - _Camera_Distance_Fade: 0.2
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _Clipping: 0.508
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EdgeFallOff: 0.5
+    - _EdgeFallOff: 9.6
     - _EnvironmentReflections: 1
-    - _Float: 0
-    - _Float_1: 0
+    - _Float: 0.005
+    - _Float_1: 0.005
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LIGHT_COOKIES: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Opacity: 0.735
+    - _Opacity: 0.636
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.5
+    - _Rot: -0.5
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _SunAngle: -45
+    - _SunAngle: 0
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.6698113, g: 0.66634077, b: 0.28119436, a: 1}
-    - _Direction: {r: 1, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.24532752, g: 0.27510807, b: 0.3490566, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Offset: {r: 0, g: 3.349, b: 0, a: 0}
-    - _Pos: {r: 0, g: 0, b: 25, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Vector2: {r: 3072, g: 3072, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1229988323294862097
+--- !u!114 &739010343453156667
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
