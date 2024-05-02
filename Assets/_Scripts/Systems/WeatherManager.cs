@@ -82,14 +82,17 @@ public class WeatherManager : MonoBehaviour
 
     private void Start()
     {
-        // Set Initial Weather
-        Weather w = weatherConfiguration[Random.Range(0, weatherConfiguration.Length)];
-        w.wind = windConfiguration[Random.Range(0, windConfiguration.Length)];
-        currentWeather = w;
-        ForceNextWeather();
+        if (_dynamicWeather)
+        {
+            // Set Initial Weather
+            Weather w = weatherConfiguration[Random.Range(0, weatherConfiguration.Length)];
+            w.wind = windConfiguration[Random.Range(0, windConfiguration.Length)];
+            currentWeather = w;
+            ForceNextWeather();
 
-        // Fill weather list
-        FillWeatherQueue();
+            // Fill weather list
+            FillWeatherQueue();
+        }
     }
 
     private void Update()

@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,55 +10,44 @@ public class GodRaysController : MonoBehaviour
     [SerializeField] private Mesh layerMesh;
     [SerializeField] private Shader layerShader;
     public DayNightCycle dayNightCycle;
+    public Material mat_CCC; //Material custom cloud cookie
 
     [SerializeField] private int shellCount = 8;
     [SerializeField] private Vector3 startingPosition = Vector3.zero;
     [SerializeField] private Vector3 gap = Vector3.zero;
     [SerializeField] private Vector3 offset = Vector3.zero;
 
-    [Range(-1.0f, 1.0f)]public float _directionOffset = 0.0f;
+    [Range(-0.55f, 0.55f)]public float _directionOffset = 0.0f;
 
     [Header("Material values")]
-    [SerializeField][Range(0.0f, 1.0f)] private float opacity = 0.2f;
+    [SerializeField][Range(0.0f, 1.0f)] private float eastShellOpacity = 0.2f;
+    [SerializeField][Range(0.0f, 1.0f)] private float westShellOpacity = 0.2f;
+    //[SerializeField][Range(0.0f, 1.0f)] private float maxOpacity = 0.2f;
     [SerializeField] private Color color = new Color(1.0f, 0.75f, 0.33f);
     [SerializeField] private float cameraDistanceFade = 9;
     [SerializeField] private float edgeFall = 2;
-    [SerializeField] [Range(-0.5f, 0.5f)] private float sunAngle = 0.0f;
 
-    private GameObject[] shellArray;
-    private Material mat;
+   // private GameObject[] shellArray;
+    private Material matEastShell;
+    private Material matWestShell;
 
-    private PlayerControls _controls;
-    private float orbitInput;
-    private float targetAngle;
-    [SerializeField][Range(0f, 100.0f)] float rotationSpeed = 0.5f;
+    private Vector2 godRayRotRange = new Vector2(15.0f, 90.0f);
+    private Vector2 cloudAlphaRange = new Vector2(40.0f, 95.0f);
 
-    private void OnEnable()
-    {
-        SetInputs();
-    }
+    private GameObject eastShellParent;
+    private GameObject westShellParent;
+
+    private GameObject[] eastShellArray;
+    private GameObject[] westShellArray;
 
     void Start()
     {
         Initiate();
-
-        targetAngle = transform.localEulerAngles.y;
     }
 
     private void OnValidate()
     {
         Initiate();
-    }
-
-    private void SetInputs()
-    {
-        if (_controls == null)
-        {
-            _controls = new PlayerControls();
-
-            _controls.Camera.Orbit.performed += i => orbitInput = i.ReadValue<float>();
-        }
-        _controls.Enable();
     }
 
     private void Initiate()
@@ -69,12 +58,14 @@ public class GodRaysController : MonoBehaviour
             if (EditorApplication.isPlaying)
             {
                 ClearShell();
-                CreateMaterial();
+                CreateMaterial(ref matEastShell, ref eastShellOpacity);
+                CreateMaterial(ref matWestShell, ref westShellOpacity);
                 GenerateShell();
             }
 #endif
 #if UNITY_STANDALONE && !UNITY_EDITOR
-                CreateMaterial();
+                CreateMaterial(ref matEastShell, ref eastShellOpacity);
+                CreateMaterial(ref matWestShell, ref westShellOpacity);
                 GenerateShell();
 #endif
         }
@@ -83,47 +74,96 @@ public class GodRaysController : MonoBehaviour
     private void Update()
     {
         transform.position = follow.position;
-        
-        ControlRotation();
+
+        ShellCycle();
+        AlphaOverTime();
+
+        //ControlRotation();
         color = dayNightCycle.currentLightColor;
-        mat.SetColor("_Color", color);
-        opacity = weatherManager.cloudDensity;
-        mat.SetFloat("_Opacity", opacity);
+        matEastShell.SetColor("_Color", color);
+        matWestShell.SetColor("_Color", color);
+
+        SetCloudCookie();
     }
 
-    private void ControlRotation()
+    private void ShellCycle()
     {
-        if (_controls.Camera.Orbit.WasPressedThisFrame())
+        Vector3 sunAngle = dayNightCycle.transform.localEulerAngles;
+        sunAngle.x = Mathf.Clamp(sunAngle.x, godRayRotRange.x, godRayRotRange.y);
+
+        float fOffset = _directionOffset;
+        if (dayNightCycle.timeOfTheDay >= 12.0f)
         {
-            //transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y + (orbitInput * 45.0f), transform.localEulerAngles.z);
-            targetAngle += (orbitInput * 45.0f);
+            fOffset *= -1;
         }
 
-        
-        
-        Quaternion t = Quaternion.Euler(transform.localEulerAngles.x, targetAngle, transform.localEulerAngles.z);
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, t, rotationSpeed * Time.deltaTime);
+        eastShellParent.transform.localRotation = Quaternion.Euler(sunAngle + (Vector3.right * fOffset));
+        westShellParent.transform.localRotation = Quaternion.Euler(sunAngle + (Vector3.right * (fOffset * -1)));
+    }
+
+    private void AlphaOverTime()
+    {
+        if (dayNightCycle.IsItDayTime())
+        {
+            matEastShell.SetFloat("_Opacity", eastShellOpacity);
+            matWestShell.SetFloat("_Opacity", westShellOpacity);
+        }
+        else
+        {
+            matEastShell.SetFloat("_Opacity", 0.0f);
+            matWestShell.SetFloat("_Opacity", 0.0f);
+        }
     }
 
     private void ClearShell()
     {
-        if (shellArray == null) return;
-        foreach (GameObject shell in shellArray)
+        if (eastShellArray == null || westShellArray == null) return;
+
+        foreach (GameObject shell in eastShellArray)
         {
             if (shell != null)
                 Destroy(shell);
         }
+
+        foreach (GameObject shell in westShellArray)
+        {
+            if (shell != null)
+                Destroy(shell);
+        }
+
+        if (eastShellParent != null)
+            Destroy(eastShellParent);
+
+        if (westShellParent != null)
+            Destroy(westShellParent);
     }
 
     private void GenerateShell()
     {
         if (shellCount <= 0) return;
-        shellArray = new GameObject[shellCount];
+
+        eastShellParent = new GameObject("North Shell");
+        westShellParent = new GameObject("South Shell");
+        eastShellParent.transform.parent = transform;
+        westShellParent.transform.parent = transform;
+        eastShellParent.transform.localPosition = Vector3.zero;
+        westShellParent.transform.localPosition = Vector3.zero;
+
+        eastShellArray = new GameObject[shellCount];
+        westShellArray = new GameObject[shellCount];
 
         Vector3 position = startingPosition;
-        Vector3 size = new Vector3(5, 1, 5);
-        Vector3 rotation = new Vector3(0, -90, 0);
+        Vector3 size = new Vector3(15, 1, 15);
 
+        Vector3 eastRotation = new Vector3(0, 0, 0);
+        Vector3 westRotation = new Vector3(180f, 0, 0);
+
+        GenerateShellArray(position, size, eastRotation, ref eastShellArray, ref eastShellParent, ref matEastShell);
+        GenerateShellArray(position, size, westRotation, ref westShellArray, ref westShellParent, ref matWestShell);
+    }
+
+    private void GenerateShellArray(Vector3 position, Vector3 size, Vector3 rotation, ref GameObject[] shellArray, ref GameObject parentShell, ref Material mat)
+    {
         for (int i = 0; i < shellCount; i++)
         {
             // Creation
@@ -135,29 +175,46 @@ public class GodRaysController : MonoBehaviour
 
             // Saving and setting the layer into the world
             shellArray[i] = layer;
-            layer.transform.parent = transform;
+            layer.transform.parent = parentShell.transform;
 
             //Configuration of the layer
             layer.transform.localPosition = position;
-            position += gap;
 
             layer.transform.localScale = size;
             layer.transform.localPosition += Vector3.right * offset.x + Vector3.up * offset.y + Vector3.forward * offset.z;
+
+            position += gap;
             layer.transform.localRotation = Quaternion.Euler(rotation);
         }
     }
 
-    private void CreateMaterial()
+
+    private void CreateMaterial(ref Material mat, ref float opacity)
     {
         mat = new Material(layerShader);
         mat.SetFloat("_Opacity", opacity);
         mat.SetColor("_Color", color);
         mat.SetFloat("_Camera_Distance_Fade", cameraDistanceFade);
         mat.SetFloat("_EdgeFallOff", edgeFall);
-        mat.SetFloat("_SunAngle", sunAngle);
     }
 
-    #region Generation Help Methods
+    private void SetCloudCookie()
+    {
+        //if (dayNightCycle.IsItDayTime())
+        //{
+            float inputNumber = dayNightCycle.transform.localEulerAngles.x;
+            float clampedInput = Mathf.Clamp(inputNumber, cloudAlphaRange.x, cloudAlphaRange.y);
 
-    #endregion
+            float tot = cloudAlphaRange.y - cloudAlphaRange.x;
+            float v = clampedInput - cloudAlphaRange.x;
+
+            float result = v / tot;
+
+            mat_CCC.SetFloat("_Alpha", result);
+        //}
+        //else
+        //{
+        //    mat_CCC.SetFloat("_Alpha", 1.0f);
+        //}
+    }
 }

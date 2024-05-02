@@ -6,10 +6,10 @@ public class DayNightCycle : MonoBehaviour
     private Light sun;
 
     [SerializeField, Range(0.0f, 24.0f)]
-    private float timeOfTheDay = 8.0f;
+    public float timeOfTheDay = 8.0f;
 
     [SerializeField, Range(1, 240)]
-    private int dayLengthInMinutes = 8;
+    public int dayLengthInMinutes = 8;
 
     [SerializeField]
     private float sunRotationSpeed = 0.1f;
@@ -17,11 +17,14 @@ public class DayNightCycle : MonoBehaviour
     [Header("LightingPresets")]
     [SerializeField]
     private Gradient skyColor, equatorColor, sunColor;
+    //private Gradient equatorColor, sunColor;
 
     [HideInInspector] public Color currentLightColor;
 
     private Vector2 cookieSize = new Vector2(200, 200);
     private UniversalAdditionalLightData lightData;
+
+    private Vector2 dayLightSpan = new Vector2(6.0f, 18.0f);
 
     private void Awake()
     {
@@ -58,12 +61,25 @@ public class DayNightCycle : MonoBehaviour
 
     private void UpdateSunRotation()
     {
-        float sunRotation = Mathf.Lerp(-90, 270, timeOfTheDay / 24);
-        sun.transform.rotation = Quaternion.Euler(sunRotation, -90, 0);
-
-        //lightData.lightCookieSize = new Vector2(cookieSize.x, cookieSize.y - ((90 - transform.localEulerAngles.x) * 0.3141516f));
-        //lightData.lightCookieOffset = new Vector2(0, ((transform.localEulerAngles.x - 90) * 0.33f));
-        //Debug.Log(lightData.);
+        //Rotate Sun during the day
+        //if (IsItDayTime())
+        //{
+            float sunRotation = Mathf.Lerp(-90, 270, timeOfTheDay / 24);
+            sun.transform.rotation = Quaternion.Euler(sunRotation, -90, 0);
+        //}
+        //// During the night keep the "SUN" up and make it be a moon
+        //else {
+        //    float moonPosition = 45.0f;
+        //    sun.transform.rotation = Quaternion.Euler(moonPosition, -90, 0);
+        //}
+        if (IsItDayTime())
+        {
+            sun.intensity = 1.0f;
+        }
+        else
+        {
+            sun.intensity = 0.0f;
+        }
     }
 
     private void UpdateLightning()
@@ -74,4 +90,44 @@ public class DayNightCycle : MonoBehaviour
         currentLightColor = sunColor.Evaluate(timeFraction);
         sun.color = currentLightColor;
     }
+
+    #region Help Methods
+    public bool IsItDayTime()
+    {
+        if (timeOfTheDay >= dayLightSpan.x && timeOfTheDay <= dayLightSpan.y)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public string GetHour()
+    {
+        string toReturn = "00";
+
+        int hour = Mathf.FloorToInt(timeOfTheDay);
+        hour %= 24;
+
+        toReturn = hour.ToString("00");
+
+        return toReturn;
+    }
+
+    public string GetMinute()
+    {
+        string toReturn = "00";
+
+        int minute = (int)((timeOfTheDay - (int)timeOfTheDay) * 60);
+
+        toReturn = minute.ToString("00");
+
+        return toReturn;
+    }
+
+    public string GetTime()
+    {
+        return GetHour() + ":" + GetMinute();
+    }
+    #endregion Help Methods
 }

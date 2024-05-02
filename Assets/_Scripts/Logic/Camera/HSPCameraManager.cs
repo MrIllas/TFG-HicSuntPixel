@@ -75,8 +75,13 @@ namespace HicSuntPixel
         {
             Snapping();
 
-            _hspFeature._settings.scale = GetViewportScale();
-            _hspFeature._settings.margin = GetViewportOffset();
+#if UNITY_EDITOR
+            if (_hspFeature != null) 
+            {
+                _hspFeature._settings.scale = GetViewportScale();
+                _hspFeature._settings.margin = GetViewportOffset();
+            }
+#endif
         }
 
         #region Viewport Snapping

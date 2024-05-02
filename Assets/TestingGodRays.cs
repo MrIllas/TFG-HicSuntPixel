@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class TestingGodRays : MonoBehaviour
 {
 
@@ -21,6 +22,6 @@ public class TestingGodRays : MonoBehaviour
 
         float d = 1 - Mathf.Cos(0.523598776f);
 
-        Debug.Log(d);
+        //Debug.Log(d);
     }
 }

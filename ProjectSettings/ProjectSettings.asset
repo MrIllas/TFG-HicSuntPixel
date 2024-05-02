@@ -165,7 +165,7 @@ PlayerSettings:
     Standalone: com.Unity-Technologies.com.unity.template.urp-blank
     iPhone: com.Unity-Technologies.com.unity.template.urp-blank
   buildNumber:
-    Standalone: 4
+    Standalone: 14
     VisionOS: 0
     iPhone: 0
     tvOS: 0

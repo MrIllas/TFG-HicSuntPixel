@@ -468,6 +468,9 @@
             "m_Id": "b97204ca30114531ac1b166a5248ab8f"
         },
         {
+            "m_Id": "86bc09e6152b4b779775ec62d712af76"
+        },
+        {
             "m_Id": "5db9441fc6324ddf90d98069a0750ff5"
         }
     ],
@@ -1123,6 +1126,20 @@
     },
     "m_Labels": [],
     "m_Channel": 0
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BooleanMaterialSlot",
+    "m_ObjectId": "86bc09e6152b4b779775ec62d712af76",
+    "m_Id": 8,
+    "m_DisplayName": "Clamp",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Clamp",
+    "m_StageCapability": 3,
+    "m_Value": true,
+    "m_DefaultValue": false
 }
 
 {

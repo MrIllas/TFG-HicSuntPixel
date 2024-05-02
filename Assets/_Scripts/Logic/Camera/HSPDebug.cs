@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace HicSuntPixel
@@ -12,10 +9,11 @@ namespace HicSuntPixel
         //Unity Screen Render Data signleton
         [SerializeField] private HSPCameraManager _manager;
         [SerializeField] private WeatherManager _weather;
+        [SerializeField] private DayNightCycle _dayNightCycle;
 
-        private float fps;
+        private float fps = 0;
         private string BuildNumber = "1";
-        private string v;
+        private string version;
 
         Vector2Int viewportResolution;
 
@@ -41,6 +39,19 @@ namespace HicSuntPixel
             {
                 viewportResolution = new Vector2Int(Screen.width, Screen.height);
             }
+
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                _manager._snap = !_manager._snap;
+            }
+            if (Input.GetKeyDown(KeyCode.F2))
+            {
+                _manager._subPixelSnap = !_manager._subPixelSnap;
+            }
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                _dayNightCycle.timeOfTheDay += 1.0f;
+            }
         }
 
         private void OnGUI()
@@ -51,6 +62,13 @@ namespace HicSuntPixel
             BuildVersion();
             CameraData();
             WeatherData();
+
+#if UNITY_STANDALONE && !UNITY_EDITOR
+            string text = "F1 - Pixel Snaping On/Off \n";
+            text += "F2 - Snap smoothing \n";
+            text += "F3 - Advance an hour \n";
+            GUI.Label(new Rect(5, 45, 500, 500), text);
+#endif
         }
 
         private void Request_completed(AsyncOperation op)
@@ -63,7 +81,7 @@ namespace HicSuntPixel
             }
             else
             {
-                v = "v. " + Application.version + "." + buildScriptableObject.BuildNumber;
+                version = "v. " + Application.version + "." + buildScriptableObject.BuildNumber;
             }
         }
 
@@ -83,7 +101,9 @@ namespace HicSuntPixel
             text += "Wind -> " + _weather.currentWeather.wind.name + "\n";
             text += "Sky WD -> " + _weather.cloudDirection + "\n";
             text += "Ground WD -> " + _weather.windDirection + "\n";
-
+            text += "\n";
+            text += _dayNightCycle.GetTime() + "\n";
+            text += "Day Length -> " + _dayNightCycle.dayLengthInMinutes + " min \n";
 
 
             GUI.Label(new Rect(viewportResolution.x - 160, 15, 500, 500), text);
@@ -91,14 +111,17 @@ namespace HicSuntPixel
 
         private void Fps()
         {
-            float newFPS = 1.0f / Time.smoothDeltaTime;
-            fps = Mathf.Lerp(fps, newFPS, 0.005f);
-            GUI.Label(new Rect(5, 0, 100, 100), "FPS: " + ((int)fps).ToString());
+            if (Time.smoothDeltaTime > 0)
+            {
+                float newFPS = 1.0f / Time.smoothDeltaTime;
+                fps = Mathf.Lerp(fps, newFPS, 0.005f);
+            }
+            GUI.Label(new Rect(5, 0, 500, 500), "FPS: " + ((int)fps).ToString());
         }
 
         private void BuildVersion()
         {
-            GUI.Label(new Rect(5, 15, 100, 100), v);
+            GUI.Label(new Rect(5, 15, 500, 500), version);
         }
     }
 }
