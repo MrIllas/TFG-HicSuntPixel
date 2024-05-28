@@ -121,6 +121,7 @@ void LightingCelShaded_float(float Smoothness, float RimThreshold, float3 Positi
     {
         Color = Color;
     }
+
 }
 
 void SimpleLightingCelShaded_float(float Smoothness, float3 Position, float3 Normal, float3 View, 

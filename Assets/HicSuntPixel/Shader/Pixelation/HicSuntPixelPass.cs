@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -6,7 +5,7 @@ public class HicSuntPixelPass : ScriptableRenderPass
 {
     private HicSuntPixelFeature.HicSuntPixelPassSettings _settings;
 
-    private RenderTargetIdentifier colorBuffer;
+    private RTHandle colorBuffer;
 
     public HicSuntPixelPass(HicSuntPixelFeature.HicSuntPixelPassSettings settings)
     {
@@ -40,10 +39,5 @@ public class HicSuntPixelPass : ScriptableRenderPass
         {
             colorBuffer = renderingData.cameraData.renderer.cameraColorTargetHandle;
         }
-    }
-
-    public override void OnCameraCleanup(CommandBuffer cmd)
-    {
-        
     }
 }

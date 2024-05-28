@@ -9,11 +9,6 @@
 // https://roystan.net/articles/toon-shader/
 // https://nedmakesgames.medium.com/creating-custom-lighting-in-unitys-shader-graph-with-universal-render-pipeline-5ad442c27276
 //////////////////////////
-uint GetMeshRenderingLightLayer()
-{
-    
-}
-
 struct Light
 {
     half3 direction;
@@ -63,23 +58,18 @@ Light GetMainLight(float4 shadowCoord, float3 positionWS, float4 shadowMask)
     return light;
 }
 
-//Light GetMainLight(InputData inputData, float4 shadowMask, AmbientOcclusionFactor aoFactor)
-//{
-    
-//}
-
 // Additional Lights
-Light GetAdditionalPerObjectLight(int perObjectLightIndex, float3 positionWS)
-{
-    Light light;
-    light.direction = lightDirection;
-    light.distanceAttenuation = attenuation;
-    light.shadowAttenuation = 1.0; // This value can later be overriden in GetAdditionalLight(uint i, float3 positionWS, half4 shadowMask
-    light.color = color;
-    light.layerMask = lightLayerMask;
+//Light GetAdditionalPerObjectLight(int perObjectLightIndex, float3 positionWS)
+//{
+//    Light light;
+//    light.direction = lightDirection;
+//    light.distanceAttenuation = attenuation;
+//    light.shadowAttenuation = 1.0; // This value can later be overriden in GetAdditionalLight(uint i, float3 positionWS, half4 shadowMask
+//    light.color = color;
+//    light.layerMask = lightLayerMask;
     
-    return light;
-}
+//    return light;
+//}
 
 Light GetAdditionalLight(uint i, float3 positionWS)
 {
@@ -93,34 +83,29 @@ Light GetAdditionalLight(uint i, float3 positionWS)
 
 Light GetAdditionalLight(uint i, float3 positionWS, half4 shadowMask)
 {
-    Light light = GetAdditionalPerObjectLight(lightIndex, positionWS);
+    Light light = GetAdditionalPerObjectLight(i, positionWS);
     //...
-    light.shadowAttenuation = AdditionalLightShadow(lightIndex, positionWS, light.direction, shadowMask);//, occlusionProbeChannels);
+    light.shadowAttenuation = AdditionalLightShadow(i, positionWS, light.direction, shadowMask);//, occlusionProbeChannels);
     //...
     return light;
 }
 
-//Light GetAdditionalLight(uint i, float positionWS, half4 shadowMask, AmbientOcclusionFactor aoFactor)
+//half AdditionalLightShadow(int lightIndex, float3 positionWS, half3 lightDirection, half4 shadowMask)//, half4 occlusionProbeChannels)
 //{
+//    half realtimeShadow = AdditionalLightRealtimeShadow(lightIndex, positionWS, lightDirection);
     
+//#ifdef CALCULATE_BAKED_SHADOWS
+//    half bakedShadow = BakedShadow(shadowMask, occlusionProbeChannels);
+//#else
+//    half bakedShadow = half(1.0);
+//#endif
+    
+//#ifdef ADDITIONAL_LIGHT_CALCULATE_SHADOWS
+//    half shadowFade = GetAdditionalLightShadowFade(positionWS);
+//#else
+//    half shadowFade = half(1.0);
+//#endif
+    
+//    return MixRealtimeAndBakedShadows(realtimeShadow, bakedShadow, shadowFade);
 //}
-
-half AdditionalLightShadow(int lightIndex, float3 positionWS, half3 lightDirection, half4 shadowMask)//, half4 occlusionProbeChannels)
-{
-    half realtimeShadow = AdditionalLightRealtimeShadow(lightIndex, positionWS, lightDirection);
-    
-#ifdef CALCULATE_BAKED_SHADOWS
-    half bakedShadow = BakedShadow(shadowMask, occlusionProbeChannels);
-#else
-    half bakedShadow = half(1.0);
-#endif
-    
-#ifdef ADDITIONAL_LIGHT_CALCULATE_SHADOWS
-    half shadowFade = GetAdditionalLightShadowFade(positionWS);
-#else
-    half shadowFade = half(1.0);
-#endif
-    
-    return MixRealtimeAndBakedShadows(realtimeShadow, bakedShadow, shadowFade);
-}
 #endif

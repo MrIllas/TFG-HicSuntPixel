@@ -13,7 +13,7 @@ public class HicSuntPixelFeature : ScriptableRendererFeature
         public RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
 
         public Vector2Int realResolution; // The real game resolution, the resolution to which the game is being rendered to the main camera frame buffer
-        public Vector2Int viewportResolution; // The final resolution that the player recieves
+        //public Vector2Int viewportResolution; // The final resolution that the player recieves
 
         public Vector2 margin = new Vector2(0,0);
         public Vector2 scale = new Vector2Int(1,1);

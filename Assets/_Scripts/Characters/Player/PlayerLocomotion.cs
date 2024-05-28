@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using HicSuntPixel;
 
@@ -24,7 +22,15 @@ namespace Character.Player
         {
             base.Awake();
 
-            _player = GetComponent<PlayerManager>();
+            //_player = GetComponent<PlayerManager>();
+            //Debug.Log(GetComponent<Referencer>().name);
+           // _player = GetComponent<Referencer>().GetReferenceComponent<PlayerManager>();
+        }
+
+        protected void Start()
+        {
+            Debug.Log(GetComponent<Referencer>().name);
+            _player = GetComponent<Referencer>().GetReferenceComponent<PlayerManager>();
         }
 
         public void HandleAllMovement()

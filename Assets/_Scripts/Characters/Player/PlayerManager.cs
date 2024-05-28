@@ -11,8 +11,14 @@ namespace Character.Player
         {
             base.Awake();
 
-            _playerLocomotion = GetComponent<PlayerLocomotion>();
+           
             _playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            _playerLocomotion = GetComponent<Snapper>().GetReferenceComponent<PlayerLocomotion>();
         }
 
         protected override void Update()

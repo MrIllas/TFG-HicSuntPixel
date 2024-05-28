@@ -66,12 +66,6 @@ float OutlinesNormals(float2 uvs[4], float3 normal, float3 NormalEdgeBias, float
         float normalBiasDiff = dot(normalDiff, NormalEdgeBias);
         float normalIndicator = smoothstep(-0.01f, 0.01f, normalBiasDiff); //step(0, normalBiasDiff);
         
-        /*
-        //Only the shallower pixel should detect the normal edge
-        float depthDiff = depths[ii] - depth;
-        float depthIndicator = step(0, depthDiff * 0.25f, 0.0025f);
-        */
-        
         dotSum += dot(normalDiff, normalDiff) * normalIndicator; // * deothIndicator;
     }
     float indicator = sqrt(dotSum);

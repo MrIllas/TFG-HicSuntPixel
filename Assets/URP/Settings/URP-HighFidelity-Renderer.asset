@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   _settings:
+    mainCameraName: Main Camera
+    viewportCameraName: Viewport Camera
     renderPassEvent: 550
-    cameraResolution: {x: 644, y: 362}
-    screenResolution: {x: 1280, y: 720}
-    margin: {x: 0.0031055901, y: 0.002762431}
-    scale: {x: 0.99378884, y: 0.9944751}
+    realResolution: {x: 482, y: 270}
+    margin: {x: 0.0005733967, y: 0.00034832954}
+    scale: {x: 0.99502075, y: 1}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

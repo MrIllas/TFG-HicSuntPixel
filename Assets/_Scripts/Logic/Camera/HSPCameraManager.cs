@@ -52,6 +52,8 @@ namespace HicSuntPixel
 
         private void OnValidate()
         {
+            //_snapPoint = transform;
+
             TryGetFeature();
             Calculate();
             SetFeature();
@@ -145,7 +147,7 @@ namespace HicSuntPixel
             if (_hspFeature != null)
             {
                 _hspFeature._settings.realResolution = realResolution;
-                _hspFeature._settings.viewportResolution = viewportResolution;
+                //_hspFeature._settings.viewportResolution = viewportResolution;
             }
         }
 

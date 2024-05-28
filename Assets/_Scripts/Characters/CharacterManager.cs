@@ -17,7 +17,7 @@ namespace Character
             animator = GetComponent<Animator>();
         }
 
-        protected void Start()
+        protected virtual void Start()
         {
             OnSpawn();
         }

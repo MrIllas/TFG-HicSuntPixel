@@ -12,6 +12,8 @@ public class Snapper : MonoBehaviour
     HSPCameraManager _cameraManager;
     private Transform _snapPoint;
 
+    private GameObject _ref;
+
     private void Awake()
     {
         CreateSnapPoint();
@@ -50,14 +52,14 @@ public class Snapper : MonoBehaviour
 
     private void CreateSnapPoint()
     {
-        GameObject go = new GameObject(transform.name + " (Snap Point)");
+        _ref = new GameObject(transform.name + " (Snap Point)");
 
         //Assign it to the same parent of this object
-        go.transform.parent = transform.parent;
+        _ref.transform.parent = transform.parent;
 
-        go.transform.localPosition = transform.localPosition;
-        go.transform.localRotation = transform.localRotation;
-        go.transform.localScale = transform.localScale;
+        _ref.transform.localPosition = transform.localPosition;
+        _ref.transform.localRotation = transform.localRotation;
+        _ref.transform.localScale = transform.localScale;
 
         if (componentsToAdd.Count > 0)
         {
@@ -74,7 +76,7 @@ public class Snapper : MonoBehaviour
                     if (scriptType != null)
                     {
                         Component myComponent = gameObject.GetComponent(scriptType);
-                        Component comp = go.AddComponent(scriptType);
+                        Component comp = _ref.AddComponent(scriptType);
                         
                         //Debug.Log(comp);
                         CopyValues(myComponent, comp);
@@ -82,16 +84,28 @@ public class Snapper : MonoBehaviour
                         Destroy(myComponent);
                     }
                 }
-
             }
+            // Add reference component and initialize it
+            _ref.AddComponent<Referencer>().Initialize(this.gameObject);
+
         }
 
-        _snapPoint = go.transform;
+        _snapPoint = _ref.transform;
     }
 
     void CopyValues(Component from, Component to)
     {
         var json = JsonUtility.ToJson(from);
         JsonUtility.FromJsonOverwrite(json, to);
+    }
+
+    public GameObject GetReference()
+    {
+        return _ref;
+    }
+
+    public T GetReferenceComponent<T>() where T : MonoBehaviour
+    {
+        return _ref.GetComponent<T>();
     }
 }
