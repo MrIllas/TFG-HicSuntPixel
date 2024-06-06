@@ -5,7 +5,7 @@ namespace Character.Player
 {
     public class PlayerLocomotion : CharacterLocomotion
     {
-        PlayerManager _player;
+        [SerializeField] PlayerManager _player;
 
         // TAKEN FROM PlayerInputManager
         public float verticalMovement;
@@ -29,8 +29,8 @@ namespace Character.Player
 
         protected void Start()
         {
-            Debug.Log(GetComponent<Referencer>().name);
-            _player = GetComponent<Referencer>().GetReferenceComponent<PlayerManager>();
+            //Debug.Log(GetComponent<Referencer>().name);
+            //_player = GetComponent<Referencer>().GetReferenceComponent<PlayerManager>();
         }
 
         public void HandleAllMovement()

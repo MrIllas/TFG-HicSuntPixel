@@ -63,6 +63,7 @@ namespace HicSuntPixel
         public void ZoomViewport(float newZoom)
         {
             viewportZoom = newZoom;
+            
             _hspFeature._settings.scale = GetViewportScale();
             _hspFeature._settings.margin = GetViewportOffset();
         }
@@ -90,23 +91,22 @@ namespace HicSuntPixel
         private Vector2 GetViewportOffset()
         {
             if (!_subPixelSnap)
-                return new Vector2((1 - viewportZoom) / 2, (1 - viewportZoom) / 2);
-
-            if (_subPixelSnap)
             {
-                Vector2 snapTransformPosition = _renderCamera.WorldToViewportPoint(_snapPoint.position);
-                pixelOffset = (snapTransformPosition - new Vector2(0.5f, 0.5f));
+                return new Vector2((1 - viewportZoom) / 2, (1 - viewportZoom) / 2);
             }
+
+            Vector2 snapTransformPosition = _renderCamera.WorldToViewportPoint(_snapPoint.position);
+            pixelOffset = (snapTransformPosition - new Vector2(0.5f, 0.5f));
 
             return new Vector2(pixelOffset.x + ((1 - viewportZoom) / 2), pixelOffset.y + ((1 - viewportZoom) / 2));
         }
 
         private Vector2 GetViewportScale()
         {
-            if (!_subPixelSnap)
-            {
-                return Vector2.one;
-            }
+            //if (!_subPixelSnap)
+            //{
+            //    return Vector2.one;
+            //}
 
             Vector2 viewportScale;
 

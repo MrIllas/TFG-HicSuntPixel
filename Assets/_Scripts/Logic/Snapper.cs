@@ -88,6 +88,14 @@ public class Snapper : MonoBehaviour
             // Add reference component and initialize it
             _ref.AddComponent<Referencer>().Initialize(this.gameObject);
 
+            // Add Character Controller (if there is one)
+            CharacterController oCC = gameObject.GetComponent<CharacterController>();
+            if (oCC)
+            {
+                _ref.AddComponent<CharacterController>();
+                Destroy(oCC);
+            }
+
         }
 
         _snapPoint = _ref.transform;

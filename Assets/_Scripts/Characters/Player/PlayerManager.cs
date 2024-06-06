@@ -10,15 +10,16 @@ namespace Character.Player
         protected override void Awake()
         {
             base.Awake();
-
-           
+       
             _playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            _playerLocomotion = _snapPoint.GetComponent<PlayerLocomotion>();
+
         }
 
         protected override void Start()
         {
             base.Start();
-            _playerLocomotion = GetComponent<Snapper>().GetReferenceComponent<PlayerLocomotion>();
+            //_playerLocomotion = GetComponent<Snapper>().GetReferenceComponent<PlayerLocomotion>();
         }
 
         protected override void Update()
