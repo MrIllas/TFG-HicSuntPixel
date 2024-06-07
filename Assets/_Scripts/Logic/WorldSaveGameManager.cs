@@ -11,6 +11,9 @@ namespace Globals
 
         [SerializeField] int worldSceneIndex = 1;
         public int GetWorldSceneIndex() => worldSceneIndex;
+        [SerializeField] int mainMenuSceneIndex = 0;
+        public int GetMainMenuSceneIndex() => mainMenuSceneIndex;
+        
 
         public void Awake()
         {
