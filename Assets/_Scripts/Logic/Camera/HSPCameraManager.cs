@@ -26,6 +26,8 @@ namespace HicSuntPixel
         [Header("SETTINGS")]
             public int aspectScale = 270;
             [Range(0.0f, 1.0f)][SerializeField] private float viewportZoom = 1.0f;
+            [SerializeField] float zOffset = -20;
+            public float ZOffset { get => zOffset; set => zOffset = value; }
 
             [HideInInspector]public Vector2Int realResolution = new Vector2Int(640, 360);
             [HideInInspector]public Vector2Int viewportResolution = Vector2Int.zero;
@@ -52,6 +54,7 @@ namespace HicSuntPixel
 
         private void OnValidate()
         {
+            _snapPoint.localPosition = Vector3.forward * zOffset; // Set distance from parent position (origin)
             //_snapPoint = transform;
 
             TryGetFeature();
@@ -201,6 +204,19 @@ namespace HicSuntPixel
                 Calculate();
                 SetFeature();
             }
+        }
+
+        public void SetSnapPosition(Vector3 position)
+        {
+            _snapPoint.position = position;
+            _snapPoint.localPosition += Vector3.forward * zOffset;
+        }
+
+        public Vector3 GetSnapPosition()
+        {
+            _snapPoint.localPosition -= Vector3.forward * zOffset;
+
+            return _snapPoint.position;
         }
         #endregion
     }

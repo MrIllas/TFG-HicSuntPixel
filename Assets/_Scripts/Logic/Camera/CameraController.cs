@@ -17,6 +17,7 @@ namespace HicSuntPixel
 
         private HSPCameraManager _manager;
         private PlayerControls _controls;
+        private Transform _snapPoint;
         [HideInInspector] public Camera cameraObject; // The main camera, the camera that is used by the Player's locomotion script as reference for direction
 
         // -- FLY CAMERA SETTINGS --
@@ -73,6 +74,8 @@ namespace HicSuntPixel
         void Start()
         {
             DontDestroyOnLoad(gameObject);
+
+            _snapPoint = _manager._snapPoint;
         }
 
         private void OnEnable()
@@ -131,16 +134,15 @@ namespace HicSuntPixel
         {
             Vector3 horizontal = Vector3.zero;
             Vector3 vertical = Vector3.zero;
-            Transform snapPoint = _manager._snapPoint;
 
-            Vector3 horizontalPan = new Vector3(snapPoint.forward.x, 0, snapPoint.forward.z);
-            Vector3 verticalPan = new Vector3(snapPoint.transform.right.x, 0, snapPoint.right.z);
+            Vector3 horizontalPan = new Vector3(_snapPoint.forward.x, 0, _snapPoint.forward.z);
+            Vector3 verticalPan = new Vector3(_snapPoint.transform.right.x, 0, _snapPoint.right.z);
 
             vertical += verticalPan * panInput.x;
             horizontal += horizontalPan * panInput.y;
 
             Vector3 pos = (horizontal + vertical) * panSpeed * Time.deltaTime;
-            snapPoint.position += pos;
+            _snapPoint.position += pos;
             _manager._rotationPoint.transform.position += pos;
         }        
 
@@ -155,7 +157,9 @@ namespace HicSuntPixel
             }
 
             Vector3 pos = _target.position + offset;
-            transform.position = Vector3.Lerp(transform.position, pos, smoothSpeed * Time.deltaTime);
+            pos = Vector3.Lerp(_manager.GetSnapPosition(), pos, smoothSpeed * Time.deltaTime);
+
+            _manager.SetSnapPosition(pos);
         }
         #endregion
 

@@ -1,6 +1,8 @@
+using HicSuntPixel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Character
 {
@@ -8,6 +10,7 @@ namespace Character
     {
         public CharacterController _characterController;
 
+        HSPCameraManager _cameraManager;
         public GameObject _snapPoint;
 
         [HideInInspector] public Animator animator;
@@ -26,11 +29,22 @@ namespace Character
         protected virtual void Start()
         {
             OnSpawn();
+
+            if (!_cameraManager)
+            {
+                _cameraManager = FindObjectOfType<HSPCameraManager>();
+            }
         }
 
         protected virtual void Update()
         {
 
+        }
+
+        protected void LateUpdate()
+        {
+            UpdateTransform();
+            
         }
 
         protected virtual void OnSpawn()
@@ -39,6 +53,30 @@ namespace Character
         }
 
         #region SNAP POINT Generation
+
+        private void UpdateTransform()
+        {
+            transform.position = SnapPosition(_snapPoint.transform.position);
+            transform.eulerAngles = _snapPoint.transform.eulerAngles;
+        }
+
+        private Vector3 SnapPosition(Vector3 wp)
+        {
+            float pixelSize = 2.0f * _cameraManager._renderCamera.orthographicSize / _cameraManager.realResolution.y;
+            Transform RCTransform = _cameraManager._renderCamera.transform;
+
+            Vector3 aux = RCTransform.InverseTransformDirection(wp);
+            aux = Vector3Int.RoundToInt(aux / pixelSize);
+
+            Vector3 snappedVec = aux * pixelSize;
+
+            Vector3 toReturn;
+            toReturn = snappedVec.x * RCTransform.right;
+            toReturn += snappedVec.y * RCTransform.up;
+            toReturn += snappedVec.z * RCTransform.forward;
+
+            return toReturn;
+        }
 
         protected void CreateSnapPoint()
         {
@@ -68,8 +106,6 @@ namespace Character
                 CopyCharacterController(oCC, pCC);
                 Destroy(oCC);
             }
-
-
         }
 
         private void CopyValues(Component from, Component to)

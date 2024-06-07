@@ -36,7 +36,12 @@ namespace Character.Player
             //When the scene changes, run the following logic
             SceneManager.activeSceneChanged += OnSceneChange;
 
-            instance.enabled = false;
+
+            // Disable Controls on main menu
+            if (WorldSaveGameManager.instance.GetWorldSceneIndex() == 0)
+            {
+                instance.enabled = false;
+            }
         }
 
         private void OnDestroy()
