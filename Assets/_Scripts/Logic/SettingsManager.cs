@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class SettingsManager : MonoBehaviour
     public Resolution[] GetResolutions() => resolutions;
 
     // Info
-    private string BuildNumber = "1";
+    private string BuildNumber = "0";
     public string version = "v.0.0";
 
     private void Awake()
@@ -61,7 +63,7 @@ public class SettingsManager : MonoBehaviour
         List<string> options = new List<string>();
         for (int i = 0; i < resolutions.Length; ++i)
         {
-            options.Add(resolutions[i].width + " x " + resolutions[i].height);
+            options.Add(resolutions[i].width + " x " + resolutions[i].height + " @" + resolutions[i].refreshRateRatio);
 
             if (resolutions[i].width == Screen.currentResolution.width &&
                 resolutions[i].height == Screen.currentResolution.height)
@@ -71,6 +73,30 @@ public class SettingsManager : MonoBehaviour
         }
         return options;
     }
+    #endregion
+
+    #region Settings UI Functions
+
+    public void InitializeVideoUI(ref TMP_Dropdown resolutionDropdown, ref Toggle fullscreenToggle)
+    {
+        resolutionDropdown.ClearOptions();
+        resolutionDropdown.AddOptions(SettingsManager.instance.GetResolutionsStringList());
+        resolutionDropdown.value = SettingsManager.instance.currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+
+        fullscreenToggle.isOn = SettingsManager.instance._isFullscreen;
+    }
+
+    public void OnSetResolutionDropdownClick(int resolutionIndex)
+    {
+        SettingsManager.instance.SetResolution(resolutionIndex);
+    }
+
+    public void OnFullscreenToggleClick(bool isFullscreen)
+    {
+        SettingsManager.instance.SetFullscreen(isFullscreen);
+    }
+
     #endregion
 
     private void Request_completed(AsyncOperation op)

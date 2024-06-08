@@ -55,7 +55,8 @@ namespace Menus
             //Sub (Disable GameObject if in main menu)
             SceneManager.activeSceneChanged += OnSceneChange;
 
-            InitializeResolutionDropdown();
+            SettingsManager.instance.InitializeVideoUI(ref resolutionDropdown, ref fullscreenToggle);
+            //InitializeResolutionDropdown();
 
             //Set version text
             _versionText.text = SettingsManager.instance.version;
@@ -123,11 +124,11 @@ namespace Menus
 
         public void OnQuitToDesktopButtonClick()
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                Application.Quit();
+            #endif
         }
 
         public void OnQuitToMainMenuButtonClick()
@@ -147,17 +148,17 @@ namespace Menus
         }
         #endregion
 
-        #region Settings
+        #region Settings UI Functions
 
-        private void InitializeResolutionDropdown()
-        {
-            resolutionDropdown.ClearOptions();
-            resolutionDropdown.AddOptions(SettingsManager.instance.GetResolutionsStringList());
-            resolutionDropdown.value = SettingsManager.instance.currentResolutionIndex;
-            resolutionDropdown.RefreshShownValue();
+        //private void InitializeResolutionDropdown()
+        //{
+        //    resolutionDropdown.ClearOptions();
+        //    resolutionDropdown.AddOptions(SettingsManager.instance.GetResolutionsStringList());
+        //    resolutionDropdown.value = SettingsManager.instance.currentResolutionIndex;
+        //    resolutionDropdown.RefreshShownValue();
 
-            fullscreenToggle.isOn = SettingsManager.instance._isFullscreen;
-        }
+        //    fullscreenToggle.isOn = SettingsManager.instance._isFullscreen;
+        //}
 
         public void OnQuitSettingButtonClick()
         {

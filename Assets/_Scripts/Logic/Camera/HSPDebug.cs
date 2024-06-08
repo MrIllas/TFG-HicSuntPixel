@@ -12,7 +12,7 @@ namespace HicSuntPixel
         [SerializeField] private DayNightCycle _dayNightCycle;
 
         private float fps = 0;
-        private string BuildNumber = "1";
+        private string BuildNumber = "0";
         private string version;
 
         Vector2Int viewportResolution;

@@ -20,8 +20,8 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.6149143, g: 0.85241264, b: 0.91155255, a: 1}
-  m_AmbientEquatorColor: {r: 0.6149143, g: 0.85241264, b: 0.91155255, a: 1}
+  m_AmbientSkyColor: {r: 0.9487359, g: 0.9804086, b: 0.9882452, a: 1}
+  m_AmbientEquatorColor: {r: 0.9487359, g: 0.9804086, b: 0.9882452, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
@@ -685,6 +685,44 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 3.9874926, z: 2}
   m_Center: {x: 1, y: 1.9937463, z: 0}
+--- !u!84 &407631382
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 482
+  m_Height: 271
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &410426248
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -851,23 +889,23 @@ PrefabInstance:
     - target: {fileID: 7319488133543554335, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.021087646
+      value: -0.011902809
       objectReference: {fileID: 0}
     - target: {fileID: 7319488133543554335, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.010788918
+      value: 0.011116028
       objectReference: {fileID: 0}
     - target: {fileID: 7319488133543554335, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.985395
+      value: -20.018032
       objectReference: {fileID: 0}
     - target: {fileID: 7729406234566934348, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1204490154}
+      objectReference: {fileID: 407631382}
     - target: {fileID: 8232014455388788853, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2333,44 +2371,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!84 &1204490154
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 586
-  m_Height: 270
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 0
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1205488807
 GameObject:
   m_ObjectHideFlags: 0
@@ -4145,6 +4145,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 63119550336019831, guid: 10a3437e48bb57144a79c8b602b3024c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1593351260656083532, guid: 10a3437e48bb57144a79c8b602b3024c,
         type: 3}
       propertyPath: m_Name
