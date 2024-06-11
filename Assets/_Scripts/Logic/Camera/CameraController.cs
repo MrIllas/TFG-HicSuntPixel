@@ -56,6 +56,15 @@ namespace HicSuntPixel
         private float orbitInput;
         private Vector2 panInput;
 
+        public static void ClearInstance()
+        {
+            if (instance != null)
+            {
+                Destroy(instance.gameObject);
+                instance = null;
+            }
+        }
+
         private void Awake()
         {
             if (instance == null)
@@ -152,7 +161,7 @@ namespace HicSuntPixel
         {
             if (!_target)
             {
-                Debug.LogAssertion("NO TARGET SET FOR THE CAMERA."); 
+                Debug.LogError("Error: NO TARGET SET TO THE CAMERA."); 
                 return;
             }
 

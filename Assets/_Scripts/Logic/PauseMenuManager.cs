@@ -1,5 +1,4 @@
 using Globals;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,25 +12,39 @@ namespace Menus
 
         public static bool _GameIsPaused = false;
 
-        private Canvas _pauseMenuUI;
-
         //SubMenus
-        [Header("SubMenus")]
-        [SerializeField] private GameObject _pauseMenuPanel;
-        [SerializeField] private GameObject _settingsMenuPanel;
+        [Header("Main Menus")]
+        [SerializeField] private GameObject _pauseMenu;
+        [SerializeField] private GameObject _mainMenu;
+        [SerializeField] private GameObject _settingsMenu;
 
         [Space(10)]
 
         // Settings
-        [Header("Settings Panels")]
-        [SerializeField] private GameObject _videoSettingsPanel;
-        [SerializeField] private GameObject _audioSettingsPanel;
-        [SerializeField] private GameObject _otherSettingsPanel;
+        [Header("Settings Menus")]
+        [SerializeField] private GameObject _videoSettingsMenu;
+        [SerializeField] private GameObject _audioSettingsMenu;
+        [SerializeField] private GameObject _otherSettingsMenu;
+
+        [Space(10)]
+
+        [Header("Pop Ups")]
+        [SerializeField] private UI_Save_Game_Notification _saveNotificationPopUp;
 
         [Header("Other")]
         [SerializeField] private TMP_Text _versionText;
         [SerializeField] private TMP_Dropdown resolutionDropdown;
         [SerializeField] private Toggle fullscreenToggle;
+
+        public static void ClearInstance()
+        {
+            if (instance != null)
+            {
+                Destroy(instance.gameObject);
+                instance = null;
+            }
+            _GameIsPaused = false;
+        }
 
         private void Awake()
         {
@@ -44,8 +57,7 @@ namespace Menus
                 Destroy(gameObject);
             }
 
-            _pauseMenuUI = GetComponent<Canvas>();
-            _pauseMenuUI.enabled = false;
+            _pauseMenu.SetActive(false);
         }
 
         private void Start()
@@ -78,13 +90,13 @@ namespace Menus
         void Resume()
         {
             SwitchClear();
-            _pauseMenuUI.enabled = false;
+            _pauseMenu.SetActive(false);
             Time.timeScale = 1.0f;
         }
 
         void Pause()
         {
-            _pauseMenuUI.enabled = true;
+            _pauseMenu.SetActive(true);
 
             Time.timeScale = 0.0f;
         }
@@ -106,13 +118,13 @@ namespace Menus
         private void SwitchClear()
         {
             //Submenus
-            _settingsMenuPanel.SetActive(false);
-            _pauseMenuPanel.SetActive(true);
+            _settingsMenu.SetActive(false);
+            _mainMenu.SetActive(true);
 
             //Settings
-            _videoSettingsPanel.SetActive(false);
-            _audioSettingsPanel.SetActive(false);
-            _otherSettingsPanel.SetActive(false);
+            _videoSettingsMenu.SetActive(false);
+            _audioSettingsMenu.SetActive(false);
+            _otherSettingsMenu.SetActive(false);
         }
 
         #region Root Button Functions
@@ -133,58 +145,55 @@ namespace Menus
 
         public void OnQuitToMainMenuButtonClick()
         {
-
+            WorldSaveGameManager.instance.ReturnToTitleScene();
         }
 
+        // Save Game
         public void OnSaveButtonClick()
-        { 
-        
+        {
+            if (WorldSaveGameManager.instance.SaveGame())
+            {
+                StartCoroutine(_saveNotificationPopUp.ShowPopup());
+            }
         }
 
         public void OnOptionsButtonClick()
         {
-            _settingsMenuPanel.SetActive(true);
-            _pauseMenuPanel.SetActive(false);
+            _settingsMenu.SetActive(true);
+            _mainMenu.SetActive(false);
         }
         #endregion
 
         #region Settings UI Functions
 
-        //private void InitializeResolutionDropdown()
-        //{
-        //    resolutionDropdown.ClearOptions();
-        //    resolutionDropdown.AddOptions(SettingsManager.instance.GetResolutionsStringList());
-        //    resolutionDropdown.value = SettingsManager.instance.currentResolutionIndex;
-        //    resolutionDropdown.RefreshShownValue();
-
-        //    fullscreenToggle.isOn = SettingsManager.instance._isFullscreen;
-        //}
-
         public void OnQuitSettingButtonClick()
         {
-            _settingsMenuPanel.SetActive(false);
-            _pauseMenuPanel.SetActive(true);
+            _settingsMenu.SetActive(false);
+            _videoSettingsMenu.SetActive(false);
+            _audioSettingsMenu.SetActive(false);
+            _otherSettingsMenu.SetActive(false);
+            _mainMenu.SetActive(true);
         }
 
         public void OnVideoSettingsButtonClick()
         {
-            _videoSettingsPanel.SetActive(true);
-            _audioSettingsPanel.SetActive(false);
-            _otherSettingsPanel.SetActive(false);
+            _videoSettingsMenu.SetActive(true);
+            _audioSettingsMenu.SetActive(false);
+            _otherSettingsMenu.SetActive(false);
         }
 
         public void OnAudioSettingsButtonClick()
         {
-            _videoSettingsPanel.SetActive(false);
-            _audioSettingsPanel.SetActive(true);
-            _otherSettingsPanel.SetActive(false);
+            _videoSettingsMenu.SetActive(false);
+            _audioSettingsMenu.SetActive(true);
+            _otherSettingsMenu.SetActive(false);
         }
 
         public void OnOtherSettingsButtonClick()
         {
-            _videoSettingsPanel.SetActive(false);
-            _audioSettingsPanel.SetActive(false);
-            _otherSettingsPanel.SetActive(true);
+            _videoSettingsMenu.SetActive(false);
+            _audioSettingsMenu.SetActive(false);
+            _otherSettingsMenu.SetActive(true);
         }
 
         public void OnSetResolutionDropdownClick(int resolutionIndex)

@@ -17,8 +17,6 @@ namespace Character
 
         protected virtual void Awake()
         {
-            DontDestroyOnLoad(this);
-
             //_characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
 

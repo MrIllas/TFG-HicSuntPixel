@@ -314,6 +314,54 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "3ff96c2f-c421-48bc-9923-e20715811653",
+            "actions": [
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "49173983-a694-491f-b738-b041a40fda5a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Supr",
+                    "type": "Button",
+                    "id": "9e922c52-316b-4580-926d-3dbbf5ec82c3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e2896e33-adc8-496a-b9f8-dcd8cff89fa3",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Supr",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11b3e63f-7d1b-4ae1-852e-777cd4e9b158",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
