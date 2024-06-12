@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UIElements;
 
 namespace HicSuntPixel
 {
@@ -32,7 +33,7 @@ namespace HicSuntPixel
             [HideInInspector]public Vector2Int realResolution = new Vector2Int(640, 360);
             [HideInInspector]public Vector2Int viewportResolution = Vector2Int.zero;
             Vector2 pixelSize;
-            Vector2 viewportPixelSize = Vector2.zero;
+            [SerializeField]Vector2 viewportPixelSize = Vector2.zero;
             Vector2Int totalPixelsOfMargin = new Vector2Int(2, 2);
             Vector2 pixelOffset;
 
@@ -81,13 +82,13 @@ namespace HicSuntPixel
         {
             Snapping();
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
             if (_hspFeature != null) 
             {
                 _hspFeature._settings.scale = GetViewportScale();
                 _hspFeature._settings.margin = GetViewportOffset();
             }
-#endif
+//#endif
         }
 
         #region Viewport Snapping
@@ -99,22 +100,22 @@ namespace HicSuntPixel
             }
 
             Vector2 snapTransformPosition = _renderCamera.WorldToViewportPoint(_snapPoint.position);
-            pixelOffset = (snapTransformPosition - new Vector2(0.5f, 0.5f));
+            pixelOffset = viewportPixelSize + (snapTransformPosition - new Vector2(0.5f, 0.5f));
 
             return new Vector2(pixelOffset.x + ((1 - viewportZoom) / 2), pixelOffset.y + ((1 - viewportZoom) / 2));
         }
 
         private Vector2 GetViewportScale()
         {
-            //if (!_subPixelSnap)
-            //{
-            //    return Vector2.one;
-            //}
+            if (!_subPixelSnap && viewportZoom == 1.0f)
+            {
+                return Vector2.one;
+            }
 
             Vector2 viewportScale;
 
             viewportScale.x = 1 - (viewportPixelSize.x * totalPixelsOfMargin.x);
-            viewportScale.y = 1 - (viewportPixelSize.y * totalPixelsOfMargin.y);
+            viewportScale.y = 1 - (viewportPixelSize.y * totalPixelsOfMargin.y); 
 
             return (viewportScale * viewportZoom);
         }
@@ -179,18 +180,24 @@ namespace HicSuntPixel
         // Calculates everything that needs to be calculated each time there is a variation in data
         private void Calculate()
         {
-            totalPixelsOfMargin.y = Mathf.FloorToInt(totalPixelsOfMargin.x * (1.0f / _renderCamera.aspect));
             Vector2Int reference = new Vector2Int(Mathf.RoundToInt(_viewportCamera.aspect * aspectScale), Mathf.RoundToInt(aspectScale));
-            realResolution = new Vector2Int(reference.x + totalPixelsOfMargin.x, reference.y + totalPixelsOfMargin.y);
-
+            if (_subPixelSnap)
+            {
+                //totalPixelsOfMargin.y = Mathf.FloorToInt(totalPixelsOfMargin.x * (1.0f / _renderCamera.aspect));
+                //realResolution = new Vector2Int(reference.x + totalPixelsOfMargin.x, reference.y + totalPixelsOfMargin.y);
+                realResolution = new Vector2Int(reference.x + 2, reference.y + 2);
+            }
+            else
+            {
+                realResolution = new Vector2Int(reference.x, reference.y);
+            }
 
             if (_renderCamera != null)
             {
                 pixelSize.y = 2.0f * _renderCamera.orthographicSize / realResolution.y;
                 pixelSize.x = 2.0f * _renderCamera.orthographicSize / realResolution.x;
 
-                viewportPixelSize = new Vector2(0.2f * _renderCamera.orthographicSize / realResolution.x,
-                0.2f * _renderCamera.orthographicSize / realResolution.y);
+                viewportPixelSize = pixelSize / (pixelSize * realResolution);
             }
         }
 

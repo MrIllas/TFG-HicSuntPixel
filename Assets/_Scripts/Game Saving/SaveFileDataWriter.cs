@@ -28,22 +28,18 @@ namespace SaveSystem
             File.Delete(Path.Combine(saveDataDirectoryPath, saveFileName));
         }
 
-        // Used to create a new file upon starting a new game
-        public bool CreateNewSaveFile(CharacterSaveData characterData)
+        // Create a new save file with any type of data
+        public bool CreateNewSaveFile<T>(T data)
         {
-            // Make a path to save the file (A location on the machine)
             string savePath = Path.Combine(saveDataDirectoryPath, saveFileName);
 
             try
             {
-                // Create the directory the file will be written to, if it does not already exists
                 Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-                Debug.Log("Creating save file, at save path: " + savePath);
+                Debug.Log("Creating save file at save path: " + savePath);
 
-                // Serialize the C# game data object into JSON
-                string dataToStore = JsonUtility.ToJson(characterData, true);
+                string dataToStore = JsonUtility.ToJson(data, true);
 
-                // Write the file to our system
                 using (FileStream stream = new FileStream(savePath, FileMode.Create))
                 {
                     using (StreamWriter fileWriter = new StreamWriter(stream))
@@ -53,18 +49,25 @@ namespace SaveSystem
                 }
                 return true;
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
-                Debug.LogError("ERROR WHILIST TRYING TO SAVE CHARACTER DATA, GAME NOT SAVED" + savePath + "\n" + e);
+                if (data.GetType() == typeof(CharacterSaveData))
+                {
+                    Debug.LogError("ERROR WHILE TRYING TO SAVE SLOT DATA, GAME NOT SAVED: " + savePath + "\n" + e);
+                }
+                else if (data.GetType() == typeof(SettingsSaveData)) 
+                {
+                    Debug.LogError("ERROR WHILIST TRYING TO SAVE SETTINGS DATA, SETTINGS NOT SAVED" + savePath + "\n" + e);
+                }
+                
                 return false;
             }
         }
 
-        // Used to load a save file upon loading a previous game
-        public CharacterSaveData LoadSaveFile()
+        // Load a save file with any type of data
+        public T LoadSaveFile<T>() where T : class
         {
-            CharacterSaveData data = null;
-            // Make a path to save the file (A location on the machine)
+            T data = null;
             string loadPath = Path.Combine(saveDataDirectoryPath, saveFileName);
 
             if (File.Exists(loadPath))
@@ -81,16 +84,23 @@ namespace SaveSystem
                         }
                     }
 
-                    // Deserialize the data from JSON back to unity
-                    data = JsonUtility.FromJson<CharacterSaveData>(dataToLoad);
+                    data = JsonUtility.FromJson<T>(dataToLoad);
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("File is blank!");
+                    if (data.GetType() == typeof(CharacterSaveData))
+                    {
+                        Debug.LogError("ERROR WHILE LOADING SAVE FILE: " + loadPath + "\n" + e);
+                    }
+                    else if (data.GetType() == typeof(SettingsSaveData))
+                    {
+                        Debug.LogError("ERROR WHILE LOADING SETTINGS DATA: " + loadPath + "\n" + e);
+                    }
                 }
             }
 
             return data;
         }
+
     }
 }

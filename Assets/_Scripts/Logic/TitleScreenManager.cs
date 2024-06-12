@@ -46,6 +46,7 @@ namespace Menus
         [Header("Audio Settings")]
 
         [Header("Other Settings")]
+        [SerializeField] private Toggle automaticSavingToggle;
 
         [Header("Other")]
         [SerializeField] private TMP_Text _versionText;
@@ -69,8 +70,6 @@ namespace Menus
 
         private void Start()
         {
-            SettingsManager.instance.InitializeVideoUI(ref resolutionDropdown, ref fullscreenToggle);
-
             //Set version text
             _versionText.text = SettingsManager.instance.version;
         }
@@ -175,6 +174,7 @@ namespace Menus
         #region Settings Menu Functions
         public void OnVideoSettingsButtonClick()
         {
+            SettingsManager.instance.InitializeVideoUI(ref resolutionDropdown, ref fullscreenToggle);
             _videoSettingsMenu.SetActive(true);
             _settingsMenu.SetActive(false);
         }
@@ -189,6 +189,8 @@ namespace Menus
         {
             _otherSettingsMenu.SetActive(true);
             _settingsMenu.SetActive(false);
+
+            automaticSavingToggle.isOn = WorldSaveGameManager.instance.saveAutomatically;
         }
 
         public void OnBackSettingsButtonClick()
@@ -212,6 +214,11 @@ namespace Menus
         public void OnFullscreenToggleClick(bool isFullscreen)
         {
             SettingsManager.instance.SetFullscreen(isFullscreen);
+        }
+
+        public void OnAutomaticSavingToggleClick(bool value)
+        {
+            WorldSaveGameManager.instance.saveAutomatically = value;
         }
         #endregion
     }

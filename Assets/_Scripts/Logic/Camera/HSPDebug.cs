@@ -33,6 +33,12 @@ namespace HicSuntPixel
 
         void Update()
         {
+            if (Time.smoothDeltaTime > 0)
+            {
+                float newFPS = 1.0f / Time.unscaledDeltaTime;
+                fps = Mathf.Lerp(fps, newFPS, 0.005f);
+            }
+
             if (Input.GetKeyDown(KeyCode.F10)) _Debug = !_Debug;
             
             if (_Debug)
@@ -48,10 +54,13 @@ namespace HicSuntPixel
             {
                 _manager._subPixelSnap = !_manager._subPixelSnap;
             }
-            if (Input.GetKeyDown(KeyCode.F3))
+            if (_dayNightCycle != null) 
             {
-                _dayNightCycle.timeOfTheDay += 1.0f;
-            }
+                if (Input.GetKeyDown(KeyCode.F3))
+                {
+                    _dayNightCycle.timeOfTheDay += 1.0f;
+                }
+            } 
         }
 
         private void OnGUI()
@@ -111,11 +120,6 @@ namespace HicSuntPixel
 
         private void Fps()
         {
-            if (Time.smoothDeltaTime > 0)
-            {
-                float newFPS = 1.0f / Time.smoothDeltaTime;
-                fps = Mathf.Lerp(fps, newFPS, 0.005f);
-            }
             GUI.Label(new Rect(5, 0, 500, 500), "FPS: " + ((int)fps).ToString());
         }
 

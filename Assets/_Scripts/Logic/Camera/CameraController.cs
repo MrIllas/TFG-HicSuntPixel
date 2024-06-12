@@ -165,10 +165,13 @@ namespace HicSuntPixel
                 return;
             }
 
-            Vector3 pos = _target.position + offset;
-            pos = Vector3.Lerp(_manager.GetSnapPosition(), pos, smoothSpeed * Time.deltaTime);
-
-            _manager.SetSnapPosition(pos);
+            //if (!_manager._rotating)
+            //{
+               // _snapPoint.position = Vector3.Lerp(_snapPoint.position, _target.position, smoothSpeed * Time.deltaTime);
+               _snapPoint.position = _target.position;
+                _manager._rotationPoint.transform.position = _target.position;
+           // }
+            
         }
         #endregion
 

@@ -1,17 +1,25 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class UI_Save_Game_Notification : MonoBehaviour
 {
-    private  RectTransform popupTransform; 
-    private float slideDuration = 0.5f;
-    private float displayDuration = 3.0f;
+    [SerializeField] private string msg = "Game saved!";
+    [SerializeField] private TextMeshProUGUI label;
+    [SerializeField] private GameObject _popupBody;
+    [SerializeField] private float displayDuration = 3.0f;
+    [SerializeField] private float slideDuration = 0.5f;
+
+    private RectTransform popupTransform;
+
     private Vector2 offScreenPosition;
     private Vector2 onScreenPosition;
 
     private void Awake()
     {
         popupTransform = GetComponent<RectTransform>();
+
+        _popupBody.SetActive(false);
     }
 
     void Start()
@@ -20,15 +28,17 @@ public class UI_Save_Game_Notification : MonoBehaviour
         onScreenPosition = new Vector2(popupTransform.anchoredPosition.x, popupTransform.anchoredPosition.x - 100);
     }
 
-    public IEnumerator ShowPopup()
+    public IEnumerator ShowPopup(float time)
     {
+        _popupBody.SetActive(true);
         Debug.Log("Show Popup");
+        label.text = msg + " (" + time.ToString("F2") + "s)";
 
         yield return StartCoroutine(SlideIn());
-        yield return new WaitForSeconds(displayDuration);
+        yield return StartCoroutine(Display());
         yield return StartCoroutine(SlideOut());
 
-        gameObject.SetActive(false);
+        _popupBody.SetActive(false);
     }
 
     IEnumerator SlideIn()
@@ -41,6 +51,16 @@ public class UI_Save_Game_Notification : MonoBehaviour
             yield return null;
         }
         popupTransform.anchoredPosition = onScreenPosition;
+    }
+
+    IEnumerator Display()
+    {
+        float elapsedTime = 0;
+        while(elapsedTime < displayDuration) 
+        { 
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
     }
 
     IEnumerator SlideOut()

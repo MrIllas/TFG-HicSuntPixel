@@ -3,7 +3,6 @@ using HicSuntPixel;
 using Menus;
 using SaveSystem;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,6 +23,9 @@ namespace Globals
         public int GetMainMenuSceneIndex() => mainMenuSceneIndex;
 
         [Header("SAVE / LOAD")]
+        public float automaticSaveInterval = 10.0f;
+        public bool saveAutomatically = true;
+        private bool automaticSaveCoroutineStarted = false;
         [SerializeField] bool saveGame;
         [SerializeField] bool loadGame;
 
@@ -91,6 +93,12 @@ namespace Globals
                 LoadGame();
             }
             UpdatePlayTime();
+
+            if(!automaticSaveCoroutineStarted && saveAutomatically && player != null)
+            {
+                StartCoroutine(AutomaticSaving());
+                automaticSaveCoroutineStarted = true;
+            }
         }
 
         public void ReturnToTitleScene()
@@ -133,7 +141,7 @@ namespace Globals
             // Generally works on multiple machine types
             _dataWritter.saveDataDirectoryPath = Application.persistentDataPath;
             _dataWritter.saveFileName = saveFileName;
-            currentCharacterData = _dataWritter.LoadSaveFile();
+            currentCharacterData = _dataWritter.LoadSaveFile<CharacterSaveData>();
 
             StartCoroutine(LoadWorldScene());
         }
@@ -155,6 +163,30 @@ namespace Globals
             return _dataWritter.CreateNewSaveFile(currentCharacterData);
         }
 
+        public IEnumerator SaveGameAsync(System.Action<bool, float> callback)
+        {
+            float startTime = Time.realtimeSinceStartup;
+
+            // Save the current file under a file name depending on which slot we are using
+            saveFileName = GetFileNameBySlot(currentSlot);
+
+            _dataWritter = new SaveFileDataWriter();
+            // Generally works on multiple machine types
+            _dataWritter.saveDataDirectoryPath = Application.persistentDataPath;
+            _dataWritter.saveFileName = saveFileName;
+
+            // Pass the players info, from game, to their save file
+            player.SaveGameDataToCurrentCharacterData(ref currentCharacterData);
+
+            // Simulate saving to file in chunks
+            bool saveSuccessful = false;
+            yield return new WaitForEndOfFrame(); // Simulate waiting for an end of frame
+            saveSuccessful = _dataWritter.CreateNewSaveFile(currentCharacterData);
+
+            // Call the callback function with the result
+            callback?.Invoke(saveSuccessful, Time.realtimeSinceStartup - startTime);
+        }
+
         public void DeleteGameSlot(SaveSlot characterSlot)
         {
             // Chose a file to delete base on name
@@ -174,7 +206,7 @@ namespace Globals
             for (int i = 0; i < characterSlots.Length; ++i)
             {
                 _dataWritter.saveFileName = GetFileNameBySlot(SaveSlot.Slot_01 + i);
-                characterSlots[i] = _dataWritter.LoadSaveFile();
+                characterSlots[i] = _dataWritter.LoadSaveFile<CharacterSaveData>();
             }
         }
 
@@ -222,6 +254,35 @@ namespace Globals
         {
             Time.timeScale = 1.0f;
             PreloadSlots();
+        }
+
+        public IEnumerator AutomaticSaving()
+        {
+            float elapsedTime = 0.0f;
+            while (player != null)
+            {
+                elapsedTime += Time.deltaTime;
+               
+                if (elapsedTime > automaticSaveInterval)
+                {
+                    if (PauseMenuManager.instance != null)
+                    {
+                        Debug.Log("Saving automatically!");
+                        StartCoroutine(SaveGameAsync(PauseMenuManager.instance.OnSaveComplete));
+                    }
+                    elapsedTime = 0.0f;
+                }
+
+                if (!saveAutomatically)
+                {
+                    automaticSaveCoroutineStarted = false;
+                    yield break;
+                }
+
+                
+                yield return null;
+            }
+            automaticSaveCoroutineStarted = false;
         }
     }
 }

@@ -31,6 +31,18 @@ namespace Menus
         [Header("Pop Ups")]
         [SerializeField] private UI_Save_Game_Notification _saveNotificationPopUp;
 
+        [Space(10)]
+
+        // Sub menus 
+        [Header("Video Settings")]
+        //[SerializeField] private TMP_Dropdown resolutionDropdown;
+        //[SerializeField] private Toggle fullscreenToggle;
+
+        [Header("Audio Settings")]
+
+        [Header("Other Settings")]
+        [SerializeField] private Toggle automaticSavingToggle;
+
         [Header("Other")]
         [SerializeField] private TMP_Text _versionText;
         [SerializeField] private TMP_Dropdown resolutionDropdown;
@@ -67,11 +79,9 @@ namespace Menus
             //Sub (Disable GameObject if in main menu)
             SceneManager.activeSceneChanged += OnSceneChange;
 
-            SettingsManager.instance.InitializeVideoUI(ref resolutionDropdown, ref fullscreenToggle);
-            //InitializeResolutionDropdown();
-
             //Set version text
             _versionText.text = SettingsManager.instance.version;
+            Debug.Log(SettingsManager.instance.version);
 
             SwitchClear();
         }
@@ -136,25 +146,28 @@ namespace Menus
 
         public void OnQuitToDesktopButtonClick()
         {
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-            #else
-                Application.Quit();
-            #endif
+            if (WorldSaveGameManager.instance.SaveGame())
+            {
+                #if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+                #else
+                    Application.Quit();
+                #endif
+            }
         }
 
         public void OnQuitToMainMenuButtonClick()
         {
-            WorldSaveGameManager.instance.ReturnToTitleScene();
+            if (WorldSaveGameManager.instance.SaveGame())
+            {
+                WorldSaveGameManager.instance.ReturnToTitleScene();
+            }
         }
 
         // Save Game
         public void OnSaveButtonClick()
         {
-            if (WorldSaveGameManager.instance.SaveGame())
-            {
-                StartCoroutine(_saveNotificationPopUp.ShowPopup());
-            }
+            StartCoroutine(WorldSaveGameManager.instance.SaveGameAsync(OnSaveComplete));
         }
 
         public void OnOptionsButtonClick()
@@ -162,6 +175,7 @@ namespace Menus
             _settingsMenu.SetActive(true);
             _mainMenu.SetActive(false);
         }
+
         #endregion
 
         #region Settings UI Functions
@@ -177,6 +191,7 @@ namespace Menus
 
         public void OnVideoSettingsButtonClick()
         {
+            SettingsManager.instance.InitializeVideoUI(ref resolutionDropdown, ref fullscreenToggle);
             _videoSettingsMenu.SetActive(true);
             _audioSettingsMenu.SetActive(false);
             _otherSettingsMenu.SetActive(false);
@@ -194,6 +209,8 @@ namespace Menus
             _videoSettingsMenu.SetActive(false);
             _audioSettingsMenu.SetActive(false);
             _otherSettingsMenu.SetActive(true);
+
+            automaticSavingToggle.isOn = WorldSaveGameManager.instance.saveAutomatically;
         }
 
         public void OnSetResolutionDropdownClick(int resolutionIndex)
@@ -206,6 +223,21 @@ namespace Menus
             SettingsManager.instance.SetFullscreen(isFullscreen);
         }
 
+        public void OnAutomaticSavingToggleClick(bool value)
+        {
+            WorldSaveGameManager.instance.saveAutomatically = value;
+        }
+
         #endregion
+
+        // SAVE CALLBACK
+        public void OnSaveComplete(bool success, float time)
+        {
+            if (success)
+            {
+                StartCoroutine(_saveNotificationPopUp.ShowPopup(time));
+            }
+
+        }
     }
 }
