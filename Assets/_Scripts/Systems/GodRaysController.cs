@@ -73,7 +73,7 @@ public class GodRaysController : MonoBehaviour
 
     private void Update()
     {
-        transform.position = follow.position;
+        if (follow != null) transform.position = follow.position;
 
         ShellCycle();
         AlphaOverTime();

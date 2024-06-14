@@ -81,7 +81,6 @@ namespace Menus
 
             //Set version text
             _versionText.text = SettingsManager.instance.version;
-            Debug.Log(SettingsManager.instance.version);
 
             SwitchClear();
         }
