@@ -13,12 +13,21 @@ namespace Character
         HSPCameraManager _cameraManager;
         public GameObject _snapPoint;
 
-        [HideInInspector] public Animator animator;
+        [HideInInspector] public Animator _animator;
+
+        [Header("Flags")]
+        public bool isPerformingAction = false;
+        public bool isJumping = false;
+        public bool isGrounded = true;
+        public bool isSprinting = false;
+        public bool applyRootMotion = false;
+        public bool canRotate = true;
+        public bool canMove = true;
 
         protected virtual void Awake()
         {
             //_characterController = GetComponent<CharacterController>();
-            animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
 
             CreateSnapPoint();
             _characterController = _snapPoint.GetComponent<CharacterController>();
@@ -36,7 +45,7 @@ namespace Character
 
         protected virtual void Update()
         {
-
+            _animator.SetBool("isGrounded", isGrounded);
         }
 
         protected void LateUpdate()
@@ -86,14 +95,18 @@ namespace Character
             _snapPoint.transform.localRotation = transform.localRotation;
             _snapPoint.transform.localScale = transform.localScale;
 
+            _snapPoint.layer = gameObject.layer;
+
             // GIVE COMPONENTS
             // Character/Player Locomotion
             var oCL = gameObject.GetComponent<CharacterLocomotion>();
+            
             if (oCL)
             {
                 var pCL = _snapPoint.AddComponent(oCL.GetType());
                 CopyValues(oCL, pCL);
                 Destroy(oCL);
+                _snapPoint.GetComponent<CharacterLocomotion>()._character = this;
             }
 
             // Character Controller

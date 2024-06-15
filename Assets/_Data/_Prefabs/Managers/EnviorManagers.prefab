@@ -63,7 +63,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963008963978571613}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09229593, y: -0.7010574, z: 0.09229593, w: 0.7010574}
+  m_LocalRotation: {x: 0.31274536, y: -0.6341848, z: 0.31274536, w: 0.6341848}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -81,7 +81,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.6928039, b: 0.16664886, a: 1}
+  m_Color: {r: 1, g: 0.8463963, b: 0.5833092, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -169,14 +169,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nextWeather: 0
   _dynamicWeather: 0
-  _cloudsOnEditor: 1
+  _cloudsOnEditor: 0
   _windOnEditor: 0
   _cloudsRenderTexture: {fileID: 8600000, guid: cedb7f9eaad8e6f4faacd8ed7ff6ef0b,
     type: 2}
-  cloudsShadowSize: {x: 25, y: 25}
-  cloudSpeed: 5
+  cloudsShadowSize: {x: 10, y: 10}
+  cloudSpeed: 0.005
   cloudDirection: {x: 1, y: 1}
-  cloudDensity: 0.4
+  cloudDensity: 0.681
   _windableMaterial:
   - {fileID: 2100000, guid: 7488071c6ef670846a0c8e5b12d7aaac, type: 2}
   - {fileID: 2100000, guid: bb1ac1449a1e0a5489ead2dc95f129e7, type: 2}
@@ -184,7 +184,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b17b177d120894d429849000b6e2026f, type: 2}
   - {fileID: 2100000, guid: ff835dcfb191f854f889150819341031, type: 2}
   windStrength: 1
-  windDirection: {x: 1, y: 1}
+  windDirection: {x: 0.1, y: 0.1}
   windDensity: 1
 --- !u!114 &6165518650620495082
 MonoBehaviour:
@@ -198,9 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4769f24aa92d9c4f925f7ea26fd4f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeOfTheDay: 7
-  dayLengthInMinutes: 32
-  sunRotationSpeed: 0.0125
+  timeOfTheDay: 9.5
+  dayLengthInMinutes: 240
+  sunRotationSpeed: 0.0016666667
   skyColor:
     serializedVersion: 2
     key0: {r: 0, g: 0, b: 0, a: 1}
@@ -291,7 +291,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
-  currentLightColor: {r: 1, g: 0.6928039, b: 0.16664886, a: 1}
+  currentLightColor: {r: 1, g: 0.8463963, b: 0.5833092, a: 1}
 --- !u!1 &2906431797657348681
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +391,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1666407532735392148
 Transform:
   m_ObjectHideFlags: 0
@@ -401,7 +401,7 @@ Transform:
   m_GameObject: {fileID: 3141254967296930620}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.825, y: 4.58, z: 16.98}
+  m_LocalPosition: {x: 59.034, y: 1.535, z: 10.921}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

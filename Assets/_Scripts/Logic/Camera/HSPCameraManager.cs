@@ -67,9 +67,12 @@ namespace HicSuntPixel
         public void ZoomViewport(float newZoom)
         {
             viewportZoom = newZoom;
-            
-            _hspFeature._settings.scale = GetViewportScale();
-            _hspFeature._settings.margin = GetViewportOffset();
+
+            if (_hspFeature != null)
+            {
+                _hspFeature._settings.scale = GetViewportScale();
+                _hspFeature._settings.margin = GetViewportOffset();
+            }
         }
 
         private void Update()
@@ -152,6 +155,10 @@ namespace HicSuntPixel
             {
                 _hspFeature._settings.realResolution = realResolution;
                 //_hspFeature._settings.viewportResolution = viewportResolution;
+            }
+            else
+            {
+                TryGetFeature();
             }
         }
 

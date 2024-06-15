@@ -42,7 +42,6 @@ namespace Globals
 
         public void Awake()
         {
-            // Singleton creator
             if (instance == null)
             {
                 instance = this;
@@ -58,6 +57,11 @@ namespace Globals
             DontDestroyOnLoad(gameObject);
 
             PreloadSlots();
+        }
+
+        public bool CurrentlyInTitleScreen()
+        {
+            return SceneManager.GetActiveScene().buildIndex == mainMenuSceneIndex;
         }
 
         public string GetFileNameBySlot(SaveSlot saveSlot)
@@ -246,6 +250,7 @@ namespace Globals
             // Clear instances
             CameraController.ClearInstance();
             PauseMenuManager.ClearInstance();
+            PlayerUIManager.ClearInstance();
 
             ResetGameState();
         }

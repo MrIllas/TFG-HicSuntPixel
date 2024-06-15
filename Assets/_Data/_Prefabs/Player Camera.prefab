@@ -249,12 +249,12 @@ MonoBehaviour:
   _snap: 1
   _subPixelSnap: 1
   _rotating: 0
-  aspectScale: 270
-  viewportZoom: 1
+  aspectScale: 540
+  viewportZoom: 0.7
   zOffset: -20
-  realResolution: {x: 482, y: 272}
-  viewportResolution: {x: 772, y: 434}
-  viewportPixelSize: {x: 0.002074689, y: 0.0036764706}
+  realResolution: {x: 962, y: 542}
+  viewportResolution: {x: 1129, y: 635}
+  viewportPixelSize: {x: 0.001039501, y: 0.0018450185}
 --- !u!114 &8611720099198582478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,8 +275,8 @@ MonoBehaviour:
   circularRadius: 0.5
   circularSpeed: 0.2
   zoomStrength: 0.1
-  minZoom: 0.4
-  maxZoom: 1
+  minZoom: 0.3
+  maxZoom: 0.7
   rotationSpeed: 10
 --- !u!1 &6804238547205801558
 GameObject:
@@ -306,7 +306,7 @@ Transform:
   m_GameObject: {fileID: 6804238547205801558}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000059604638, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0000011920929, y: 0.008062363, z: -20.013826}
+  m_LocalPosition: {x: -0.0047445297, y: -0.0014305115, z: -20.002766}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -351,7 +351,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1055
+    m_Bits: 1119
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

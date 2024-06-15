@@ -67,8 +67,18 @@ public class SettingsManager : MonoBehaviour
 
     public void SetResolution(int resolutionIndex)
     {
-        data.resolutionIndex = resolutionIndex;
-        Resolution resolution = resolutions[resolutionIndex];
+        Resolution resolution;
+        if (resolutionIndex <= resolutions.Length)
+        {
+            data.resolutionIndex = resolutionIndex;
+            resolution = resolutions[resolutionIndex];
+            
+        }
+        else
+        {
+            data.resolutionIndex = 0;
+            resolution = resolutions[0];
+        }
         Screen.SetResolution(resolution.width, resolution.height, data.fullscreen);
     }
 

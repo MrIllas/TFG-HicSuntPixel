@@ -11,6 +11,7 @@ namespace Character.Player
 
         [HideInInspector] public PlayerAnimatorManager _playerAnimatorManager;
         [HideInInspector] public PlayerLocomotion _playerLocomotion;
+        [HideInInspector] public PlayerStatsManager _playerStatsManager;
 
         protected override void Awake()
         {
@@ -18,6 +19,7 @@ namespace Character.Player
        
             _playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             _playerLocomotion = _snapPoint.GetComponent<PlayerLocomotion>();
+            _playerStatsManager = GetComponent<PlayerStatsManager>();
         }
 
         protected override void Start()
@@ -31,12 +33,11 @@ namespace Character.Player
         {
             base.Update();
 
+            // Player movement
             _playerLocomotion.HandleAllMovement();
 
-            if (Input.GetKeyDown(KeyCode.Space)) // Press Space to set the new position
-            {
-                _snapPoint.transform.position= new Vector3(0,0,0);
-            }
+            // REGEN STAMINA
+            _playerStatsManager.RegenerateStamina();
         }
 
         protected override void OnSpawn()
@@ -45,8 +46,17 @@ namespace Character.Player
 
             PlayerInputManager.instance._player = this;
             WorldSaveGameManager.instance.player = this;
+
+            // Automatically sets UI values when the value of the stat changes
+            _playerStatsManager.OnCurrentStaminaChanged += PlayerUIManager.instance._playerUIHudManager.SetNewStaminaValue;
+            _playerStatsManager.OnCurrentStaminaChanged += _playerStatsManager.ResetStaminaRegenTimer; 
+            _playerStatsManager.OnMaxStaminaChanged += PlayerUIManager.instance._playerUIHudManager.SetMaxStaminaValue;
+
+            _playerStatsManager.OnSpawn();
+            //PlayerUIManager.instance._playerUIHudManager.SetMaxStaminaValue(_playerStatsManager.MaxStamina); // Needs to set one game starts
+            
         }
-    
+
         public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
         {
             currentCharacterData.sceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -62,6 +72,14 @@ namespace Character.Player
             Vector3 position = Vector3.zero;
             currentCharacterData.LoadPosition(ref position);
             _snapPoint.transform.position = position;
+        }
+
+        // Since i'm using a snap point i need to call this animation function from here,
+        // since the animation and the locomotion are in different GO
+        public void ApplyJumpingVelocity()
+        {
+            _playerLocomotion.ApplyJumpingVelocity();
+
         }
     }
 }

@@ -13,10 +13,16 @@ namespace Character.Player
 
         PlayerControls _controls;
 
+        [Header("Player Movement Input")]
         [SerializeField] Vector2 movementInput;
         [SerializeField] public float verticalInput;
         [SerializeField] public float horizontalInput;
         [SerializeField] public float moveAmount;
+
+        [Header("Player Action Input")]
+        [SerializeField] bool dashInput = false;
+        [SerializeField] bool sprintInput = false;
+        [SerializeField] bool jumpInput = false;
 
         private void Awake()
         {
@@ -63,16 +69,30 @@ namespace Character.Player
             {
                 _controls = new PlayerControls();
 
-                _controls.Player.Move.performed += i => movementInput = i.ReadValue<Vector2>();
+                _controls.PlayerMovement.Move.performed += i => movementInput = i.ReadValue<Vector2>();
+
+                _controls.PlayerActions.Dash.performed += i => dashInput = true; // On button tap or V
+                _controls.PlayerActions.Jump.performed += i => jumpInput = true; // On Space
+                _controls.PlayerActions.Sprint.performed += i => sprintInput = true; // On button Hold
+                _controls.PlayerActions.Sprint.canceled += i => sprintInput = false; // On button hold release
             }
             _controls.Enable();
         }
 
         private void Update()
         {
-            HandleMovementInput();
+            HandleAllInputs();
         }
 
+        private void HandleAllInputs()
+        {
+            HandleMovementInput();
+            HandleSprintingInput();
+            HandleDashInput();
+            HandleJumpInput();
+        }
+
+        #region Movement
         private void HandleMovementInput()
         {
             verticalInput = movementInput.y;
@@ -94,10 +114,47 @@ namespace Character.Player
             if (_player == null) return;
 
             // WHY 0 ON HORIZONTAL? CUZ WE ONLY WANT NON-STRAFING MOVEMENT WHEN NOT LOCKED
-            _player._playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+            _player._playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, _player.isSprinting);
 
             // IF WE ARE LOCKED, PASS HORIZONTAL MOVEMENT AS WELL
         }
+        #endregion
+
+        #region Action
+
+        public void HandleSprintingInput()
+        {
+            if (sprintInput) 
+            {
+                _player._playerLocomotion.HandleSprinting();
+            }
+            else
+            {
+                _player.isSprinting = false;
+            }
+        }
+
+        public void HandleDashInput()
+        {
+            if (dashInput) 
+            {
+                dashInput = false;
+
+                _player._playerLocomotion.AttemptToPerformDash();
+            }
+        }
+
+        public void HandleJumpInput()
+        {
+            if (jumpInput)
+            {
+                jumpInput = false;
+
+                _player._playerLocomotion.AttemptToJump();
+            }
+        }
+
+        #endregion
     }
 }
 
