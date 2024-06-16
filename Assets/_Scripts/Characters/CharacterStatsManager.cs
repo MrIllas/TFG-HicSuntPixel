@@ -1,34 +1,137 @@
-using Character.Player;
+using SaveSystem;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Character
 {
-
     public class CharacterStatsManager : MonoBehaviour
     {
         CharacterManager _characterManager;
-        //Stats
-        public int endurance;
-        //public int Endurance
-        //{
-        //    get => endurance;
-        //    set
-        //    {
-        //        if (endurance != value)
-        //        {
-        //            endurance = value;
-        //            OnEnduranceChanged?.Invoke(endurance);
-        //        }
-        //    }
-        //}
 
-        //public event Action<int> OnEnduranceChanged;
+        #region Status Flags
+        [Header("Status Flags")]
+        
+        [SerializeField] private bool isDead = false;
+        public bool IsDead
+        {
+            get => isDead;
+            set
+            {
+                if (isDead != value)
+                {
+                    OnDeadStateChange?.Invoke(isDead, value);
+                    isDead = value;
+                }
+            }
+        }
+        public event Action<bool, bool> OnDeadStateChange;
 
-        // Stamina
-        private float currentStamina;
+        [SerializeField] private bool isInvunerable = false;
+        public bool IsInvunerable
+        {
+            get => isInvunerable;
+            set
+            {
+                if (isInvunerable != value)
+                {
+                    OnInvunerableStateChange?.Invoke(isInvunerable, value);
+                    isInvunerable = value;
+                }
+            }
+        }
+        public event Action<bool, bool> OnInvunerableStateChange;
+
+        #endregion
+
+        #region Attributes
+        [Header("Attributes")]
+        [SerializeField] private int vitality;
+        public int Vitality
+        {
+            get => vitality;
+            set
+            {
+                if (vitality != value)
+                {
+                    OnVitalityChanged?.Invoke(vitality, value);
+                    vitality = value;
+
+                    MaxHealth = CalculateHealth(value);
+                    CurrentHealth = MaxHealth;
+                }
+            }
+        }
+        public event Action<int, int> OnVitalityChanged;
+
+        [SerializeField] private int endurance;
+        public int Endurance
+        {
+            get => endurance;
+            set
+            {
+                if (endurance != value)
+                {
+                    OnEnduranceChanged?.Invoke(endurance, value);
+                    endurance = value;
+
+                    MaxStamina = CalculateStamina(value);
+                    CurrentStamina = MaxStamina;
+                }
+            }
+        }
+        public event Action<int, int> OnEnduranceChanged;
+        #endregion
+
+        #region Resources
+        [Header("Resources")]
+
+            #region Vitality(health)
+        [SerializeField] private int currentHealth;
+        public int CurrentHealth
+        {
+            get => currentHealth;
+            set
+            {
+                if (currentHealth != value)
+                {
+                    
+                    OnCurrentHealthChanged?.Invoke(currentHealth, value);
+                    currentHealth = value;
+
+                    if (currentHealth <= 0)
+                    {
+                        StartCoroutine(_characterManager.DeathEvent());
+                    }
+
+                    // Prevent overhealing
+                    if (currentHealth > maxHealth) 
+                    {
+                        currentHealth = maxHealth;
+                    }
+                }
+            }
+        }
+        public event Action<int, int> OnCurrentHealthChanged;
+
+        [SerializeField] private int maxHealth;
+        public int MaxHealth
+        {
+            get => maxHealth;
+            set
+            {
+                if (maxHealth != value)
+                {
+                    OnMaxHealthChanged?.Invoke(maxHealth, value);
+                    maxHealth = value;
+                }
+            }
+        }
+        public event Action<int, int> OnMaxHealthChanged;
+        #endregion
+
+            #region Endurance(stamina)
+        [SerializeField] private float currentStamina;
         public float CurrentStamina
         {
             get => currentStamina;
@@ -36,14 +139,14 @@ namespace Character
             {
                 if (currentStamina != value)
                 {
-                    OnCurrentStaminaChanged?.Invoke(currentStamina, value); //Returns the percentual value
-                    currentStamina = value;  
+                    OnCurrentStaminaChanged?.Invoke(currentStamina, value);
+                    currentStamina = value;
                 }
             }
         }
         public event Action<float, float> OnCurrentStaminaChanged;
 
-        private int maxStamina;
+        [SerializeField] private int maxStamina;
         public int MaxStamina
         {
             get => maxStamina;
@@ -58,6 +161,9 @@ namespace Character
         }
         public event Action<int, int> OnMaxStaminaChanged;
 
+            #endregion
+
+        #endregion
 
         [Header("Stamina Regeneration")]
         [SerializeField] int staminaRegenerationAmount = 2;
@@ -70,12 +176,66 @@ namespace Character
             _characterManager = GetComponent<CharacterManager>();
         }
 
+        protected virtual void Start() 
+        {
+#if UNITY_EDITOR
+            EventTriggerFromEditorStatsUpdateStart();
+#endif
+        }
+
+        private void Update()
+        {
+#if UNITY_EDITOR
+            EventTriggerFromEditorStatsUpdate();
+#endif
+        }
+
         // Functions
 
         public void OnSpawn()
         {
-            CurrentStamina = CalculateStamina(endurance);
+            MaxHealth = CalculateHealth(vitality);
+            CurrentHealth = CalculateHealth(vitality); // Current health needs to come always after max health, otherwise it will become 0
+
             MaxStamina = CalculateStamina(endurance);
+            CurrentStamina = CalculateStamina(endurance);
+        }
+
+        // TEMPORAL SOLUTION TO CREATING A NEW GAME (SETTING INITIAL STATS)
+        public void OnNewGame(ref CharacterSaveData data)
+        {
+            vitality = 10;
+            endurance = 10;
+            OnSpawn();
+            OnSave(ref data);
+        }
+
+        public void OnSave(ref CharacterSaveData data)
+        {
+            data.currentHealth = CurrentHealth;
+            data.vitality = Vitality;
+
+            data.currentStamina = CurrentStamina;
+            data.endurance = Endurance;
+        }
+
+        public void OnLoad(ref CharacterSaveData data)
+        {
+            Vitality = data.vitality; // Attribute needs to come before their resources
+            CurrentHealth = data.currentHealth;
+            MaxHealth = CalculateHealth(data.vitality);
+
+            Endurance = data.endurance;// Attribute needs to come before their resources
+            CurrentStamina = data.currentStamina;
+            MaxStamina = CalculateStamina(data.endurance);
+        }
+
+        public int CalculateHealth(int value)
+        {
+            float health = 0;
+            health = value * 15;
+
+            return Mathf.RoundToInt(health);
         }
 
         public int CalculateStamina(int value)
@@ -118,5 +278,33 @@ namespace Character
                 staminaRegenerationTimer = 0;
             }
         }
+
+#if UNITY_EDITOR
+
+        private int lastVitality, lastEndurance;
+
+        private void EventTriggerFromEditorStatsUpdateStart()
+        {
+            lastVitality = vitality;
+            lastEndurance = endurance;
+        }
+
+        private void EventTriggerFromEditorStatsUpdate()
+        {
+            if (lastVitality !=  Vitality)
+            {
+                lastVitality = Vitality;
+                Vitality = 0;
+                Vitality = lastVitality;
+            }
+
+            if (lastEndurance != Endurance) 
+            {
+                lastEndurance = Endurance;
+                Endurance = 0;
+                Endurance = lastEndurance;
+            }
+        }
+#endif
     }
 }

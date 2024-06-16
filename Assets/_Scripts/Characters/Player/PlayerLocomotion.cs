@@ -26,7 +26,7 @@ namespace Character.Player
         private Vector3 dashDirection;
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] float dashDuration = 0.5f;
-        [SerializeField] float dashSpeed = 2.0f;
+        [SerializeField] float dashSpeed = 10.0f;
         //[SerializeField] float jumpForwardSpeed = 5.0f;
         //[SerializeField] float freeFallSpeed = 2.0f;
         [SerializeField] int dashStaminaCost = 25;
@@ -161,7 +161,7 @@ namespace Character.Player
                 _player.isSprinting = false;
             }
 
-            if (_player._playerStatsManager.CurrentStamina <= 0)
+            if (_player._statsManager.CurrentStamina <= 0)
             {
                 _player.isSprinting = false;
                 return;
@@ -179,27 +179,31 @@ namespace Character.Player
 
             if (_player.isSprinting) 
             {
-                _player._playerStatsManager.CurrentStamina -= sprintingStaminaCost * Time.deltaTime;
+                _player._statsManager.CurrentStamina -= sprintingStaminaCost * Time.deltaTime;
             }
         }
 
         private void HandleDashMovement()
         {
-            //if(dashDuration >= dashTimer)
-            //{
-            //    _character._characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
-            //    dashTimer += Time.deltaTime;
-            //}
-            //else
-            //{
-            //    dashTimer = 0;
-            //}
+            if (!_player.isDashing) return;
+            if (dashDuration >= dashTimer)
+            {
+                _character._characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
+                dashTimer += Time.deltaTime;
+            }
+            else
+            {
+                dashTimer = 0;
+                _player._animator.SetBool("isDashing", false);
+                _player._statsManager.IsInvunerable = false; // TEMPORAL
+            }
         }
 
         public void AttemptToPerformDash()
         {
             if (_player.isPerformingAction) return;
-            if (_player._playerStatsManager.CurrentStamina <= 0) return;
+            if (_player.isSprinting) return;
+            if (_player._statsManager.CurrentStamina <= 0) return;
 
             // When moveing
             if (moveAmount > 0)
@@ -213,18 +217,24 @@ namespace Character.Player
 
                 _player._playerAnimatorManager.PlayTargetActionAnimation("Dash", true, true);
             }
-            else
-            {  // Perform a frontal dash if stationary
-                _player._playerAnimatorManager.PlayTargetActionAnimation("Back_Step", true, true);
-            }
+            //else
+            //{  // Perform a frontal dash if stationary
+            //    dashDirection = CameraController.instance.cameraObject.transform.forward * walkingSpeed;
+            //    dashDirection.y = 0;
 
-            _player._playerStatsManager.CurrentStamina -= dashStaminaCost;
+            //    _player._playerAnimatorManager.PlayTargetActionAnimation("Back_Step", true, true);
+            //}
+
+            _player._animator.SetBool("isDashing", true);
+            _player.isDashing = true;
+            _player._statsManager.IsInvunerable = true; // TEMPORAL
+            _player._statsManager.CurrentStamina -= dashStaminaCost;
         }
 
         public void AttemptToJump()
         {
             if (_player.isPerformingAction)return;
-            if (_player._playerStatsManager.CurrentStamina <= 0) return;
+            if (_player._statsManager.CurrentStamina <= 0) return;
             if (_player.isJumping) return;
             if (!_player.isGrounded) return;
 
@@ -232,7 +242,7 @@ namespace Character.Player
 
             _player.isJumping = true;
 
-            _player._playerStatsManager.CurrentStamina -= jumpStaminaCost;
+            _player._statsManager.CurrentStamina -= jumpStaminaCost;
 
             jumpDirection = CameraController.instance.cameraObject.transform.forward * verticalMovement;
             jumpDirection += CameraController.instance.cameraObject.transform.right * horizontalMovement;

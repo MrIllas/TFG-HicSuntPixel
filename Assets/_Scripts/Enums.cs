@@ -14,3 +14,9 @@ public enum SaveSlot
     Slot_03,
     NO_SLOT
 }
+
+public enum ItemModelSlot
+{
+    RightHand,
+    LeftHand
+}

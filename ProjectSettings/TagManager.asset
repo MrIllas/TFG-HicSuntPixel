@@ -11,32 +11,32 @@ TagManager:
   - Terrain
   - Water
   - UI
+  - 
+  - 
+  - 
+  - 
   - Character
   - 
   - 
   - 
+  - 
+  - DamageCollider
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - OutlineOff
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0

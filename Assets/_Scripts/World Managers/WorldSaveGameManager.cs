@@ -1,3 +1,4 @@
+using Character;
 using Character.Player;
 using HicSuntPixel;
 using Menus;
@@ -127,13 +128,32 @@ namespace Globals
                 {
                     currentSlot = SaveSlot.Slot_01 + i;
                     currentCharacterData = new CharacterSaveData();
-                    StartCoroutine(LoadWorldScene());
+                    NewGame();
                     return;
                 }
             }
 
             // If there are no new slots
             TitleScreenManager.instance.DisplayNoFreeCharacterSlotsPopUp();
+        }
+
+        public void NewGame()
+        {
+            // Save the current file under a file name depending on which slot we are usin
+            saveFileName = GetFileNameBySlot(currentSlot);
+
+            _dataWritter = new SaveFileDataWriter();
+            // Generally works on multiple machine types
+            _dataWritter.saveDataDirectoryPath = Application.persistentDataPath;
+            _dataWritter.saveFileName = saveFileName;
+
+            CharacterStatsManager stats = new CharacterStatsManager();
+            stats.OnNewGame(ref currentCharacterData);
+
+            // Write that info onto a json file, saved to this machine
+            _dataWritter.CreateNewSaveFile(currentCharacterData);
+
+            StartCoroutine(LoadWorldScene());
         }
 
         public void LoadGame()

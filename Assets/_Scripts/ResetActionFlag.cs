@@ -21,6 +21,7 @@ namespace Character
             _character.canRotate = true;
             _character.applyRootMotion = false;
             _character.isJumping = false;
+            _character.isDashing = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

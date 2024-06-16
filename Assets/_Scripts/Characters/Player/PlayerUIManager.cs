@@ -1,6 +1,4 @@
-using Globals;
-using System.Collections;
-using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Character.Player
@@ -10,6 +8,7 @@ namespace Character.Player
         public static PlayerUIManager instance;
 
         [HideInInspector] public PlayerUIHudManager _playerUIHudManager;
+        [HideInInspector] public PlayerHUDPopUpManager _playerHUDPopUpManager;
 
         public static void ClearInstance()
         {
@@ -32,6 +31,7 @@ namespace Character.Player
             }
 
             _playerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
+            _playerHUDPopUpManager = GetComponentInChildren<PlayerHUDPopUpManager>();
         }
 
         private void Start()

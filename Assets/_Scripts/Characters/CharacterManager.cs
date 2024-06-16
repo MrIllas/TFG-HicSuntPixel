@@ -1,14 +1,15 @@
 using HicSuntPixel;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Character
 {
     public class CharacterManager : MonoBehaviour
     {
-        public CharacterController _characterController;
+        [HideInInspector] public CharacterController _characterController;
+        [HideInInspector] public CharacterStatsManager _statsManager;
+        [HideInInspector] public CharacterEffectsManager _effectsManager;
+        [HideInInspector] public CharacterAnimatorManager _animatorManager;
 
         HSPCameraManager _cameraManager;
         public GameObject _snapPoint;
@@ -18,6 +19,7 @@ namespace Character
         [Header("Flags")]
         public bool isPerformingAction = false;
         public bool isJumping = false;
+        public bool isDashing = false;
         public bool isGrounded = true;
         public bool isSprinting = false;
         public bool applyRootMotion = false;
@@ -26,8 +28,9 @@ namespace Character
 
         protected virtual void Awake()
         {
-            //_characterController = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
+            _effectsManager = GetComponent<CharacterEffectsManager>();
+            _animatorManager =  GetComponent<CharacterAnimatorManager>();
 
             CreateSnapPoint();
             _characterController = _snapPoint.GetComponent<CharacterController>();
@@ -55,6 +58,26 @@ namespace Character
         }
 
         protected virtual void OnSpawn()
+        {
+
+        }
+
+        public virtual IEnumerator DeathEvent(bool manuallySelectDeathAnimation = false)
+        {
+            _statsManager.CurrentHealth = 0;
+            _statsManager.IsDead = true;
+
+            // Reset Any flags that require it
+
+            if (!manuallySelectDeathAnimation)
+            {
+                _animatorManager.PlayTargetActionAnimation("Player_Death", true);
+            }
+
+            yield return new WaitForSeconds(5);
+        }
+
+        public virtual void ReviveCharacter()
         {
 
         }
