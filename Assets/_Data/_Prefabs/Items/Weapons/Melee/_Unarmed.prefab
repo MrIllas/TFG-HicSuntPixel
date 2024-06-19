@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6438201989423795982}
   - component: {fileID: 8337672805457662323}
-  - component: {fileID: 6211620713245954055}
+  - component: {fileID: 338448111955642589}
   m_Layer: 15
   m_Name: Damage Collider
   m_TagString: Untagged
@@ -54,7 +54,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.015
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6211620713245954055
+--- !u!114 &338448111955642589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4957057354755752921}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6771f059b26697844b5682f136fee57e, type: 3}
+  m_Script: {fileID: 11500000, guid: d01e014cec28f0b4483534ad485a8edf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   physicalDamage: 0
@@ -72,6 +72,7 @@ MonoBehaviour:
   lightningDamage: 0
   holyDamage: 0
   characterCausingDamage: {fileID: 0}
+  lightAttack01Modifier: 0
 --- !u!1 &6425848791220940255
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6425848791220940255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a5505561af1e39489a838b1b5840cf6, type: 3}
+  m_Script: {fileID: 11500000, guid: 13e6756107a9e6f42bdf2349884ffdf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 0}

@@ -16,14 +16,29 @@ public class DamageCollider : MonoBehaviour
     public int holyDamage = 0;
 
     [Header("Contact Point")]
-    private Vector3 contactPoint;
+    protected Vector3 contactPoint;
 
     [Header("Chracter Damaged")]
     protected List<CharacterManager> charactersDamaged = new List<CharacterManager>();
 
-    private void OnTriggerEnter(Collider other)
+
+    protected virtual void Awake()
     {
-        CharacterManager target = other.GetComponent<CharacterLocomotion>()._character;
+        if (_collider == null)
+        {
+            _collider = GetComponent<Collider>();
+        }
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        CharacterManager target = other.GetComponentInParent<CharacterLocomotion>()._character;
+
+        if (target != null ) 
+        {
+            target = other.GetComponent<CharacterLocomotion>()._character;
+        }
+
         if (target != null)
         {
             contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
@@ -54,7 +69,7 @@ public class DamageCollider : MonoBehaviour
         damageEffect.holyDamage = holyDamage;
         damageEffect.lightningDamage = lightningDamage;
 
-        target._effectsManager.ProcessInstantEffect(damageEffect);
+        target._characterEffectsManager.ProcessInstantEffect(damageEffect);
     }
 
     public virtual void EnableDamageCollider()

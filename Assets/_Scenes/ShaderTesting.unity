@@ -20,8 +20,8 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.9165967, g: 0.578714, b: 0, a: 1}
-  m_AmbientEquatorColor: {r: 0.9165967, g: 0.578714, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.8460078, g: 0.6644896, b: 0.21457379, a: 1}
+  m_AmbientEquatorColor: {r: 0.8460078, g: 0.6644896, b: 0.21457379, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
@@ -661,6 +661,21 @@ PrefabInstance:
       propertyPath: viewportResolution.y
       value: 1038
       objectReference: {fileID: 0}
+    - target: {fileID: 2138706082508235388, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.009332657
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138706082508235388, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.541376
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138706082508235388, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.32376
+      objectReference: {fileID: 0}
     - target: {fileID: 5730560034711486754, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -729,23 +744,23 @@ PrefabInstance:
     - target: {fileID: 7319488133543554335, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0064029694
+      value: -0.009332657
       objectReference: {fileID: 0}
     - target: {fileID: 7319488133543554335, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0023584366
+      value: -0.0008983612
       objectReference: {fileID: 0}
     - target: {fileID: 7319488133543554335, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.978035
+      value: -19.991709
       objectReference: {fileID: 0}
     - target: {fileID: 7729406234566934348, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1732591423}
+      objectReference: {fileID: 1733285911}
     - target: {fileID: 8611720099198582478, guid: a8d5aa5b87ee9f746bd9c54d682c983e,
         type: 3}
       propertyPath: _target
@@ -1579,6 +1594,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b913ce7612ef9fe40be4afea975b1bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dayNightMaterial: []
+  lightMaterialIndexOnMesh: 1
 --- !u!1001 &867908691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3004,74 +3021,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd5e5ddd242bd64581fb5ed9c0e0507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1321761733
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5943658330747172454, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_Name
-      value: Dummy
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 12.675291
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.0285664
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 14.297077
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.92387956
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.38268343
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -45
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428832866847272156, guid: 5193b5d6efac8da4cb174d5119092e66,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5193b5d6efac8da4cb174d5119092e66, type: 3}
 --- !u!1001 &1342551192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3553,7 +3502,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5.0000005, y: 3.2068071, z: 1.2500002}
   m_Center: {x: 2.345167, y: 1.5965896, z: 0.00082996505}
---- !u!84 &1732591423
+--- !u!84 &1733285911
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3567,8 +3516,8 @@ RenderTexture:
   m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
   serializedVersion: 5
-  m_Width: 501
-  m_Height: 272
+  m_Width: 962
+  m_Height: 542
   m_AntiAliasing: 1
   m_MipCount: -1
   m_DepthStencilFormat: 94
@@ -3583,7 +3532,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 0
-    m_Aniso: 0
+    m_Aniso: 1
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -4162,4 +4111,3 @@ SceneRoots:
   - {fileID: 1342551192}
   - {fileID: 227764538}
   - {fileID: 1418498812}
-  - {fileID: 1321761733}

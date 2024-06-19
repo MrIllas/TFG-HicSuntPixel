@@ -19,11 +19,13 @@ namespace Items
         //public float poiseDamage = 10;
 
         // Weapon modifiers
-        // Light attack modifier
+        [Header("Attack Modifiers")]
+        public float lightAttack01Modifier = 1; //The combo step additional damage
         // Critical damage modifier
 
         [Header("Stamina Costs")]
         public int baseStaminaCost = 20; // Stamina used on weapon swing
+        public float lightAttackStaminaCostMultiplier = 1; //The light attack additional cost
         // Light attack stamina modifier
         // heavy attack stamina modifier
 

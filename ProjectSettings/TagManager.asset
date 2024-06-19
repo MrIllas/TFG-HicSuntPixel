@@ -11,15 +11,15 @@ TagManager:
   - Terrain
   - Water
   - UI
-  - 
+  - UI World Space
   - 
   - 
   - 
   - Character
+  - DamageableCharacter
   - 
   - 
-  - 
-  - 
+  - Interactable
   - DamageCollider
   - 
   - 

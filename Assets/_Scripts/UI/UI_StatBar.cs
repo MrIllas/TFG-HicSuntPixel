@@ -1,6 +1,4 @@
 using Character.Player;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,21 +7,26 @@ namespace UI
 {
     public class UI_StatBar : MonoBehaviour
     {
-        private Slider _slider;
-        private RectTransform _rectTransform;
+        protected Slider _slider;
+        protected RectTransform _rectTransform;
         [SerializeField] private TextMeshProUGUI label;
 
         [Header("Options")]
         [SerializeField] protected bool scaleBarLengthWithStats = true;
         [SerializeField] protected float widthScaleMultiplier = 1.0f;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _slider = GetComponent<Slider>();
             _rectTransform = GetComponent<RectTransform>();
         }
 
-        public virtual void SetStat(float newValue)
+        protected virtual void Start()
+        {
+
+        }
+
+        public virtual void SetStat(int oldValue, int newValue)
         {
             _slider.value = newValue;
             SetLabel();

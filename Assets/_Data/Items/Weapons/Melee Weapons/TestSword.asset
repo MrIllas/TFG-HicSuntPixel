@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba6b320438b2d3d49bb885ae50d3e82c, type: 3}
   m_Name: TestSword
   m_EditorClassIdentifier: 
-  itemId: 0
+  itemId: 2
   itemName: Test Sword
   icon: {fileID: 21300000, guid: bf02ba8cc0271ec419aee799785a1d27, type: 3}
   description: A sword used by the developers.
   model: {fileID: 6425848791220940255, guid: 9ecbd8a690f7aba4d8271b5ddde2465b, type: 3}
+  action_btn_1: {fileID: 11400000, guid: 8b323d108a6554445b4218cb8a45d4af, type: 2}
   levelREQ: 0
   physicalDamage: 10
   magicDamage: 0

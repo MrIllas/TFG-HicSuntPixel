@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba6b320438b2d3d49bb885ae50d3e82c, type: 3}
   m_Name: Stick
   m_EditorClassIdentifier: 
-  itemId: 0
+  itemId: 1
   itemName: Stick
   icon: {fileID: 21300000, guid: bf02ba8cc0271ec419aee799785a1d27, type: 3}
   description: A stick fallen from a tree
   model: {fileID: 6425848791220940255, guid: c52b728813118b544952db0145951e34, type: 3}
+  action_btn_1: {fileID: 11400000, guid: d5d21b0f6eb5e784a85128f67d230d7d, type: 2}
   levelREQ: 0
   physicalDamage: 5
   magicDamage: 0
   fireDamage: 0
   lightningDamage: 0
   holyDamage: 0
+  lightAttack01Modifier: 1
   baseStaminaCost: 5
+  lightAttackStaminaCostMultiplier: 2

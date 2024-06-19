@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Character.Player;
 
 
 namespace UI
@@ -13,6 +14,23 @@ namespace UI
         [SerializeField] TextMeshProUGUI youAreDeadPopUpBackgroundText;
         [SerializeField] TextMeshProUGUI youAreDeadPopUpText;
         [SerializeField] CanvasGroup youAreDeadPopUpCanvasGroup;
+
+        [Header("Message Pop Up")]
+        [SerializeField] TextMeshProUGUI playerMessagePopUpText;
+        [SerializeField] GameObject playerMessagePopUpGameObject;
+
+        public void CloseAllPopUpWindows()
+        {
+            PlayerUIManager.instance.popUpWindowIsOpen = false;
+            playerMessagePopUpGameObject.SetActive(false);
+        }
+
+        public void SendPlayerMessagePopUp(string text)
+        {
+            PlayerUIManager.instance.popUpWindowIsOpen = true;
+            playerMessagePopUpText.text = text;
+            playerMessagePopUpGameObject.SetActive(true);
+        }
 
         public void SendYouAreDeadPopUp()
         {

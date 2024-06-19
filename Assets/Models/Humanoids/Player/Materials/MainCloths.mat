@@ -136,14 +136,14 @@ Material:
     - _Normal_Throughout_Texture: 0
     - _NormalsThreshold: 0.001
     - _OcclusionStrength: 1
-    - _OutlineThickness: 3
+    - _OutlineThickness: 1
     - _Outlines: 0
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RimThreshold: 0.5
-    - _Smoothness: 0.5
+    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

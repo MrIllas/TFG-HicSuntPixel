@@ -253,7 +253,7 @@ MonoBehaviour:
   viewportZoom: 0.7
   zOffset: -20
   realResolution: {x: 962, y: 542}
-  viewportResolution: {x: 1127, y: 634}
+  viewportResolution: {x: 1129, y: 635}
   viewportPixelSize: {x: 0.001039501, y: 0.0018450185}
 --- !u!114 &8611720099198582478
 MonoBehaviour:
@@ -351,7 +351,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1119
+    m_Bits: 35935
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
