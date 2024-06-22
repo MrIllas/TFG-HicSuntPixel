@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Character
@@ -49,7 +50,7 @@ namespace Character
 
             // Play damage sound FX
 
-            // Play damage VFX (Blood) "Maybe, still i've to decide"
+            PlayDamageVFX(character);
 
         }
 
@@ -75,6 +76,13 @@ namespace Character
             }
 
             character._statsManager.CurrentHealth -= finalDamage;
+        }
+
+        private void PlayDamageVFX(CharacterManager character)
+        {
+            // If we have fir damage, play fire particles, lightning etc...
+
+            character._characterEffectsManager.PlayBloodSplatterVFX(contactPoint);
         }
     }
 }

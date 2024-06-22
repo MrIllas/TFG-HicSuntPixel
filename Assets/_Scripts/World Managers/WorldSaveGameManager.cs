@@ -23,6 +23,10 @@ namespace Globals
         [SerializeField] int mainMenuSceneIndex = 0;
         public int GetMainMenuSceneIndex() => mainMenuSceneIndex;
 
+        [Header("Visual Demo Scene Index")]
+        [SerializeField] int visualDemosSceneIndex = 2;
+        public int GetVisualDemoSceneIndex() => visualDemosSceneIndex;
+
         [Header("SAVE / LOAD")]
         public float automaticSaveInterval = 10.0f;
         public bool saveAutomatically = true;
@@ -254,6 +258,18 @@ namespace Globals
             }
             
             player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
+            yield return null;
+        }
+
+        public IEnumerator LoadVisualDemoScene()
+        {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(GetVisualDemoSceneIndex());
+
+            while (!loadOperation.isDone) 
+            {
+                yield return null;
+            }
+            yield return null;
         }
 
         public IEnumerator LoadBackToTitleScene()

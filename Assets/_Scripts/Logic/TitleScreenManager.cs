@@ -95,6 +95,11 @@ namespace Menus
 
         }
 
+        public void OnPlayVisualDemoButtonClick()
+        {
+            StartCoroutine(WorldSaveGameManager.instance.LoadVisualDemoScene());
+        }
+
         public void OnLoadButtonClick()
         {
             _mainMenu.SetActive(false);

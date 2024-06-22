@@ -13,6 +13,8 @@ public class AutoLamp : MonoBehaviour
     [Header("Material Index on Mesh")]
     [SerializeField] private int lightMaterialIndexOnMesh = 1;
 
+    private Material[] giveMat;
+
     private void Awake()
     {
         if (_light == null )
@@ -23,7 +25,8 @@ public class AutoLamp : MonoBehaviour
         _dayNight = FindObjectOfType<DayNightCycle>();
         _renderer = GetComponent<MeshRenderer>();
 
-        _light.enabled = false;
+        if (_light) _light.enabled = false;
+        giveMat = _renderer.materials;
     }
 
     // Update is called once per frame
@@ -36,8 +39,8 @@ public class AutoLamp : MonoBehaviour
                 _light.enabled = false;
                 if (dayNightMaterial.Length > 1)
                 {
-                    if (dayNightMaterial[0] != null) _renderer.materials[lightMaterialIndexOnMesh] = dayNightMaterial[0];
-                    _renderer.materials = dayNightMaterial;
+                    if (dayNightMaterial[1] != null) giveMat[1] = dayNightMaterial[0];
+                    _renderer.materials = giveMat;
                 }
             }
             else
@@ -45,8 +48,8 @@ public class AutoLamp : MonoBehaviour
                 _light.enabled = true;
                 if (dayNightMaterial.Length > 1)
                 {
-                    if (dayNightMaterial[1] != null) _renderer.materials[lightMaterialIndexOnMesh] = dayNightMaterial[1];
-                    _renderer.materials = dayNightMaterial;
+                    if (dayNightMaterial[1] != null) giveMat[1] = dayNightMaterial[1];
+                    _renderer.materials = giveMat;
                 }
             }
             

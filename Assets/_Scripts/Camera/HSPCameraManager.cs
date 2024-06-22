@@ -194,6 +194,13 @@ namespace HicSuntPixel
 
         #region Auxiliar Functions
 
+        public Vector3 GetWorldScreenPosition()
+        {
+            Vector3 nearPlaneCenter = _renderCamera.transform.position + _renderCamera.transform.forward * _renderCamera.nearClipPlane;
+
+            return nearPlaneCenter;
+        }
+
         // Calculates everything that needs to be calculated each time there is a variation in data
         private void Calculate()
         {

@@ -67,6 +67,8 @@ public class MeleeWeaponDamageCollider : DamageCollider
                 break;
         }
 
+        damageEffect.contactPoint = transform.position;
+
         target._characterEffectsManager.ProcessInstantEffect(damageEffect);
     }
 

@@ -8,12 +8,14 @@ namespace Globals
     {
         public static WorldCharacterEffectsManager instance;
 
+        [Header("VFX")]
+        public GameObject bloodSplatterVFX;
+
         [Header("Damage")]
         public TakeHealthDamageEffect takeHealthDamageEffect;
 
-
         [SerializeField] List<InstantCharacterEffect> instantEffects;
-
+        
         private void Awake()
         {
             if (instance == null) 

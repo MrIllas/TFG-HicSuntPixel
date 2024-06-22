@@ -160,7 +160,7 @@ namespace Character
         }
         public event Action<int, int> OnMaxStaminaChanged;
 
-            #endregion
+        #endregion
 
         #endregion
 

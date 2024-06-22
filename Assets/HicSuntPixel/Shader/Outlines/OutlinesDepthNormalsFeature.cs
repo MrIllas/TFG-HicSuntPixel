@@ -16,9 +16,10 @@ public class DepthNormalsFeature : ScriptableRendererFeature
     {
         private ProfilingSampler m_ProfilingSampler; // A profiler to record the render pass into the unity's profiler
 
-        public DepthNormalsRenderPass(string name)
+        public DepthNormalsRenderPass(string name, RenderPassEvent renderPassEvent)
         {
             m_ProfilingSampler = new ProfilingSampler(name);
+            renderPassEvent = renderPassEvent;
         }
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) 
@@ -39,10 +40,11 @@ public class DepthNormalsFeature : ScriptableRendererFeature
     }
 
     private DepthNormalsRenderPass m_ScriptablePass;
+    [SerializeField] private RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
 
     public override void Create()
     {
-        m_ScriptablePass = new DepthNormalsRenderPass(name);
+        m_ScriptablePass = new DepthNormalsRenderPass(name, renderPassEvent);
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)

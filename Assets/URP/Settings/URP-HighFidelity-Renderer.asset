@@ -16,12 +16,10 @@ MonoBehaviour:
   _settings:
     mainCameraName: Main Camera
     viewportCameraName: Viewport Camera
-    worldSpaceHUDCameraName: World Space HUD Camera
-    blendMaterial: {fileID: 2100000, guid: 27811503c452c5c4e895e50485f5feab, type: 2}
     renderPassEvent: 550
     realResolution: {x: 962, y: 542}
-    viewportResolution: {x: 1845, y: 1038}
-    margin: {x: 0.15142068, y: 0.1520627}
+    viewportResolution: {x: 1150, y: 647}
+    margin: {x: 0.15088907, y: 0.15219669}
     scale: {x: 0.6985447, y: 0.69741696}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -138,3 +136,4 @@ MonoBehaviour:
   m_Name: DepthNormalsFeature
   m_EditorClassIdentifier: 
   m_Active: 1
+  renderPassEvent: 550

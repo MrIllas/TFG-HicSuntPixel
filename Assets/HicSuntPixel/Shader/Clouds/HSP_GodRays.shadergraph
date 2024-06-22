@@ -3938,15 +3938,15 @@
     "m_Group": {
         "m_Id": "bf02f180501948398639f5f630231f36"
     },
-    "m_Name": "SimpleLightingCelShaded (Custom Function)",
+    "m_Name": "GodRaysLighting (Custom Function)",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
             "x": -278.0,
-            "y": -195.99998474121095,
-            "width": 301.0,
-            "height": 165.99996948242188
+            "y": -195.00001525878907,
+            "width": 300.9999694824219,
+            "height": 214.00003051757813
         }
     },
     "m_Slots": [
@@ -3984,7 +3984,7 @@
         "m_SerializableColors": []
     },
     "m_SourceType": 0,
-    "m_FunctionName": "SimpleLightingCelShaded",
+    "m_FunctionName": "GodRaysLighting",
     "m_FunctionSource": "cab13a3e96ca490459a7c581a65084ba",
     "m_FunctionBody": "Enter function body here..."
 }
@@ -4483,7 +4483,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Alpha",
     "m_StageCapability": 2,
-    "m_Value": 0.5,
+    "m_Value": 1.0,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }

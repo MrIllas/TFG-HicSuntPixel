@@ -17,6 +17,7 @@ namespace Character
         {
             _character = GetComponent<CharacterManager>();
             _animator = GetComponent<Animator>();
+            if (_animator == null) _animator = GetComponentInChildren<Animator>();
 
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");

@@ -9,6 +9,7 @@ public class WorldUtilityManager : MonoBehaviour
     [Header("Layers")]
     [SerializeField] LayerMask characterLayers;
     [SerializeField] LayerMask enviornmentalLayers;
+    [SerializeField] LayerMask wallsLayerMask; // For the see Through
 
     private void Awake()
     {
@@ -30,6 +31,11 @@ public class WorldUtilityManager : MonoBehaviour
     public LayerMask GetEnviornemntalLayers()
     {
         return enviornmentalLayers;
+    }
+
+    public LayerMask GetWallsLayerMask() 
+    {
+        return wallsLayerMask;
     }
 
     public bool IsThisTargetMyEnemy(Faction attacking, Faction targeting)

@@ -12,12 +12,12 @@ namespace Character.Npc
             if (npcManager._characterCombatManager.currentTarget != null)
             {
                 // Return the pursue target
-                Debug.Log("Target found");
+                //Debug.Log("Target found");
                 return this;
             }
             else
             {
-                Debug.Log("Searching for a Target");
+                //Debug.Log("Searching for a Target");
                 npcManager._npcCombatManager.FindATargetViaLineOfSight(npcManager);
 
                 return this;
