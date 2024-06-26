@@ -69,6 +69,11 @@ namespace Globals
             return SceneManager.GetActiveScene().buildIndex == mainMenuSceneIndex;
         }
 
+        public bool CurrentlyInVisualDemoScene()
+        {
+            return SceneManager.GetActiveScene().buildIndex == visualDemosSceneIndex;
+        }
+
         public string GetFileNameBySlot(SaveSlot saveSlot)
         {
             string toReturn = "";
@@ -269,6 +274,7 @@ namespace Globals
             {
                 yield return null;
             }
+
             yield return null;
         }
 

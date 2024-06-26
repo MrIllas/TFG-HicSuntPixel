@@ -3,6 +3,8 @@ using UnityEngine.Rendering.Universal;
 
 public class DayNightCycle : MonoBehaviour
 {
+    public static DayNightCycle instance;
+
     private Light sun;
 
     [SerializeField, Range(0.0f, 24.0f)]
@@ -28,6 +30,14 @@ public class DayNightCycle : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         sun = GetComponent<Light>();
         lightData = GetComponent<UniversalAdditionalLightData>();
         sunRotationSpeed = 24 / ((float) dayLengthInMinutes * 60);

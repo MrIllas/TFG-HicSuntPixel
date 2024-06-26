@@ -7,7 +7,7 @@ namespace SaveSystem
     public class CharacterSaveData
     {
         [Header("SCENE INDEX")]
-        public int sceneIndex = 1;
+        public int sceneIndex = 3;
 
         [Header("Character Name")]
         public string characterName = "Character";
@@ -16,19 +16,19 @@ namespace SaveSystem
         public float secondsPlayed = 0.0f;
 
         [Header("World Coordinates")]
-        public float xPosition = 0.0f;
-        public float yPosition = 0.0f;
-        public float zPosition = 0.0f;
+        public float xPosition = 55.0f;
+        public float yPosition = 2.0f;
+        public float zPosition = -52.5f;
 
         [Header("Orientation (Euler Angles)")]
         public float xRotation = 0.0f;
-        public float yRotation = 0.0f;
+        public float yRotation = -45.0f;
         public float zRotation = 0.0f;
 
         [Header("Stats")]
         [Header("Attibutes")]
-        public int vitality;
-        public int endurance;
+        public int vitality = 10;
+        public int endurance = 25;
         [Header("Resources")]
         public int currentHealth;
         public float currentStamina;

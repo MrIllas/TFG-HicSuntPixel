@@ -832,7 +832,7 @@ MonoBehaviour:
   isDead: 0
   isInvunerable: 0
   vitality: 10
-  endurance: 10
+  endurance: 25
   currentHealth: 0
   maxHealth: 0
   currentStamina: 0
@@ -890,6 +890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f81a22560ae02428d4f601006f28a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodSplatterVFX: {fileID: 0}
   effectToTest: {fileID: 11400000, guid: be907d08e3e706b4d98f88f242e7b3ea, type: 2}
   processEffect: 0
 --- !u!114 &6047213273317642312

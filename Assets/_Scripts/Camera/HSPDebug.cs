@@ -26,9 +26,9 @@ namespace HicSuntPixel
         private void Start()
         {
             // Disable vSync
-            QualitySettings.vSyncCount = 0;
+            //QualitySettings.vSyncCount = 0;
             // Make the game run as fast as possible
-            Application.targetFrameRate = 300;
+            //Application.targetFrameRate = 300;
         }
 
         void Update()
@@ -46,21 +46,21 @@ namespace HicSuntPixel
                 viewportResolution = new Vector2Int(Screen.width, Screen.height);
             }
 
-            if (Input.GetKeyDown(KeyCode.F1))
-            {
-                _manager._snap = !_manager._snap;
-            }
-            if (Input.GetKeyDown(KeyCode.F2))
-            {
-                _manager._subPixelSnap = !_manager._subPixelSnap;
-            }
-            if (_dayNightCycle != null) 
-            {
-                if (Input.GetKeyDown(KeyCode.F3))
-                {
-                    _dayNightCycle.timeOfTheDay += 1.0f;
-                }
-            } 
+            //if (Input.GetKeyDown(KeyCode.F1))
+            //{
+            //    _manager._snap = !_manager._snap;
+            //}
+            //if (Input.GetKeyDown(KeyCode.F2))
+            //{
+            //    _manager._subPixelSnap = !_manager._subPixelSnap;
+            //}
+            //if (_dayNightCycle != null) 
+            //{
+            //    if (Input.GetKeyDown(KeyCode.F3))
+            //    {
+            //        _dayNightCycle.timeOfTheDay += 1.0f;
+            //    }
+            //} 
         }
 
         private void OnGUI()
@@ -70,14 +70,14 @@ namespace HicSuntPixel
             Fps();
             BuildVersion();
             CameraData();
-            WeatherData();
+            //WeatherData();
 
-#if UNITY_STANDALONE && !UNITY_EDITOR
-            string text = "F1 - Pixel Snaping On/Off \n";
-            text += "F2 - Snap smoothing \n";
-            text += "F3 - Advance an hour \n";
-            GUI.Label(new Rect(5, 45, 500, 500), text);
-#endif
+//#if UNITY_STANDALONE && !UNITY_EDITOR
+//            string text = "F1 - Pixel Snaping On/Off \n";
+//            text += "F2 - Snap smoothing \n";
+//            text += "F3 - Advance an hour \n";
+//            GUI.Label(new Rect(5, 45, 500, 500), text);
+//#endif
         }
 
         private void Request_completed(AsyncOperation op)
@@ -102,21 +102,21 @@ namespace HicSuntPixel
             GUI.Label(new Rect(5, 30, 500, 500), text);
         }
 
-        private void WeatherData()
-        {
-            if (_weather == null) return;
+        //private void WeatherData()
+        //{
+        //    if (_weather == null) return;
 
-            string text = "Weather -> " + _weather.currentWeather.name + "\n";
-            text += "Wind -> " + _weather.currentWeather.wind.name + "\n";
-            text += "Sky WD -> " + _weather.cloudDirection + "\n";
-            text += "Ground WD -> " + _weather.windDirection + "\n";
-            text += "\n";
-            text += _dayNightCycle.GetTime() + "\n";
-            text += "Day Length -> " + _dayNightCycle.dayLengthInMinutes + " min \n";
+        //    string text = "Weather -> " + _weather.currentWeather.name + "\n";
+        //    text += "Wind -> " + _weather.currentWeather.wind.name + "\n";
+        //    text += "Sky WD -> " + _weather.cloudDirection + "\n";
+        //    text += "Ground WD -> " + _weather.windDirection + "\n";
+        //    text += "\n";
+        //    text += _dayNightCycle.GetTime() + "\n";
+        //    text += "Day Length -> " + _dayNightCycle.dayLengthInMinutes + " min \n";
 
 
-            GUI.Label(new Rect(viewportResolution.x - 160, 15, 500, 500), text);
-        }
+        //    GUI.Label(new Rect(viewportResolution.x - 160, 15, 500, 500), text);
+        //}
 
         private void Fps()
         {

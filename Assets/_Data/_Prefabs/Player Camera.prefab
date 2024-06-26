@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 5730560034711486754}
   - component: {fileID: 1803529558194658578}
   - component: {fileID: 8611720099198582478}
+  - component: {fileID: 4076228655315922691}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: Untagged
@@ -244,6 +245,7 @@ MonoBehaviour:
   _renderData: {fileID: 11400000, guid: c40be3174f62c4acf8c1216858c64956, type: 2}
   _renderCamera: {fileID: 7729406234566934348}
   _viewportCamera: {fileID: 6357999658622392562}
+  _worldSpaceHUDCamera: {fileID: 0}
   _snapPoint: {fileID: 8232014455388788853}
   _rotationPoint: {fileID: 4823219047230993897}
   _snap: 1
@@ -278,6 +280,23 @@ MonoBehaviour:
   minZoom: 0.3
   maxZoom: 0.7
   rotationSpeed: 10
+--- !u!114 &4076228655315922691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5848178553320077220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80185ea75bcf5b949b31bdb67382b342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ditheringSize: 0.12
+  ditheringFalloff: 0.05
+  screenPosition: {x: 0, y: 0, z: 0}
+  currentMaterials: []
+  oldMaterials: []
 --- !u!1 &6804238547205801558
 GameObject:
   m_ObjectHideFlags: 0

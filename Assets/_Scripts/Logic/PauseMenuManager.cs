@@ -77,7 +77,7 @@ namespace Menus
             DontDestroyOnLoad(gameObject);
 
             //Sub (Disable GameObject if in main menu)
-            SceneManager.activeSceneChanged += OnSceneChange;
+            //SceneManager.activeSceneChanged += OnSceneChange;
 
             //Set version text
             _versionText.text = SettingsManager.instance.version;
@@ -89,6 +89,8 @@ namespace Menus
         {
             if (Input.GetKeyDown(KeyCode.Escape)) 
             {
+                if (WorldSaveGameManager.instance.CurrentlyInVisualDemoScene()) return;
+
                 _GameIsPaused = !_GameIsPaused;
 
                 if (_GameIsPaused) Pause();               
@@ -110,18 +112,18 @@ namespace Menus
             Time.timeScale = 0.0f;
         }
 
-        private void OnSceneChange(Scene oldScene, Scene newScene)
-        {
-            // Enables the pause menu if the player is not on the main menu
-            if (newScene.buildIndex == WorldSaveGameManager.instance.GetMainMenuSceneIndex())
-            {
-                instance.enabled = false;
-            }
-            else
-            {
-                instance.enabled = true;
-            }
-        }
+        //private void OnSceneChange(Scene oldScene, Scene newScene)
+        //{
+        //    // Enables the pause menu if the player is not on the main menu
+        //    if (newScene.buildIndex == WorldSaveGameManager.instance.GetMainMenuSceneIndex())
+        //    {
+        //        instance.enabled = false;
+        //    }
+        //    else
+        //    {
+        //        instance.enabled = true;
+        //    }
+        //}
 
         // Basically sets everything to the satte its desired to be when the menu first opens
         private void SwitchClear()

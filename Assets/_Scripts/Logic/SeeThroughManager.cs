@@ -34,6 +34,7 @@ namespace HicSuntPixel
 
         private void CalculateCutoutPosition()
         {
+            if (_cameraController._setting != CameraController.CameraSetting.FollowCamera) return;
             List<RaycastHit> hits = new List<RaycastHit>();
             Transform target = _cameraController._target;
             LayerMask layerMasks = WorldUtilityManager.instance.GetWallsLayerMask();

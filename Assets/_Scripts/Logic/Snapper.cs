@@ -14,6 +14,8 @@ public class Snapper : MonoBehaviour
 
     private GameObject _ref;
 
+    public bool deleteOriginal = true;
+
     private void Awake()
     {
         CreateSnapPoint();
@@ -21,10 +23,7 @@ public class Snapper : MonoBehaviour
 
     private void Start()
     {
-        if (!_cameraManager)
-        {
-            _cameraManager = FindObjectOfType<HSPCameraManager>();
-        }
+        _cameraManager = HSPCameraManager.instance;
     }
 
     private void LateUpdate()
@@ -81,7 +80,10 @@ public class Snapper : MonoBehaviour
                         //Debug.Log(comp);
                         CopyValues(myComponent, comp);
 
-                        Destroy(myComponent);
+                        if (deleteOriginal)
+                        {
+                            Destroy(myComponent);
+                        }
                     }
                 }
             }

@@ -62,9 +62,9 @@ namespace HicSuntPixel
             
         }
 
-        private void OnValidate()
+        public void OnValidate()
         {
-            _snapPoint.localPosition = Vector3.forward * zOffset; // Set distance from parent position (origin)
+            //_snapPoint.localPosition = Vector3.forward * zOffset; // Set distance from parent position (origin)
             //_snapPoint = transform;
 
             TryGetFeature();
@@ -113,7 +113,7 @@ namespace HicSuntPixel
             }
 
             Vector2 snapTransformPosition = _renderCamera.WorldToViewportPoint(_snapPoint.position);
-            pixelOffset = viewportPixelSize + (snapTransformPosition - new Vector2(0.5f, 0.5f));
+            pixelOffset = viewportPixelSize * (totalPixelsOfMargin/2) + (snapTransformPosition - new Vector2(0.5f, 0.5f));
 
             return new Vector2(pixelOffset.x + ((1 - viewportZoom) / 2), pixelOffset.y + ((1 - viewportZoom) / 2));
         }

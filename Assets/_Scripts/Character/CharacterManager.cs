@@ -16,7 +16,7 @@ namespace Character
         [HideInInspector] public CharacterEffectsManager _characterEffectsManager;
         [HideInInspector] public CharacterStatsManager _statsManager;
 
-        HSPCameraManager _cameraManager;
+        protected HSPCameraManager _cameraManager;
         public GameObject _snapPoint;
 
         [HideInInspector] public Animator _animator;
@@ -61,10 +61,7 @@ namespace Character
         {
             IgnoreMyOwnColliders();
 
-            if (!_cameraManager)
-            {
-                _cameraManager = FindObjectOfType<HSPCameraManager>();
-            }
+            _cameraManager = HSPCameraManager.instance;
         }
 
         protected virtual void Update()

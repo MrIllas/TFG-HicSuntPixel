@@ -1,4 +1,5 @@
 using Globals;
+using HicSuntPixel;
 using SaveSystem;
 using System.Collections;
 using UnityEngine;
@@ -38,6 +39,13 @@ namespace Character.Player
             base.Start();
             //_playerLocomotion = GetComponent<Snapper>().GetReferenceComponent<PlayerLocomotion>();
             OnSpawn();
+
+            if (CameraController.instance._target == null || CameraController.instance._setting != CameraController.CameraSetting.FollowCamera)
+            {
+                CameraController.instance._target = _snapPoint.transform;
+                CameraController.instance._setting = CameraController.CameraSetting.FollowCamera;
+                _cameraManager.gameObject.SetActive(true);
+            }
         }
 
         protected override void Update()
