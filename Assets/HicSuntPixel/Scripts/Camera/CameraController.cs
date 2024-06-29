@@ -16,7 +16,6 @@ namespace HicSuntPixel
         [SerializeField] public CameraSetting _setting = CameraSetting.PanCamera;
 
         private HSPCameraManager _manager;
-        private PlayerControls _controls;
         private Transform _snapPoint;
         [HideInInspector] public Camera cameraObject; // The main camera, the camera that is used by the Player's locomotion script as reference for direction
 
@@ -53,7 +52,6 @@ namespace HicSuntPixel
 
         //Inputs
         private float scrollInput;
-        private float orbitInput;
         private Vector2 panInput;
 
         public static void ClearInstance()
@@ -85,11 +83,6 @@ namespace HicSuntPixel
             DontDestroyOnLoad(gameObject);
 
             _snapPoint = _manager._snapPoint;
-        }
-
-        private void OnEnable()
-        {
-            SetInputs();
         }
 
         void Update()
@@ -141,6 +134,15 @@ namespace HicSuntPixel
         #region PAN MODE
         private void Pan()
         {
+            if (Input.GetKey(KeyCode.W)) panInput.y = 1;
+            else if (Input.GetKey(KeyCode.S)) panInput.y = -1;
+            else panInput.y = 0;
+
+            if (Input.GetKey(KeyCode.D)) panInput.x = 1;
+            else if (Input.GetKey(KeyCode.A)) panInput.x = -1;
+            else panInput.x = 0;
+
+
             Vector3 horizontal = Vector3.zero;
             Vector3 vertical = Vector3.zero;
 
@@ -164,14 +166,9 @@ namespace HicSuntPixel
                 Debug.LogError("Error: NO TARGET SET TO THE CAMERA."); 
                 return;
             }
-
-            //if (!_manager._rotating)
-            //{
-               // _snapPoint.position = Vector3.Lerp(_snapPoint.position, _target.position, smoothSpeed * Time.deltaTime);
-               _snapPoint.position = _target.position;
-                _manager._rotationPoint.transform.position = _target.position;
-           // }
             
+            _snapPoint.position = _target.position;
+            _manager._rotationPoint.transform.position = _target.position;    
         }
         #endregion
 
@@ -180,10 +177,14 @@ namespace HicSuntPixel
         {
             float angle = 0;
 
-            if (_controls.Camera.Orbit.WasPerformedThisFrame())
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                targetAngle += orbitInput * 45.0f;
-
+                targetAngle += 45.0f;
+                _manager._rotating = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                targetAngle -= 45.0f;
                 _manager._rotating = true;
             }
 
@@ -209,27 +210,17 @@ namespace HicSuntPixel
 
         private void Zoom()
         {
-            if (!_controls.Camera.Zoom.IsPressed()) return;
+            scrollInput = Input.GetAxis("Mouse ScrollWheel");
+
+            if (scrollInput == 0.0f) return;
 
             float newZoom = _manager.GetViewportZoom();
-            newZoom -= (scrollInput / 120) * zoomStrength; // 120 because is the value of the scroll
+            newZoom -= scrollInput * zoomStrength; 
             _manager.ZoomViewport(Mathf.Clamp(newZoom, minZoom, maxZoom));
         }
         #endregion COMMON
 
         #region Logic
-        private void SetInputs()
-        {
-            if (_controls == null)
-            {
-                _controls = new PlayerControls();
-
-                _controls.Camera.Pan.performed += i => panInput = i.ReadValue<Vector2>();
-                _controls.Camera.Orbit.performed += i => orbitInput = i.ReadValue<float>();
-                _controls.Camera.Zoom.performed += i => scrollInput = i.ReadValue<Vector2>().y;
-            }
-            _controls.Enable();
-        }
 
         private bool Approximately(float a, float b, float range)
         {

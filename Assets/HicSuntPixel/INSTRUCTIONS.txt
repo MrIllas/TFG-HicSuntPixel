@@ -1,0 +1,11 @@
+# Setting the Pixelation 
+
+ 1. Open project settings by going to "Edit->Project Settings"
+ 2. Move to "Graphics" and look for "Scriptable Render Pipeline Settings"
+ 3. Depending on the "Universal Render Pipeline Asset" that is set, look for a file with the same name but with "-Renderer" append at the end.
+ 4. Select that file from the "Project" window.
+ 5. In the "Inspector" window, click "Add Render Feature"
+ 6. Add "Hic Sunt Pixel Feature".
+ 7. In the "Project" window move to "HicSuntPixel->Prefabs" folder.
+ 8. Remove the default camera on the scene.
+ 9. Add the "Player Camera" prefab to the scene.

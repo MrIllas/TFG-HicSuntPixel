@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Snapper : MonoBehaviour
 {
+    [SerializeField] private bool snapRotation = true;
+
     [SerializeField] private bool fullAssembly = false;
     
     public List<string> componentsToAdd;
@@ -29,6 +31,8 @@ public class Snapper : MonoBehaviour
     private void LateUpdate()
     {
         transform.position = SnapPosition(_snapPoint.position);
+
+        if (snapRotation) transform.eulerAngles = SnapRotation(_snapPoint.eulerAngles);
     }
 
     private Vector3 SnapPosition(Vector3 wp)
@@ -47,6 +51,14 @@ public class Snapper : MonoBehaviour
         toReturn += snappedVec.z * RCTransform.forward;
 
         return toReturn;
+    }
+
+    private Vector3 SnapRotation(Vector3 rot)
+    {
+        rot.x = Mathf.Round(rot.x / 45) * 45;
+        rot.y = Mathf.Round(rot.y / 45) * 45;
+        rot.z = Mathf.Round(rot.z / 45) * 45;
+        return rot;
     }
 
     private void CreateSnapPoint()
@@ -87,8 +99,6 @@ public class Snapper : MonoBehaviour
                     }
                 }
             }
-            // Add reference component and initialize it
-            _ref.AddComponent<Referencer>().Initialize(this.gameObject);
 
             // Add Character Controller (if there is one)
             CharacterController oCC = gameObject.GetComponent<CharacterController>();

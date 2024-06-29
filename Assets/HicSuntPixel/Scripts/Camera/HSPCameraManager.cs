@@ -54,19 +54,11 @@ namespace HicSuntPixel
             {
                 Destroy(gameObject);
             }
-//#if UNITY_STANDALONE && !UNITY_EDITOR
-//            OnValidate();
-//#endif
-
-            //TryGetFeature();
             
         }
 
         public void OnValidate()
         {
-            //_snapPoint.localPosition = Vector3.forward * zOffset; // Set distance from parent position (origin)
-            //_snapPoint = transform;
-
             TryGetFeature();
             Calculate();
             SetFeature();
@@ -94,13 +86,11 @@ namespace HicSuntPixel
         {
             Snapping();
 
-//#if UNITY_EDITOR
             if (_hspFeature != null) 
             {
                 _hspFeature._settings.scale = GetViewportScale();
                 _hspFeature._settings.margin = GetViewportOffset();
             }
-//#endif
             _viewportCamera.transform.position = _renderCamera.transform.position;
         }
 
@@ -207,8 +197,6 @@ namespace HicSuntPixel
             Vector2Int reference = new Vector2Int(Mathf.RoundToInt(_viewportCamera.aspect * aspectScale), Mathf.RoundToInt(aspectScale));
             if (_subPixelSnap)
             {
-                //totalPixelsOfMargin.y = Mathf.FloorToInt(totalPixelsOfMargin.x * (1.0f / _renderCamera.aspect));
-                //realResolution = new Vector2Int(reference.x + totalPixelsOfMargin.x, reference.y + totalPixelsOfMargin.y);
                 realResolution = new Vector2Int(reference.x + 2, reference.y + 2);
             }
             else
